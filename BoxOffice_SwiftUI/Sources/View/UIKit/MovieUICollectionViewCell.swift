@@ -25,10 +25,13 @@ final class MovieUICollectionViewCell: UICollectionViewCell {
 
   override func awakeFromNib() {
     posterImageView.image = UIImage(named: "image_placeholder")
+
     primaryLabel.minimumScaleFactor = 0.5
     primaryLabel.adjustsFontSizeToFitWidth = true
+
     secondaryLabel.minimumScaleFactor = 0.5
     secondaryLabel.adjustsFontSizeToFitWidth = true
+    
     tertiaryLabel.minimumScaleFactor = 0.5
     tertiaryLabel.adjustsFontSizeToFitWidth = true
   }
@@ -64,14 +67,17 @@ final class MovieUICollectionViewCell: UICollectionViewCell {
 
     let grade = Grade(rawValue: movie.grade) ?? .allAges
     gradeImageView.image = UIImage(named: grade.imageName)
+
     primaryLabel.text = movie.title
     primaryLabel.textColor = .label
     primaryLabel.font = .preferredFont(forTextStyle: .title2)
+
     secondaryLabel.text = """
     \(movie.reservationGrade)위(\(movie.userRating)) / \(movie.reservationRate)%
     """
     secondaryLabel.textColor = .secondaryLabel
     secondaryLabel.font = .preferredFont(forTextStyle: .body)
+    
     tertiaryLabel.text = movie.date
     tertiaryLabel.textColor = .secondaryLabel
     tertiaryLabel.font = .preferredFont(forTextStyle: .body)

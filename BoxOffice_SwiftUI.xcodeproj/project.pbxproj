@@ -44,12 +44,12 @@
 		1984CB54235F610900E4B20E /* MultipleSpacer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1984CB53235F610900E4B20E /* MultipleSpacer.swift */; };
 		1984CB562360116300E4B20E /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1984CB552360116300E4B20E /* HTTPMethod.swift */; };
 		1984CB58236018DF00E4B20E /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1984CB57236018DF00E4B20E /* NetworkManager.swift */; };
-		1984CB5A23601B5B00E4B20E /* RouterType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1984CB5923601B5B00E4B20E /* RouterType.swift */; };
-		1984CB5E23601BD000E4B20E /* RouterVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1984CB5D23601BD000E4B20E /* RouterVersion.swift */; };
-		1984CB612360227F00E4B20E /* MoviesRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1984CB602360227F00E4B20E /* MoviesRouter.swift */; };
-		1984CB632360228500E4B20E /* MovieRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1984CB622360228500E4B20E /* MovieRouter.swift */; };
-		1984CB652360228B00E4B20E /* CommentsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1984CB642360228B00E4B20E /* CommentsRouter.swift */; };
-		1984CB672360229000E4B20E /* CommentPostingRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1984CB662360229000E4B20E /* CommentPostingRouter.swift */; };
+		1984CB5A23601B5B00E4B20E /* TargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1984CB5923601B5B00E4B20E /* TargetType.swift */; };
+		1984CB5E23601BD000E4B20E /* TargetVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1984CB5D23601BD000E4B20E /* TargetVersion.swift */; };
+		1984CB612360227F00E4B20E /* MoviesTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1984CB602360227F00E4B20E /* MoviesTarget.swift */; };
+		1984CB632360228500E4B20E /* MovieTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1984CB622360228500E4B20E /* MovieTarget.swift */; };
+		1984CB652360228B00E4B20E /* CommentsTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1984CB642360228B00E4B20E /* CommentsTarget.swift */; };
+		1984CB672360229000E4B20E /* CommentPostingTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1984CB662360229000E4B20E /* CommentPostingTarget.swift */; };
 		1984CB69236023FE00E4B20E /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1984CB68236023FE00E4B20E /* ImageCache.swift */; };
 /* End PBXBuildFile section */
 
@@ -93,12 +93,12 @@
 		1984CB53235F610900E4B20E /* MultipleSpacer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleSpacer.swift; sourceTree = "<group>"; };
 		1984CB552360116300E4B20E /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
 		1984CB57236018DF00E4B20E /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
-		1984CB5923601B5B00E4B20E /* RouterType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouterType.swift; sourceTree = "<group>"; };
-		1984CB5D23601BD000E4B20E /* RouterVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouterVersion.swift; sourceTree = "<group>"; };
-		1984CB602360227F00E4B20E /* MoviesRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesRouter.swift; sourceTree = "<group>"; };
-		1984CB622360228500E4B20E /* MovieRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieRouter.swift; sourceTree = "<group>"; };
-		1984CB642360228B00E4B20E /* CommentsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsRouter.swift; sourceTree = "<group>"; };
-		1984CB662360229000E4B20E /* CommentPostingRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentPostingRouter.swift; sourceTree = "<group>"; };
+		1984CB5923601B5B00E4B20E /* TargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetType.swift; sourceTree = "<group>"; };
+		1984CB5D23601BD000E4B20E /* TargetVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetVersion.swift; sourceTree = "<group>"; };
+		1984CB602360227F00E4B20E /* MoviesTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesTarget.swift; sourceTree = "<group>"; };
+		1984CB622360228500E4B20E /* MovieTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieTarget.swift; sourceTree = "<group>"; };
+		1984CB642360228B00E4B20E /* CommentsTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsTarget.swift; sourceTree = "<group>"; };
+		1984CB662360229000E4B20E /* CommentPostingTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentPostingTarget.swift; sourceTree = "<group>"; };
 		1984CB68236023FE00E4B20E /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -196,8 +196,8 @@
 				191E1A142357461800D8963A /* MovieAPIService.swift */,
 				1984CB552360116300E4B20E /* HTTPMethod.swift */,
 				1984CB57236018DF00E4B20E /* NetworkManager.swift */,
-				1984CB5923601B5B00E4B20E /* RouterType.swift */,
-				1984CB5D23601BD000E4B20E /* RouterVersion.swift */,
+				1984CB5923601B5B00E4B20E /* TargetType.swift */,
+				1984CB5D23601BD000E4B20E /* TargetVersion.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -261,10 +261,10 @@
 		1984CB5F2360226F00E4B20E /* Router */ = {
 			isa = PBXGroup;
 			children = (
-				1984CB602360227F00E4B20E /* MoviesRouter.swift */,
-				1984CB622360228500E4B20E /* MovieRouter.swift */,
-				1984CB642360228B00E4B20E /* CommentsRouter.swift */,
-				1984CB662360229000E4B20E /* CommentPostingRouter.swift */,
+				1984CB602360227F00E4B20E /* MoviesTarget.swift */,
+				1984CB622360228500E4B20E /* MovieTarget.swift */,
+				1984CB642360228B00E4B20E /* CommentsTarget.swift */,
+				1984CB662360229000E4B20E /* CommentPostingTarget.swift */,
 			);
 			path = Router;
 			sourceTree = "<group>";
@@ -343,9 +343,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				1916393923580EE1002B9EC1 /* MovieUITableViewController.swift in Sources */,
-				1984CB672360229000E4B20E /* CommentPostingRouter.swift in Sources */,
+				1984CB672360229000E4B20E /* CommentPostingTarget.swift in Sources */,
 				191E1A052357396900D8963A /* MovieDetailView.swift in Sources */,
-				1984CB5A23601B5B00E4B20E /* RouterType.swift in Sources */,
+				1984CB5A23601B5B00E4B20E /* TargetType.swift in Sources */,
 				1916393F23584988002B9EC1 /* Log.swift in Sources */,
 				1916392B2357E7D7002B9EC1 /* MovieCollectionView.swift in Sources */,
 				191639502358C68D002B9EC1 /* StarRatingBar.swift in Sources */,
@@ -366,19 +366,19 @@
 				191E1A0B2357397E00D8963A /* CommentsViewModel.swift in Sources */,
 				1984CB58236018DF00E4B20E /* NetworkManager.swift in Sources */,
 				1984CB562360116300E4B20E /* HTTPMethod.swift in Sources */,
-				1984CB5E23601BD000E4B20E /* RouterVersion.swift in Sources */,
+				1984CB5E23601BD000E4B20E /* TargetVersion.swift in Sources */,
 				191E1A1F2357725200D8963A /* Grade.swift in Sources */,
 				1916394E2358C316002B9EC1 /* ActivityIndicator.swift in Sources */,
 				1984CB69236023FE00E4B20E /* ImageCache.swift in Sources */,
 				191E19F32357371D00D8963A /* MovieView.swift in Sources */,
-				1984CB652360228B00E4B20E /* CommentsRouter.swift in Sources */,
+				1984CB652360228B00E4B20E /* CommentsTarget.swift in Sources */,
 				191E1A032357396000D8963A /* MovieViewModel.swift in Sources */,
 				191E1A092357397800D8963A /* CommentsView.swift in Sources */,
 				1916395223594BA3002B9EC1 /* DateFormatter+.swift in Sources */,
 				191E1A172357552000D8963A /* OrderType.swift in Sources */,
-				1984CB632360228500E4B20E /* MovieRouter.swift in Sources */,
+				1984CB632360228500E4B20E /* MovieTarget.swift in Sources */,
 				191E1A1323573C2100D8963A /* Comment.swift in Sources */,
-				1984CB612360227F00E4B20E /* MoviesRouter.swift in Sources */,
+				1984CB612360227F00E4B20E /* MoviesTarget.swift in Sources */,
 				1916394A235854C2002B9EC1 /* MovieUICollectionViewController.swift in Sources */,
 				1916393723580E4F002B9EC1 /* MovieTableView.swift in Sources */,
 			);

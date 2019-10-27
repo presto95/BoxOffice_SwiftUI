@@ -18,7 +18,7 @@ struct MovieTableView: UIViewControllerRepresentable {
     let viewController = MovieUITableViewController()
     let refreshControl = UIRefreshControl()
     refreshControl.addTarget(context.coordinator,
-                             action: #selector(Coordinator.refreshControlDidValueChange(sender:)),
+                             action: #selector(Coordinator.refreshControlValueDidChange(sender:)),
                              for: .valueChanged)
     viewController.refreshControl = refreshControl
     return viewController
@@ -30,7 +30,7 @@ struct MovieTableView: UIViewControllerRepresentable {
 
   func makeCoordinator() -> Coordinator { Coordinator(self) }
 
-  class Coordinator: NSObject {
+  final class Coordinator: NSObject {
 
     var parent: MovieTableView
 
@@ -43,7 +43,7 @@ struct MovieTableView: UIViewControllerRepresentable {
       self.apiService = apiService
     }
 
-    @objc func refreshControlDidValueChange(sender: UIRefreshControl) {
+    @objc func refreshControlValueDidChange(sender: UIRefreshControl) {
       apiService.requestMovies(orderType: parent.orderType)
         .receive(on: DispatchQueue.main)
         .sink(receiveCompletion: { _ in

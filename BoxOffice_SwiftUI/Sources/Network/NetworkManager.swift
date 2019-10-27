@@ -11,16 +11,16 @@ import Foundation
 
 protocol NetworkManagerType {
 
-  func request(_ router: RouterType) -> AnyPublisher<(data: Data, response: URLResponse), Error>
+  func request(_ router: TargetType) -> AnyPublisher<(data: Data, response: URLResponse), Error>
 }
 
 final class NetworkManager: NetworkManagerType {
 
-  func request(_ router: RouterType) -> AnyPublisher<(data: Data, response: URLResponse), Error> {
+  func request(_ router: TargetType) -> AnyPublisher<(data: Data, response: URLResponse), Error> {
     var components = URLComponents()
     components.scheme = router.routerVersion.scheme
     components.host = router.routerVersion.host
-    components.path = router.path
+    components.path = router.paths.map { "/\($0)" }.joined()
     components.queryItems = router.parameter
     guard let url = components.url else {
       return Empty(completeImmediately: true)

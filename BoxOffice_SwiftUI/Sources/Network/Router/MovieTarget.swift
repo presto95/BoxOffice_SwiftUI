@@ -1,5 +1,5 @@
 //
-//  MovieRouter.swift
+//  MovieTarget.swift
 //  BoxOffice_SwiftUI
 //
 //  Created by Presto on 2019/10/23.
@@ -8,13 +8,13 @@
 
 import Foundation
 
-struct MovieRouter: RouterType {
+struct MovieTarget: TargetType {
 
-  var routerVersion: RouterVersion { .movieAPI }
+  var routerVersion: TargetVersion { .movieAPI }
 
   var method: HTTPMethod { .get }
 
-  var path: String { "/movie" }
+  var paths: [String] { ["movie"] }
 
   var parameter: [URLQueryItem]
 

@@ -48,6 +48,9 @@ struct MovieDetailView: View {
     .navigationBarTitle(viewModel.movie.title)
     .onAppear { self.viewModel.setPresented() }
   }
+}
+
+extension MovieDetailView {
 
   var summarySection: some View {
     VStack {
@@ -129,7 +132,6 @@ struct MovieDetailView: View {
       }
     }
     .frame(height: 60)
-
   }
 
   var synopsisSection: some View {
@@ -205,7 +207,7 @@ struct MovieDetailView: View {
 
             StarRatingBar(score: .constant(Double(comments.rating)))
           }
-
+          
           Text(comments.dateString(formatter: .custom("yyyy-MM-dd HH:mm:ss")))
 
           Spacer()
@@ -215,12 +217,6 @@ struct MovieDetailView: View {
       }
       .padding(.vertical, 8)
     }
-  }
-
-  func errorAlert(_ error: MovieError) -> Alert {
-    Alert(title: Text("오류"),
-          message: Text(error.localizedDescription),
-          dismissButton: .default(Text("확인")))
   }
 }
 

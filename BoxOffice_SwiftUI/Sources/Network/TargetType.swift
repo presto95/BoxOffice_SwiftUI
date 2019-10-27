@@ -1,5 +1,5 @@
 //
-//  RouterType.swift
+//  TargetType.swift
 //  BoxOffice_SwiftUI
 //
 //  Created by Presto on 2019/10/23.
@@ -8,13 +8,13 @@
 
 import Foundation
 
-protocol RouterType {
+protocol TargetType {
 
-  var routerVersion: RouterVersion { get }
+  var routerVersion: TargetVersion { get }
 
   var method: HTTPMethod { get }
 
-  var path: String { get }
+  var paths: [String] { get }
 
   var parameter: [URLQueryItem] { get }
 

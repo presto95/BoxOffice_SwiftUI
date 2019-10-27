@@ -29,7 +29,7 @@ final class MovieAPIService: MovieAPIServiceType {
   }
 
   func requestMovies(orderType: OrderType) -> AnyPublisher<MoviesResponse, Error> {
-    let router = MoviesRouter(parameter: ["order_type" : String(orderType.rawValue)])
+    let router = MoviesTarget(parameter: ["order_type": String(orderType.rawValue)])
     return networkManager.request(router)
       .map { $0.data }
       .tryMap { try self.decode($0, to: MoviesResponse.self) }
@@ -37,7 +37,7 @@ final class MovieAPIService: MovieAPIServiceType {
   }
 
   func requestMovie(id: String) -> AnyPublisher<MovieResponse, Error> {
-    let router = MovieRouter(parameter: ["id": id])
+    let router = MovieTarget(parameter: ["id": id])
     return networkManager.request(router)
       .map { $0.data }
       .tryMap { try self.decode($0, to: MovieResponse.self) }
@@ -45,7 +45,7 @@ final class MovieAPIService: MovieAPIServiceType {
   }
 
   func requestComments(movieID: String) -> AnyPublisher<CommentsResponse, Error> {
-    let router = CommentsRouter(parameter: ["movie_id": movieID])
+    let router = CommentsTarget(parameter: ["movie_id": movieID])
     return networkManager.request(router)
       .map { $0.data }
       .tryMap { try self.decode($0, to: CommentsResponse.self) }
@@ -53,7 +53,7 @@ final class MovieAPIService: MovieAPIServiceType {
   }
 
   func postComment(_ comment: Comment) -> AnyPublisher<CommentResponse, Error> {
-    let router = CommentPostingRouter(parameter: nil, body: try? JSONEncoder().encode(comment))
+    let router = CommentPostingTarget(parameter: nil, body: try? JSONEncoder().encode(comment))
     return networkManager.request(router)
       .map { $0.data }
       .tryMap { try self.decode($0, to: CommentResponse.self) }

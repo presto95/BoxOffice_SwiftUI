@@ -20,7 +20,7 @@ struct MovieCollectionView: UIViewControllerRepresentable {
     viewController.collectionView.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
     let refreshControl = UIRefreshControl()
     refreshControl.addTarget(context,
-                             action: #selector(Coordinator.refreshControlDidValueChange(_:)),
+                             action: #selector(Coordinator.refreshControlValueDidChange(_:)),
                              for: .valueChanged)
     viewController.collectionView.refreshControl = refreshControl
     return viewController
@@ -33,7 +33,7 @@ struct MovieCollectionView: UIViewControllerRepresentable {
 
   func makeCoordinator() -> Coordinator { Coordinator(self) }
 
-  class Coordinator: NSObject {
+  final class Coordinator: NSObject {
 
     var parent: MovieCollectionView
 
@@ -46,7 +46,7 @@ struct MovieCollectionView: UIViewControllerRepresentable {
       self.apiService = apiService
     }
 
-    @objc func refreshControlDidValueChange(_ sender: UIRefreshControl) {
+    @objc func refreshControlValueDidChange(_ sender: UIRefreshControl) {
       apiService.requestMovies(orderType: parent.orderType)
         .receive(on: DispatchQueue.main)
         .sink(receiveCompletion: { _ in

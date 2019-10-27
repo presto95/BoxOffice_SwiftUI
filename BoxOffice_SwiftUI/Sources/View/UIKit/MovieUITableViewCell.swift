@@ -25,10 +25,13 @@ final class MovieUITableViewCell: UITableViewCell {
 
   override func awakeFromNib() {
     posterImageView.image = UIImage(named: "img_placeholder")
+
     primaryLabel.minimumScaleFactor = 0.5
     primaryLabel.adjustsFontSizeToFitWidth = true
+
     secondaryLabel.minimumScaleFactor = 0.5
     secondaryLabel.adjustsFontSizeToFitWidth = true
+    
     tertiaryLabel.minimumScaleFactor = 0.5
     tertiaryLabel.adjustsFontSizeToFitWidth = true
   }
@@ -64,14 +67,17 @@ final class MovieUITableViewCell: UITableViewCell {
 
     let grade = Grade(rawValue: movie.grade) ?? .allAges
     gradeImageView.image = UIImage(named: grade.imageName)
+
     primaryLabel.text = movie.title
     primaryLabel.textColor = .label
     primaryLabel.font = .preferredFont(forTextStyle: .title2)
+
     secondaryLabel.text = """
     평점 : \(movie.userRating) 예매순위 : \(movie.reservationGrade) 예매율 : \(movie.reservationRate)%
     """
     secondaryLabel.textColor = .secondaryLabel
     secondaryLabel.font = .preferredFont(forTextStyle: .body)
+
     tertiaryLabel.text = "개봉일 : \(movie.date)"
     tertiaryLabel.textColor = .secondaryLabel
     tertiaryLabel.font = .preferredFont(forTextStyle: .body)

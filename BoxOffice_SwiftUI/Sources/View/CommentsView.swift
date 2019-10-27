@@ -33,6 +33,9 @@ struct CommentsView: View {
       .padding()
     }
   }
+}
+
+extension CommentsView {
 
   var starRatingSection: some View {
     VStack(alignment: .leading) {

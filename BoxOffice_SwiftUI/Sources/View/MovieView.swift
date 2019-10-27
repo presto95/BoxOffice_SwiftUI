@@ -25,6 +25,9 @@ struct MovieView: View {
       .onAppear { self.viewModel.setPresented() }
     }
   }
+}
+
+extension MovieView {
 
   var movieTableView: some View {
     Group {
@@ -92,7 +95,7 @@ struct MovieView: View {
   }
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct MovieView_Previews: PreviewProvider {
   static var previews: some View {
     MovieView()
   }

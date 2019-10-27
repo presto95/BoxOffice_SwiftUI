@@ -1,5 +1,5 @@
 //
-//  CommentsRouter.swift
+//  MoviesTarget.swift
 //  BoxOffice_SwiftUI
 //
 //  Created by Presto on 2019/10/23.
@@ -8,19 +8,19 @@
 
 import Foundation
 
-struct CommentsRouter: RouterType {
+struct MoviesTarget: TargetType {
 
-  var routerVersion: RouterVersion { .movieAPI }
+  var routerVersion: TargetVersion { .movieAPI }
 
   var method: HTTPMethod { .get }
 
-  var path: String { "/comments" }
+  var paths: [String] { ["movies"] }
 
   var parameter: [URLQueryItem]
 
   var body: Data?
 
-  init(parameter: [String : String]?, body: Data? = nil) {
+  init(parameter: [String: String]?, body: Data? = nil) {
     self.parameter = parameter?.map { URLQueryItem(name: $0.key, value: $0.value) } ?? []
     self.body = body
   }
