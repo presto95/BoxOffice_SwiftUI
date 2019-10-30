@@ -71,7 +71,7 @@ extension CommentsView {
   var starRatingBarDragGesture: some Gesture {
     DragGesture()
       .onChanged { value in
-        self.viewModel.setRating(.init(value.location.x / 20))
+        self.viewModel.setRating(Double(value.location.x / 20))
     }
   }
 

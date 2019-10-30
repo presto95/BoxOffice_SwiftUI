@@ -20,8 +20,7 @@ struct MovieTarget: TargetType {
 
   var body: Data?
 
-  init(parameter: [String: String]?, body: Data? = nil) {
+  init(parameter: [String: String]?) {
     self.parameter = parameter?.map { URLQueryItem(name: $0.key, value: $0.value) } ?? []
-    self.body = body
   }
 }

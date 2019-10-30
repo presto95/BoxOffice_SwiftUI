@@ -19,6 +19,4 @@ protocol TargetType {
   var parameter: [URLQueryItem] { get }
 
   var body: Data? { get }
-
-  init(parameter: [String: String]?, body: Data?)
 }

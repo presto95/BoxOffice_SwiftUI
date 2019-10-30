@@ -23,8 +23,7 @@ final class NetworkManager: NetworkManagerType {
     components.path = router.paths.map { "/\($0)" }.joined()
     components.queryItems = router.parameter
     guard let url = components.url else {
-      return Empty(completeImmediately: true)
-        .eraseToAnyPublisher()
+      return Empty().eraseToAnyPublisher()
     }
     var request = URLRequest(url: url, timeoutInterval: 1)
     request.httpMethod = router.method.rawValue
