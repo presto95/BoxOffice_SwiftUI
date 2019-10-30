@@ -29,6 +29,7 @@ final class MovieDetailViewModel: ObservableObject {
     self.apiService = apiService
 
     isPresentedSubject
+      .compactMap { $0 }
       .sink(receiveValue: { _ in
         self.requestData()
       })

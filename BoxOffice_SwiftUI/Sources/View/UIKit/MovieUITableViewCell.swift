@@ -49,8 +49,7 @@ final class MovieUITableViewCell: UITableViewCell {
       posterImageView.image = UIImage(data: imageData)
     } else {
       Just(movie.thumb)
-        .map { URL(string: $0) }
-        .compactMap { $0 }
+        .compactMap { URL(string: $0) }
         .receive(on: DispatchQueue.global())
         .tryMap { try Data(contentsOf: $0) }
         .receive(on: DispatchQueue.main)

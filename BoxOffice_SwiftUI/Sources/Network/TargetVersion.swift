@@ -6,8 +6,6 @@
 //  Copyright © 2019 presto. All rights reserved.
 //
 
-import Foundation
-
 enum TargetVersion {
 
   case movieAPI

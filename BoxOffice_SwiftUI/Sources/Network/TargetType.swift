@@ -16,7 +16,7 @@ protocol TargetType {
 
   var paths: [String] { get }
 
-  var parameter: [URLQueryItem] { get }
+  var parameter: [String: String]? { get }
 
   var body: Data? { get }
 }

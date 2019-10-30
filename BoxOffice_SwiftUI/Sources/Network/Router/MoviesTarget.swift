@@ -16,11 +16,11 @@ struct MoviesTarget: TargetType {
 
   var paths: [String] { ["movies"] }
 
-  var parameter: [URLQueryItem]
+  var parameter: [String: String]?
 
   var body: Data?
 
   init(parameter: [String: String]?) {
-    self.parameter = parameter?.map { URLQueryItem(name: $0.key, value: $0.value) } ?? []
+    self.parameter = parameter
   }
 }

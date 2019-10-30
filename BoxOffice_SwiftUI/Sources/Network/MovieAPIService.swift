@@ -29,32 +29,41 @@ final class MovieAPIService: MovieAPIServiceType {
   }
 
   func requestMovies(orderType: OrderType) -> AnyPublisher<MoviesResponse, Error> {
-    let router = MoviesTarget(parameter: ["order_type": String(orderType.rawValue)])
-    return networkManager.request(router)
+    Just(orderType)
+      .map { "\($0.rawValue)" }
+      .map { MoviesTarget(parameter: ["order_type": $0]) }
+      .setFailureType(to: Error.self)
+      .flatMap { self.networkManager.request($0) }
       .map { $0.data }
       .tryMap { try self.decode($0, to: MoviesResponse.self) }
       .eraseToAnyPublisher()
   }
 
   func requestMovie(id: String) -> AnyPublisher<MovieResponse, Error> {
-    let router = MovieTarget(parameter: ["id": id])
-    return networkManager.request(router)
+    Just(id)
+      .map { MovieTarget(parameter: ["id": $0]) }
+      .setFailureType(to: Error.self)
+      .flatMap { self.networkManager.request($0) }
       .map { $0.data }
       .tryMap { try self.decode($0, to: MovieResponse.self) }
       .eraseToAnyPublisher()
   }
 
   func requestComments(movieID: String) -> AnyPublisher<CommentsResponse, Error> {
-    let router = CommentsTarget(parameter: ["movie_id": movieID])
-    return networkManager.request(router)
+    Just(movieID)
+      .map { CommentsTarget(parameter: ["movie_id": $0]) }
+      .setFailureType(to: Error.self)
+      .flatMap { self.networkManager.request($0) }
       .map { $0.data }
       .tryMap { try self.decode($0, to: CommentsResponse.self) }
       .eraseToAnyPublisher()
   }
 
   func postComment(_ comment: Comment) -> AnyPublisher<CommentResponse, Error> {
-    let router = CommentPostingTarget(parameter: nil, body: try? JSONEncoder().encode(comment))
-    return networkManager.request(router)
+    Just(comment)
+      .tryMap { try JSONEncoder().encode($0) }
+      .map { CommentPostingTarget(parameter: nil, body: $0) }
+      .flatMap { self.networkManager.request($0) }
       .map { $0.data }
       .tryMap { try self.decode($0, to: CommentResponse.self) }
       .eraseToAnyPublisher()
@@ -64,10 +73,6 @@ final class MovieAPIService: MovieAPIServiceType {
 extension MovieAPIService {
 
   private func decode<Decode: Decodable>(_ data: Data, to type: Decode.Type) throws -> Decode {
-    do {
-      return try JSONDecoder().decode(Decode.self, from: data)
-    } catch {
-      throw error
-    }
+    try JSONDecoder().decode(Decode.self, from: data)
   }
 }

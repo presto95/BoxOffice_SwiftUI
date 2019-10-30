@@ -21,7 +21,7 @@ final class NetworkManager: NetworkManagerType {
     components.scheme = router.routerVersion.scheme
     components.host = router.routerVersion.host
     components.path = router.paths.map { "/\($0)" }.joined()
-    components.queryItems = router.parameter
+    components.queryItems = router.parameter?.map { URLQueryItem(name: $0.key, value: $0.value) }
     guard let url = components.url else {
       return Empty().eraseToAnyPublisher()
     }
