@@ -45,7 +45,7 @@ struct MovieDetailView: View {
         }
       }
     }
-    .navigationBarTitle(viewModel.movie.title)
+    .navigationBarTitle(viewModel.movieTitle)
     .onAppear { self.viewModel.setPresented() }
   }
 }
@@ -73,20 +73,20 @@ extension MovieDetailView {
         MultipleSpacer(2)
 
         HStack {
-          Text(viewModel.movie.title)
+          Text(viewModel.movieTitle)
             .font(.title)
 
-          Image((Grade(rawValue: viewModel.movie.grade) ?? .allAges).imageName)
+          Image(viewModel.movieGradeImageName)
         }
 
         Spacer()
 
-        Text("\(viewModel.movie.date) 개봉")
+        Text(viewModel.movieDate)
           .foregroundColor(.secondary)
 
         Spacer()
 
-        Text("\(viewModel.movie.genre) / \(viewModel.movie.duration)분")
+        Text(viewModel.movieGenreAndDuration)
           .foregroundColor(.secondary)
 
         MultipleSpacer(2)
@@ -103,7 +103,7 @@ extension MovieDetailView {
         Text("예매율")
           .font(.headline)
 
-        Text("\(viewModel.movie.reservationGrade)위 \(viewModel.movie.reservationRate, specifier: "%.1f%%")")
+        Text(viewModel.movieReservationMetric)
           .foregroundColor(.secondary)
       }
 
@@ -114,10 +114,10 @@ extension MovieDetailView {
         Text("평점")
           .font(.headline)
 
-        Text("\(viewModel.movie.userRating, specifier: "%.2f")")
+        Text(viewModel.movieUserRatingString)
           .foregroundColor(.secondary)
 
-        StarRatingBar(score: .constant(viewModel.movie.userRating))
+        StarRatingBar(score: .constant(viewModel.movieUserRating))
       }
 
       Divider()
@@ -127,7 +127,7 @@ extension MovieDetailView {
         Text("누적관객수")
           .font(.headline)
 
-        Text("\(viewModel.movie.audience)")
+        Text(viewModel.movieAudience)
           .foregroundColor(.secondary)
       }
     }
@@ -139,7 +139,7 @@ extension MovieDetailView {
       Text("줄거리")
         .font(.headline)
 
-      Text(viewModel.movie.synopsis)
+      Text(viewModel.movieSynopsis)
         .padding(.leading, 4)
     }
     .padding()
@@ -154,7 +154,7 @@ extension MovieDetailView {
         Text("감독")
           .font(.headline)
 
-        Text(viewModel.movie.director)
+        Text(viewModel.movieDirector)
       }
       .padding(.leading, 4)
 
@@ -162,7 +162,7 @@ extension MovieDetailView {
         Text("출연")
           .font(.headline)
 
-        Text(viewModel.movie.actor)
+        Text(viewModel.movieActor)
       }
       .padding(.leading, 4)
     }
@@ -194,7 +194,7 @@ extension MovieDetailView {
   }
 
   var ratingContentsSection: some View {
-    ForEach(viewModel.comments) { comments in
+    ForEach(viewModel.comments.indices) { index in
       HStack {
         Image("ic_user_loading")
           .resizable()
@@ -203,16 +203,16 @@ extension MovieDetailView {
 
         VStack(alignment: .leading) {
           HStack {
-            Text(comments.writer)
+            Text(self.viewModel.commentsWriter(at: index))
 
-            StarRatingBar(score: .constant(Double(comments.rating)))
+            StarRatingBar(score: .constant(self.viewModel.commentsScore(at: index)))
           }
-          
-          Text(comments.dateString(formatter: .custom("yyyy-MM-dd HH:mm:ss")))
+
+          Text(self.viewModel.commentsDateString(at: index))
 
           Spacer()
 
-          Text(comments.contents)
+          Text(self.viewModel.commentsContents(at: index))
         }
       }
       .padding(.vertical, 8)

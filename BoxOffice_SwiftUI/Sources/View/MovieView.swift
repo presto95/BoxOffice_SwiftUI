@@ -19,7 +19,7 @@ struct MovieView: View {
 
         movieCollectionView
       }
-      .navigationBarTitle(Text(viewModel.orderType.description), displayMode: .inline)
+      .navigationBarTitle(Text(viewModel.orderTypeDescription), displayMode: .inline)
       .navigationBarItems(trailing: sortButton)
       .actionSheet(isPresented: $viewModel.showsSortActionSheet) { sortActionSheet }
       .onAppear { self.viewModel.setPresented() }

@@ -100,6 +100,40 @@ final class MovieDetailViewModel: ObservableObject {
 
   @Published var movieErrors: [MovieError] = []
 
+  var movieTitle: String { movie.title }
+
+  var movieGradeImageName: String { (Grade(rawValue: movie.grade) ?? .allAges).imageName }
+
+  var movieDate: String { "\(movie.date) 개봉" }
+
+  var movieGenreAndDuration: String { "\(movie.genre) / \(movie.duration)분" }
+
+  var movieReservationMetric: String {
+    "\(movie.reservationGrade)위 \(String(format: "%.1f%%", movie.reservationRate))"
+  }
+
+  var movieUserRatingString: String { String(format: "%.2f", movie.userRating) }
+
+  var movieUserRating: Double { movie.userRating }
+
+  var movieAudience: String { "\(movie.audience)" }
+
+  var movieSynopsis: String { movie.synopsis }
+
+  var movieDirector: String { movie.director }
+
+  var movieActor: String { movie.actor }
+
+  func commentsWriter(at index: Int) -> String { comments[index].writer }
+
+  func commentsScore(at index: Int) -> Double { comments[index].rating }
+
+  func commentsContents(at index: Int) -> String { comments[index].contents }
+
+  func commentsDateString(at index: Int) -> String {
+    comments[index].dateString(formatter: .custom("yyyy-MM-dd HH:mm:ss"))
+  }
+
   // MARK: - Subjects
 
   private let isPresentedSubject = CurrentValueSubject<Void?, Never>(nil)

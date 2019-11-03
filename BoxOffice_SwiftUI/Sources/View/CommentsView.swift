@@ -40,17 +40,17 @@ extension CommentsView {
   var starRatingSection: some View {
     VStack(alignment: .leading) {
       HStack {
-        Text(viewModel.movie.title)
+        Text(viewModel.movieTitle)
           .font(.headline)
 
-        Image((Grade(rawValue: viewModel.movie.grade) ?? .allAges).imageName)
+        Image(viewModel.movieGradeImageName)
       }
 
       VStack {
         StarRatingBar(score: $viewModel.rating, length: 40)
           .gesture(starRatingBarDragGesture)
 
-        Text("\(Int(viewModel.rating))")
+        Text(viewModel.movieRatingString)
       }
     }
   }

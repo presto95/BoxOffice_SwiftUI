@@ -30,12 +30,13 @@ final class MovieAPIService: MovieAPIServiceType {
 
   func requestMovies(orderType: OrderType) -> AnyPublisher<MoviesResponse, Error> {
     Just(orderType)
-      .map { "\($0.rawValue)" }
+      .map(\.rawValue)
+      .map(String.init)
       .map { MoviesTarget(parameter: ["order_type": $0]) }
       .setFailureType(to: Error.self)
-      .flatMap { self.networkManager.request($0) }
-      .map { $0.data }
-      .tryMap { try self.decode($0, to: MoviesResponse.self) }
+      .flatMap(networkManager.request(_:))
+      .map(\.data)
+      .decode(type: MoviesResponse.self, decoder: JSONDecoder())
       .eraseToAnyPublisher()
   }
 
@@ -43,9 +44,9 @@ final class MovieAPIService: MovieAPIServiceType {
     Just(id)
       .map { MovieTarget(parameter: ["id": $0]) }
       .setFailureType(to: Error.self)
-      .flatMap { self.networkManager.request($0) }
-      .map { $0.data }
-      .tryMap { try self.decode($0, to: MovieResponse.self) }
+      .flatMap(networkManager.request(_:))
+      .map(\.data)
+      .decode(type: MovieResponse.self, decoder: JSONDecoder())
       .eraseToAnyPublisher()
   }
 
@@ -53,26 +54,19 @@ final class MovieAPIService: MovieAPIServiceType {
     Just(movieID)
       .map { CommentsTarget(parameter: ["movie_id": $0]) }
       .setFailureType(to: Error.self)
-      .flatMap { self.networkManager.request($0) }
-      .map { $0.data }
-      .tryMap { try self.decode($0, to: CommentsResponse.self) }
+      .flatMap(networkManager.request(_:))
+      .map(\.data)
+      .decode(type: CommentsResponse.self, decoder: JSONDecoder())
       .eraseToAnyPublisher()
   }
 
   func postComment(_ comment: Comment) -> AnyPublisher<CommentResponse, Error> {
     Just(comment)
-      .tryMap { try JSONEncoder().encode($0) }
+      .encode(encoder: JSONEncoder())
       .map { CommentPostingTarget(parameter: nil, body: $0) }
-      .flatMap { self.networkManager.request($0) }
-      .map { $0.data }
-      .tryMap { try self.decode($0, to: CommentResponse.self) }
+      .flatMap(networkManager.request(_:))
+      .map(\.data)
+      .decode(type: CommentResponse.self, decoder: JSONDecoder())
       .eraseToAnyPublisher()
-  }
-}
-
-extension MovieAPIService {
-
-  private func decode<Decode: Decodable>(_ data: Data, to type: Decode.Type) throws -> Decode {
-    try JSONDecoder().decode(Decode.self, from: data)
   }
 }

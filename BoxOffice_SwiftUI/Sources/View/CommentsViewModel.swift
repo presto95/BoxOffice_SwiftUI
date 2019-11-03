@@ -56,6 +56,12 @@ final class CommentsViewModel: ObservableObject {
 
   @Published var isPostingFinished = false
 
+  var movieTitle: String { movie.title }
+
+  var movieGradeImageName: String { (Grade(rawValue: movie.grade) ?? .allAges).imageName }
+
+  var movieRatingString: String { "\(Int(rating))" }
+
   // MARK: - Subjects
 
   private let ratingSubject = CurrentValueSubject<Double?, Never>(nil)

@@ -77,6 +77,8 @@ final class MovieViewModel: ObservableObject {
 
   @Published var movieErrors: [MovieError] = []
 
+  var orderTypeDescription: String { orderType.description }
+
   // MARK: - Subjects
 
   private let isPresentedSubject = CurrentValueSubject<Bool?, Never>(nil)
