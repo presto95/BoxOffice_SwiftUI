@@ -192,7 +192,7 @@
 		19163946235852F0002B9EC1 /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				1984CB5F2360226F00E4B20E /* Router */,
+				1984CB5F2360226F00E4B20E /* Target */,
 				191E1A142357461800D8963A /* MovieAPIService.swift */,
 				1984CB552360116300E4B20E /* HTTPMethod.swift */,
 				1984CB57236018DF00E4B20E /* NetworkManager.swift */,
@@ -258,7 +258,7 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		1984CB5F2360226F00E4B20E /* Router */ = {
+		1984CB5F2360226F00E4B20E /* Target */ = {
 			isa = PBXGroup;
 			children = (
 				1984CB602360227F00E4B20E /* MoviesTarget.swift */,
@@ -266,7 +266,7 @@
 				1984CB642360228B00E4B20E /* CommentsTarget.swift */,
 				1984CB662360229000E4B20E /* CommentPostingTarget.swift */,
 			);
-			path = Router;
+			path = Target;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

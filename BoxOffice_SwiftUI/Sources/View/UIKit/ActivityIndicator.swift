@@ -14,8 +14,8 @@ struct ActivityIndicator: UIViewRepresentable {
   let style: UIActivityIndicatorView.Style
 
   init(animating: Binding<Bool>, style: UIActivityIndicatorView.Style = .large) {
-    self.style = style
     _isAnimating = animating
+    self.style = style
   }
 
   func makeUIView(context: Context) -> UIActivityIndicatorView {

@@ -6,7 +6,7 @@
 //  Copyright © 2019 presto. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
 enum Log {
   

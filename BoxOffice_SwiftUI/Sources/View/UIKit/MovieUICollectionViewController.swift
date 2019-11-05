@@ -14,6 +14,7 @@ final class MovieUICollectionViewController: UICollectionViewController {
   var movies = [MoviesResponse.Movie]()
 
   override func viewDidLoad() {
+    super.viewDidLoad()
     collectionView.backgroundColor = .systemBackground
     collectionView.register(UINib(nibName: "MovieUICollectionViewCell", bundle: nil),
                             forCellWithReuseIdentifier: "movieCollectionCell")

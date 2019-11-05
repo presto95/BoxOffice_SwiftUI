@@ -10,7 +10,7 @@ import Foundation
 
 struct CommentsResponse: Decodable, Identifiable {
 
-  struct Comment: Codable, Identifiable {
+  struct Comment: Decodable, Identifiable {
 
     let movieID: String
 
