@@ -55,7 +55,7 @@ final class MovieDetailViewModel: ObservableObject {
         }
       }, receiveValue: { movieResponse in
         self.movie = movieResponse
-        if let imageData = ImageCache.fetch(forKey: movieResponse.image) {
+        if let imageData = ImageCache.shared.fetch(forKey: movieResponse.image) {
           self.posterImageData = imageData
         } else {
           self.requestImageData(from: movieResponse.image)
@@ -116,7 +116,11 @@ final class MovieDetailViewModel: ObservableObject {
 
   var movieUserRating: Double { movie.userRating }
 
-  var movieAudience: String { "\(movie.audience)" }
+  var movieAudience: String {
+    let formatter = NumberFormatter()
+    formatter.numberStyle = .decimal
+    return formatter.string(from: movie.audience as NSNumber) ?? "?"
+  }
 
   var movieSynopsis: String { movie.synopsis }
 
@@ -151,7 +155,7 @@ extension MovieDetailViewModel {
 
   func requestData() {
     movieErrors = []
-    apiService.requestMovie(id: movieID)
+    apiService.movie(id: movieID)
       .receive(on: DispatchQueue.main)
       .handleEvents(receiveSubscription: { _ in
         self.changeLoading(true, to: .movie)
@@ -166,7 +170,7 @@ extension MovieDetailViewModel {
       })
       .store(in: &cancellables)
 
-    apiService.requestComments(movieID: movieID)
+    apiService.comments(movieID: movieID)
       .receive(on: DispatchQueue.main)
       .handleEvents(receiveSubscription: { _ in
         self.changeLoading(true, to: .comments)
@@ -191,7 +195,7 @@ extension MovieDetailViewModel {
       .replaceError(with: Data())
       .sink(receiveValue: { imageData in
         self.posterImageData = imageData
-        ImageCache.add(imageData, forKey: urlString)
+        ImageCache.shared.add(imageData, forKey: urlString)
       })
       .store(in: &self.cancellables)
   }

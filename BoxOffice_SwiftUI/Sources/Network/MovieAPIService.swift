@@ -11,13 +11,13 @@ import Foundation
 
 protocol MovieAPIServiceType {
 
-  func requestMovies(orderType: OrderType) -> AnyPublisher<MoviesResponse, Error>
+  func movies(orderType: OrderType) -> AnyPublisher<MoviesResponse, Error>
 
-  func requestMovie(id: String) -> AnyPublisher<MovieResponse, Error>
+  func movie(id: String) -> AnyPublisher<MovieResponse, Error>
 
-  func requestComments(movieID: String) -> AnyPublisher<CommentsResponse, Error>
+  func comments(movieID: String) -> AnyPublisher<CommentsResponse, Error>
 
-  func postComment(_ comment: Comment) -> AnyPublisher<CommentResponse, Error>
+  func commentPosting(_ comment: Comment) -> AnyPublisher<CommentResponse, Error>
 }
 
 final class MovieAPIService: MovieAPIServiceType {
@@ -28,7 +28,7 @@ final class MovieAPIService: MovieAPIServiceType {
     self.networkManager = networkManager
   }
 
-  func requestMovies(orderType: OrderType) -> AnyPublisher<MoviesResponse, Error> {
+  func movies(orderType: OrderType) -> AnyPublisher<MoviesResponse, Error> {
     Just(orderType)
       .map(\.rawValue)
       .map(String.init)
@@ -40,7 +40,7 @@ final class MovieAPIService: MovieAPIServiceType {
       .eraseToAnyPublisher()
   }
 
-  func requestMovie(id: String) -> AnyPublisher<MovieResponse, Error> {
+  func movie(id: String) -> AnyPublisher<MovieResponse, Error> {
     Just(id)
       .map { MovieTarget(parameter: ["id": $0]) }
       .setFailureType(to: Error.self)
@@ -50,7 +50,7 @@ final class MovieAPIService: MovieAPIServiceType {
       .eraseToAnyPublisher()
   }
 
-  func requestComments(movieID: String) -> AnyPublisher<CommentsResponse, Error> {
+  func comments(movieID: String) -> AnyPublisher<CommentsResponse, Error> {
     Just(movieID)
       .map { CommentsTarget(parameter: ["movie_id": $0]) }
       .setFailureType(to: Error.self)
@@ -60,7 +60,7 @@ final class MovieAPIService: MovieAPIServiceType {
       .eraseToAnyPublisher()
   }
 
-  func postComment(_ comment: Comment) -> AnyPublisher<CommentResponse, Error> {
+  func commentPosting(_ comment: Comment) -> AnyPublisher<CommentResponse, Error> {
     Just(comment)
       .encode(encoder: JSONEncoder())
       .map { CommentPostingTarget(parameter: nil, body: $0) }

@@ -9,7 +9,7 @@
 import Combine
 import UIKit
 
-final class MovieUICollectionViewCell: UICollectionViewCell {
+final class MovieUICollectionViewCell: UICollectionViewCell, NetworkImageFetchable {
 
   @IBOutlet private weak var posterImageView: UIImageView!
 
@@ -45,24 +45,15 @@ final class MovieUICollectionViewCell: UICollectionViewCell {
   }
 
   func configure(with movie: MoviesResponse.Movie) {
-    if let imageData = ImageCache.fetch(forKey: movie.thumb) {
-      posterImageView.image = UIImage(data: imageData)
-    } else {
-      Just(movie.thumb)
-        .compactMap { URL(string: $0) }
-        .receive(on: DispatchQueue.global())
-        .tryMap { try Data(contentsOf: $0) }
-        .receive(on: DispatchQueue.main)
-        .sink(receiveCompletion: { completion in
-          if case .failure = completion {
-            self.posterImageView.image = UIImage(named: "img_placeholder")
-          }
-        }, receiveValue: { imageData in
-          ImageCache.add(imageData, forKey: movie.thumb)
-          self.posterImageView.image = UIImage(data: imageData)
-        })
-        .store(in: &cancellables)
-    }
+    networkImageData(from: movie.thumb)
+     .sink(receiveCompletion: { completion in
+        if case .failure = completion {
+          self.posterImageView.image = UIImage(named: "img_placeholder")
+        }
+      }, receiveValue: { imageData in
+        self.posterImageView.image = UIImage(data: imageData)
+      })
+      .store(in: &cancellables)
 
     let grade = Grade(rawValue: movie.grade) ?? .allAges
     gradeImageView.image = UIImage(named: grade.imageName)

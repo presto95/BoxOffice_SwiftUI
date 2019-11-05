@@ -92,7 +92,7 @@ extension MovieViewModel {
 
   func requestMovies(orderType: OrderType) {
     movieErrors = []
-    apiService.requestMovies(orderType: orderType)
+    apiService.movies(orderType: orderType)
       .handleEvents(receiveSubscription: { _ in
         self.isLoading = true
       })

@@ -44,7 +44,7 @@ struct MovieTableView: UIViewControllerRepresentable {
     }
 
     @objc func refreshControlValueDidChange(sender: UIRefreshControl) {
-      apiService.requestMovies(orderType: parent.orderType)
+      apiService.movies(orderType: parent.orderType)
         .receive(on: DispatchQueue.main)
         .sink(receiveCompletion: { _ in
           sender.endRefreshing()

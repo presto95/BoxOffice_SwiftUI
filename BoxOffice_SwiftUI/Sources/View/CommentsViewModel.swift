@@ -36,7 +36,7 @@ final class CommentsViewModel: ObservableObject {
                           writer: nickname,
                           movieID: movie.id,
                           contents: comments)
-    apiService.postComment(comment)
+    apiService.commentPosting(comment)
       .receive(on: DispatchQueue.main)
       .map { _ in true }
       .replaceError(with: false)
