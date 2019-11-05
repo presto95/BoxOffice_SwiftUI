@@ -20,8 +20,7 @@ struct CommentPostingTarget: TargetType {
 
   var body: Data?
 
-  init(parameter: [String : String]?, body: Data?) {
-    self.parameter = parameter
+  init(body: Data?) {
     self.body = body
   }
 }

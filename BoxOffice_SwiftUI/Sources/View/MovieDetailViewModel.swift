@@ -9,7 +9,7 @@
 import Combine
 import Foundation
 
-final class MovieDetailViewModel: ObservableObject {
+final class MovieDetailViewModel: ObservableObject, NetworkImageFetchable {
 
   private enum RequestType {
 
@@ -55,11 +55,10 @@ final class MovieDetailViewModel: ObservableObject {
         }
       }, receiveValue: { movieResponse in
         self.movie = movieResponse
-        if let imageData = ImageCache.shared.fetch(forKey: movieResponse.image) {
-          self.posterImageData = imageData
-        } else {
-          self.requestImageData(from: movieResponse.image)
-        }
+        self.networkImageData(from: movieResponse.image)
+          .replaceError(with: Data())
+          .assign(to: \.posterImageData, on: self)
+          .store(in: &self.cancellables)
       })
       .store(in: &cancellables)
 
@@ -184,20 +183,6 @@ extension MovieDetailViewModel {
         self.commentsSubject.send(.success(commentsResponse.comments))
       })
       .store(in: &cancellables)
-  }
-
-  func requestImageData(from urlString: String) {
-    Just(urlString)
-      .receive(on: DispatchQueue.global())
-      .compactMap { URL(string: $0) }
-      .tryMap { try Data(contentsOf: $0) }
-      .receive(on: DispatchQueue.main)
-      .replaceError(with: Data())
-      .sink(receiveValue: { imageData in
-        self.posterImageData = imageData
-        ImageCache.shared.add(imageData, forKey: urlString)
-      })
-      .store(in: &self.cancellables)
   }
 
   private func changeLoading(_ value: Bool, to type: MovieDetailViewModel.RequestType) {

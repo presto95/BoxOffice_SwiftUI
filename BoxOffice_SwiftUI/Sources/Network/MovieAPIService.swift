@@ -63,7 +63,7 @@ final class MovieAPIService: MovieAPIServiceType {
   func commentPosting(_ comment: Comment) -> AnyPublisher<CommentResponse, Error> {
     Just(comment)
       .encode(encoder: JSONEncoder())
-      .map { CommentPostingTarget(parameter: nil, body: $0) }
+      .map { CommentPostingTarget(body: $0) }
       .flatMap(networkManager.request(_:))
       .map(\.data)
       .decode(type: CommentResponse.self, decoder: JSONDecoder())

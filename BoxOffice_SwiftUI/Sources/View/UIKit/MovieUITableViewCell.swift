@@ -46,13 +46,9 @@ final class MovieUITableViewCell: UITableViewCell, NetworkImageFetchable {
 
   func configure(with movie: MoviesResponse.Movie) {
     networkImageData(from: movie.thumb)
-      .sink(receiveCompletion: { completion in
-        if case .failure = completion {
-          self.posterImageView.image = UIImage(named: "img_placeholder")
-        }
-      }, receiveValue: { imageData in
-        self.posterImageView.image = UIImage(data: imageData)
-      })
+      .replaceError(with: UIImage(named: "img_placeholder")?.pngData() ?? Data())
+      .map(UIImage.init)
+      .assign(to: \.image, on: posterImageView)
       .store(in: &cancellables)
 
     let grade = Grade(rawValue: movie.grade) ?? .allAges
