@@ -7,7 +7,6 @@
 //
 
 enum StarType {
-
   case normal
 
   case half
@@ -16,7 +15,6 @@ enum StarType {
 }
 
 extension StarType {
-
   var imageName: String {
     switch self {
     case .normal:

@@ -10,9 +10,13 @@ import Combine
 import SwiftUI
 
 struct MovieTableView: UIViewControllerRepresentable {
+  @Binding private var movies: [MoviesResponse.Movie]
+  @Binding private var orderType: OrderType
 
-  @Binding var movies: [MoviesResponse.Movie]
-  @Binding var orderType: OrderType
+  init(movies: Binding<[MoviesResponse.Movie]>, orderType: Binding<OrderType>) {
+    _movies = movies
+    _orderType = orderType
+  }
 
   func makeUIViewController(context: Context) -> MovieUITableViewController {
     let viewController = MovieUITableViewController()
@@ -24,26 +28,25 @@ struct MovieTableView: UIViewControllerRepresentable {
     return viewController
   }
 
-  func updateUIViewController(_ uiViewController: MovieUITableViewController, context: Context) {
+  func updateUIViewController(_ uiViewController: MovieUITableViewController, context _: Context) {
     uiViewController.movies = movies
   }
 
   func makeCoordinator() -> Coordinator { Coordinator(self) }
 
   final class Coordinator: NSObject {
-
-    var parent: MovieTableView
-
-    var cancellables = Set<AnyCancellable>()
+    private var parent: MovieTableView
 
     private let apiService: MovieAPIServiceType
+
+    private var cancellables = Set<AnyCancellable>()
 
     init(_ parent: MovieTableView, apiService: MovieAPIServiceType = MovieAPIService()) {
       self.parent = parent
       self.apiService = apiService
     }
 
-    @objc func refreshControlValueDidChange(sender: UIRefreshControl) {
+    @objc fileprivate func refreshControlValueDidChange(sender: UIRefreshControl) {
       apiService.movies(orderType: parent.orderType)
         .receive(on: DispatchQueue.main)
         .sink(receiveCompletion: { _ in

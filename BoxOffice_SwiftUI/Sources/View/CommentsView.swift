@@ -9,9 +9,8 @@
 import SwiftUI
 
 struct CommentsView: View {
-
-  @Environment(\.presentationMode) var presentationMode
-  @ObservedObject var viewModel: CommentsViewModel
+  @Environment(\.presentationMode) private var presentationMode
+  @ObservedObject private var viewModel: CommentsViewModel
 
   init(movie: MovieResponse) {
     viewModel = CommentsViewModel(movie: movie)
@@ -36,7 +35,6 @@ struct CommentsView: View {
 }
 
 extension CommentsView {
-
   var starRatingSection: some View {
     VStack(alignment: .leading) {
       HStack {
@@ -72,7 +70,7 @@ extension CommentsView {
     DragGesture()
       .onChanged { value in
         self.viewModel.setRating(Double(value.location.x / 20))
-    }
+      }
   }
 
   var cancelButton: some View {

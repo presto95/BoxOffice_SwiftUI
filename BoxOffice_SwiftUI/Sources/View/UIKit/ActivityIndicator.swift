@@ -9,28 +9,27 @@
 import SwiftUI
 
 struct ActivityIndicator: UIViewRepresentable {
-
   @Binding private var isAnimating: Bool
-  let style: UIActivityIndicatorView.Style
+  private let style: UIActivityIndicatorView.Style
 
-  init(animating: Binding<Bool>, style: UIActivityIndicatorView.Style = .large) {
-    _isAnimating = animating
+  init(isAnimating: Binding<Bool>, style: UIActivityIndicatorView.Style = .large) {
+    _isAnimating = isAnimating
     self.style = style
   }
 
-  func makeUIView(context: Context) -> UIActivityIndicatorView {
+  func makeUIView(context _: Context) -> UIActivityIndicatorView {
     let view = UIActivityIndicatorView(style: style)
     view.hidesWhenStopped = true
     return view
   }
 
-  func updateUIView(_ uiView: UIActivityIndicatorView, context: Context) {
+  func updateUIView(_ uiView: UIActivityIndicatorView, context _: Context) {
     isAnimating ? uiView.startAnimating() : uiView.stopAnimating()
   }
 }
 
 struct ActivityIndicator_Previews: PreviewProvider {
   static var previews: some View {
-    ActivityIndicator(animating: .constant(false), style: .large)
+    ActivityIndicator(isAnimating: .constant(true), style: .large)
   }
 }

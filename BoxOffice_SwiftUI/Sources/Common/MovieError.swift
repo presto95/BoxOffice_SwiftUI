@@ -9,7 +9,6 @@
 import Foundation
 
 enum MovieError: Error {
-
   case movies
 
   case comments
@@ -20,7 +19,6 @@ enum MovieError: Error {
 }
 
 extension MovieError: LocalizedError {
-
   var localizedDescription: String {
     switch self {
     case .movies:

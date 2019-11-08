@@ -9,9 +9,8 @@
 import SwiftUI
 
 struct StarRatingBar: View {
-
-  @Binding var score: Double
-  let length: CGFloat
+  @Binding private var score: Double
+  private let length: CGFloat
 
   init(score: Binding<Double>, length: CGFloat = 20) {
     _score = score
@@ -65,7 +64,6 @@ struct StarRatingBar: View {
   func starImage(_ type: StarType) -> some View {
     Image(type.imageName)
       .resizable()
-      .scaledToFit()
       .aspectRatio(1, contentMode: .fit)
       .frame(height: length)
   }

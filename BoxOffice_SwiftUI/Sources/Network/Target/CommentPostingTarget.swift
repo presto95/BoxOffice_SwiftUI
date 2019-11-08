@@ -9,7 +9,6 @@
 import Foundation
 
 struct CommentPostingTarget: TargetType {
-
   var routerVersion: TargetVersion { .movieAPI }
 
   var method: HTTPMethod { .post }

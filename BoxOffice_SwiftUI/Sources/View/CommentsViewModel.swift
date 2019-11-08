@@ -10,7 +10,6 @@ import Combine
 import Foundation
 
 final class CommentsViewModel: ObservableObject {
-
   private let apiService: MovieAPIServiceType
 
   private var cancellables = Set<AnyCancellable>()

@@ -10,7 +10,6 @@ import Combine
 import Foundation
 
 protocol MovieAPIServiceType {
-
   func movies(orderType: OrderType) -> AnyPublisher<MoviesResponse, Error>
 
   func movie(id: String) -> AnyPublisher<MovieResponse, Error>
@@ -21,7 +20,6 @@ protocol MovieAPIServiceType {
 }
 
 final class MovieAPIService: MovieAPIServiceType {
-
   private let networkManager: NetworkManagerType
 
   init(networkManager: NetworkManagerType = NetworkManager()) {

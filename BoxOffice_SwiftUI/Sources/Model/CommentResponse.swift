@@ -9,7 +9,6 @@
 import Foundation
 
 struct CommentResponse: Decodable {
-
   let rating: Int
 
   let timestamp: Double
@@ -21,7 +20,6 @@ struct CommentResponse: Decodable {
   let contents: String
 
   private enum CodingKeys: String, CodingKey {
-
     case rating
 
     case timestamp

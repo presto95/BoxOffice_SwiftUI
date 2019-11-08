@@ -9,10 +9,9 @@
 import Combine
 import Foundation
 
-protocol NetworkImageFetchable { }
+protocol NetworkImageFetchable {}
 
 extension NetworkImageFetchable {
-
   func networkImageData(from urlString: String) -> AnyPublisher<Data, Error> {
     if let imageData = ImageCache.shared.fetch(forKey: urlString) {
       return Just(imageData)
@@ -23,6 +22,7 @@ extension NetworkImageFetchable {
         .compactMap { URL(string: $0) }
         .receive(on: DispatchQueue.global())
         .tryMap { try Data(contentsOf: $0) }
+        .retry(1)
         .handleEvents(receiveOutput: { data in
           ImageCache.shared.add(data, forKey: urlString)
         })

@@ -10,9 +10,7 @@ import Combine
 import Foundation
 
 final class MovieDetailViewModel: ObservableObject, NetworkImageFetchable {
-
   private enum RequestType {
-
     case movie
 
     case comments
@@ -85,19 +83,23 @@ final class MovieDetailViewModel: ObservableObject, NetworkImageFetchable {
     showsCommentPostingSubject.send(true)
   }
 
+  func retryMovieCommentsRequest() {
+    requestData()
+  }
+
   // MARK: - Outputs
 
   @Published var isLoading = false
 
   @Published var showsCommentPosting = false
 
-  @Published var movie: MovieResponse = .dummy
+  @Published var movie = MovieResponse.dummy
 
-  @Published var comments: [CommentsResponse.Comment] = []
+  @Published var comments = [CommentsResponse.Comment]()
 
-  @Published var posterImageData: Data = Data()
+  @Published var posterImageData = Data()
 
-  @Published var movieErrors: [MovieError] = []
+  @Published var movieErrors = [MovieError]()
 
   var movieTitle: String { movie.title }
 
@@ -151,8 +153,7 @@ final class MovieDetailViewModel: ObservableObject, NetworkImageFetchable {
 }
 
 extension MovieDetailViewModel {
-
-  func requestData() {
+  private func requestData() {
     movieErrors = []
     apiService.movie(id: movieID)
       .receive(on: DispatchQueue.main)

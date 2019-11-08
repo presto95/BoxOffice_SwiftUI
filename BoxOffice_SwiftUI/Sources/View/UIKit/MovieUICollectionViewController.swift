@@ -6,11 +6,10 @@
 //  Copyright © 2019 presto. All rights reserved.
 //
 
-import UIKit
 import SwiftUI
+import UIKit
 
 final class MovieUICollectionViewController: UICollectionViewController {
-
   var movies = [MoviesResponse.Movie]()
 
   override func viewDidLoad() {
@@ -31,8 +30,8 @@ final class MovieUICollectionViewController: UICollectionViewController {
     return cell
   }
 
-  override func collectionView(_ collectionView: UICollectionView,
-                               numberOfItemsInSection section: Int) -> Int { movies.count }
+  override func collectionView(_: UICollectionView,
+                               numberOfItemsInSection _: Int) -> Int { movies.count }
 
   override func collectionView(_ collectionView: UICollectionView,
                                didSelectItemAt indexPath: IndexPath) {
@@ -44,21 +43,20 @@ final class MovieUICollectionViewController: UICollectionViewController {
 }
 
 extension MovieUICollectionViewController: UICollectionViewDelegateFlowLayout {
+  func collectionView(_: UICollectionView,
+                      layout _: UICollectionViewLayout,
+                      sizeForItemAt _: IndexPath) -> CGSize {
+    let width = UIScreen.main.bounds.width
+    let itemWidth = width / 2 - 4
+    let itemHeight = itemWidth * 1.8
+    return CGSize(width: itemWidth, height: itemHeight)
+  }
 
-  func collectionView(_ collectionView: UICollectionView,
-                      layout collectionViewLayout: UICollectionViewLayout,
-                      sizeForItemAt indexPath: IndexPath) -> CGSize {
-     let width = UIScreen.main.bounds.width
-     let itemWidth = width / 2 - 4
-     let itemHeight = itemWidth * 1.8
-     return CGSize(width: itemWidth, height: itemHeight)
-   }
+  func collectionView(_: UICollectionView,
+                      layout _: UICollectionViewLayout,
+                      minimumLineSpacingForSectionAt _: Int) -> CGFloat { 8 }
 
-   func collectionView(_ collectionView: UICollectionView,
-                       layout collectionViewLayout: UICollectionViewLayout,
-                       minimumLineSpacingForSectionAt section: Int) -> CGFloat { 8 }
-
-   func collectionView(_ collectionView: UICollectionView,
-                       layout collectionViewLayout: UICollectionViewLayout,
-                       minimumInteritemSpacingForSectionAt section: Int) -> CGFloat { 4 }
+  func collectionView(_: UICollectionView,
+                      layout _: UICollectionViewLayout,
+                      minimumInteritemSpacingForSectionAt _: Int) -> CGFloat { 4 }
 }

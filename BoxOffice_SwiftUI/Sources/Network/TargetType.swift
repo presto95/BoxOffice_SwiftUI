@@ -9,7 +9,6 @@
 import Foundation
 
 protocol TargetType {
-
   var routerVersion: TargetVersion { get }
 
   var method: HTTPMethod { get }

@@ -8,8 +8,7 @@
 
 import Foundation
 
-protocol CacheType {
-
+protocol CacheProtocol {
   associatedtype Key
 
   associatedtype Value
@@ -21,11 +20,10 @@ protocol CacheType {
   func fetch(forKey: Key) -> Value?
 }
 
-final class ImageCache: CacheType {
-
+final class ImageCache: CacheProtocol {
   static let shared = ImageCache()
 
-  private init() { }
+  private init() {}
 
   private let cache = NSCache<NSString, NSData>()
 

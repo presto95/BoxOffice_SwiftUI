@@ -9,9 +9,7 @@
 import Foundation
 
 struct CommentsResponse: Decodable, Identifiable {
-
   struct Comment: Decodable, Identifiable {
-
     let movieID: String
 
     let contents: String
@@ -25,7 +23,6 @@ struct CommentsResponse: Decodable, Identifiable {
     let rating: Double
 
     private enum CodingKeys: String, CodingKey {
-
       case movieID = "movie_id"
 
       case contents
@@ -47,7 +44,6 @@ struct CommentsResponse: Decodable, Identifiable {
   let movieID: String
 
   private enum CodingKeys: String, CodingKey {
-
     case comments
 
     case movieID = "movie_id"
@@ -55,7 +51,6 @@ struct CommentsResponse: Decodable, Identifiable {
 }
 
 extension CommentsResponse.Comment {
-
   static let dummy = CommentsResponse.Comment(movieID: "",
                                               contents: "",
                                               timestamp: 0,

@@ -9,7 +9,6 @@
 import Foundation
 
 struct MovieTarget: TargetType {
-
   var routerVersion: TargetVersion { .movieAPI }
 
   var method: HTTPMethod { .get }

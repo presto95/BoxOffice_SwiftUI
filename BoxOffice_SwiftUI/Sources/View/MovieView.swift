@@ -9,8 +9,7 @@
 import SwiftUI
 
 struct MovieView: View {
-
-  @ObservedObject var viewModel = MovieViewModel()
+  @ObservedObject private var viewModel = MovieViewModel()
 
   var body: some View {
     NavigationView {
@@ -28,15 +27,13 @@ struct MovieView: View {
 }
 
 extension MovieView {
-
   var movieTableView: some View {
     Group {
       if viewModel.isLoading {
-        ActivityIndicator(animating: $viewModel.isLoading)
+        ActivityIndicator(isAnimating: $viewModel.isLoading)
       } else if !viewModel.movieErrors.isEmpty {
-        MovieRetryView(errors: $viewModel.movieErrors) {
-          self.viewModel.requestMovies(orderType: self.viewModel.orderType)
-        }
+        MovieRetryView(errors: $viewModel.movieErrors,
+                       onRetry: { self.viewModel.retryMovieRequest() })
       } else {
         MovieTableView(movies: $viewModel.movies, orderType: $viewModel.orderType)
       }
@@ -51,11 +48,10 @@ extension MovieView {
   var movieCollectionView: some View {
     Group {
       if viewModel.isLoading {
-        ActivityIndicator(animating: $viewModel.isLoading)
+        ActivityIndicator(isAnimating: $viewModel.isLoading)
       } else if !viewModel.movieErrors.isEmpty {
-        MovieRetryView(errors: $viewModel.movieErrors) {
-          self.viewModel.requestMovies(orderType: self.viewModel.orderType)
-        }
+        MovieRetryView(errors: $viewModel.movieErrors,
+                       onRetry: { self.viewModel.retryMovieRequest() })
       } else {
         MovieCollectionView(movies: $viewModel.movies, orderType: $viewModel.orderType)
       }
@@ -89,9 +85,8 @@ extension MovieView {
                   .default(Text("개봉일")) {
                     self.viewModel.setOrderType(.date)
                   },
-                  .cancel(Text("취소"))
-      ]
-    )
+                  .cancel(Text("취소")),
+                ])
   }
 }
 

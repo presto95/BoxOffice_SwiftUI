@@ -9,7 +9,6 @@
 import Foundation
 
 struct MovieResponse: Decodable, Identifiable {
-
   let userRating: Double
 
   let actor: String
@@ -39,7 +38,6 @@ struct MovieResponse: Decodable, Identifiable {
   let genre: String
 
   private enum CodingKeys: String, CodingKey {
-
     case userRating = "user_rating"
 
     case actor
@@ -47,7 +45,7 @@ struct MovieResponse: Decodable, Identifiable {
     case director
 
     case date
-    
+
     case grade
 
     case reservationRate = "reservation_rate"
@@ -71,7 +69,6 @@ struct MovieResponse: Decodable, Identifiable {
 }
 
 extension MovieResponse {
-
   static let dummy = MovieResponse(userRating: 0,
                                    actor: "",
                                    director: "",

@@ -10,12 +10,10 @@ import Combine
 import Foundation
 
 protocol NetworkManagerType {
-
   func request(_ router: TargetType) -> AnyPublisher<(data: Data, response: URLResponse), Error>
 }
 
 final class NetworkManager: NetworkManagerType {
-
   func request(_ target: TargetType) -> AnyPublisher<(data: Data, response: URLResponse), Error> {
     var components = URLComponents()
     components.scheme = target.routerVersion.scheme
@@ -29,6 +27,7 @@ final class NetworkManager: NetworkManagerType {
     request.httpMethod = target.method.rawValue
     request.httpBody = target.body
     return URLSession.shared.dataTaskPublisher(for: request)
+      .retry(1)
       .mapError { $0 as Error }
       .eraseToAnyPublisher()
   }

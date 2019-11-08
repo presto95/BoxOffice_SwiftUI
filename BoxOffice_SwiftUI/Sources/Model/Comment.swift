@@ -9,7 +9,6 @@
 import Foundation
 
 struct Comment: Encodable {
-
   let rating: Int
 
   let writer: String
@@ -19,7 +18,6 @@ struct Comment: Encodable {
   let contents: String
 
   private enum CodingKeys: String, CodingKey {
-
     case rating
 
     case writer

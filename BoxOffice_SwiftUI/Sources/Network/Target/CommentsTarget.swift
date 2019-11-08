@@ -9,7 +9,6 @@
 import Foundation
 
 struct CommentsTarget: TargetType {
-
   var routerVersion: TargetVersion { .movieAPI }
 
   var method: HTTPMethod { .get }
@@ -20,7 +19,7 @@ struct CommentsTarget: TargetType {
 
   var body: Data?
 
-  init(parameter: [String : String]?) {
+  init(parameter: [String: String]?) {
     self.parameter = parameter
   }
 }

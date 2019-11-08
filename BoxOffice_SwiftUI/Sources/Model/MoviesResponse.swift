@@ -9,9 +9,7 @@
 import Foundation
 
 struct MoviesResponse: Decodable, Identifiable {
-
   struct Movie: Decodable, Identifiable, Equatable {
-
     let userRating: Double
 
     let grade: Int
@@ -21,7 +19,7 @@ struct MoviesResponse: Decodable, Identifiable {
     let reservationRate: Double
 
     let id: String
-    
+
     let reservationGrade: Int
 
     let title: String
@@ -29,7 +27,6 @@ struct MoviesResponse: Decodable, Identifiable {
     let thumb: String
 
     private enum CodingKeys: String, CodingKey {
-
       case userRating = "user_rating"
 
       case grade
@@ -55,7 +52,6 @@ struct MoviesResponse: Decodable, Identifiable {
   let orderType: Int
 
   private enum CodingKeys: String, CodingKey {
-
     case movies
 
     case orderType = "order_type"
@@ -63,7 +59,6 @@ struct MoviesResponse: Decodable, Identifiable {
 }
 
 extension MoviesResponse.Movie {
-
   static let dummy = MoviesResponse.Movie(userRating: 0,
                                           grade: 0,
                                           date: "",
@@ -75,6 +70,5 @@ extension MoviesResponse.Movie {
 }
 
 extension MoviesResponse {
-
   static let dummy = MoviesResponse(movies: [.dummy], orderType: 0)
 }

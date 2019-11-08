@@ -9,9 +9,8 @@
 import SwiftUI
 
 struct MultipleSpacer: View {
-
-  let count: Int
-  let minLength: CGFloat?
+  private let count: Int
+  private let minLength: CGFloat?
 
   init(_ count: Int = 1, minLength: CGFloat? = nil) {
     self.count = count < 1 ? 1 : count

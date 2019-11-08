@@ -10,9 +10,7 @@ import Combine
 import Foundation
 
 final class MovieViewModel: ObservableObject {
-
   enum PresentationType {
-
     case table
 
     case collection
@@ -29,8 +27,9 @@ final class MovieViewModel: ObservableObject {
       .compactMap { $0 }
       .filter { $0 }
       .removeDuplicates()
-      .sink(receiveValue: { _ in
-        self.orderTypeSubject.send(.reservation)
+      .map { _ in OrderType.reservation }
+      .sink(receiveValue: { orderType in
+        self.orderTypeSubject.send(orderType)
       })
       .store(in: &cancellables)
 
@@ -39,7 +38,7 @@ final class MovieViewModel: ObservableObject {
       .removeDuplicates()
       .sink(receiveValue: { orderType in
         self.orderType = orderType
-        self.requestMovies(orderType: orderType)
+        self.requestMovies()
       })
       .store(in: &cancellables)
 
@@ -63,6 +62,10 @@ final class MovieViewModel: ObservableObject {
     showsSortActionSheetSubject.send(true)
   }
 
+  func retryMovieRequest() {
+    requestMovies()
+  }
+
   // MARK: - Outputs
 
   @Published var presentationType = MovieViewModel.PresentationType.table
@@ -75,7 +78,7 @@ final class MovieViewModel: ObservableObject {
 
   @Published var movies = [MoviesResponse.Movie]()
 
-  @Published var movieErrors: [MovieError] = []
+  @Published var movieErrors = [MovieError]()
 
   var orderTypeDescription: String { orderType.description }
 
@@ -89,13 +92,10 @@ final class MovieViewModel: ObservableObject {
 }
 
 extension MovieViewModel {
-
-  func requestMovies(orderType: OrderType) {
+  private func requestMovies() {
     movieErrors = []
+    isLoading = true
     apiService.movies(orderType: orderType)
-      .handleEvents(receiveSubscription: { _ in
-        self.isLoading = true
-      })
       .receive(on: DispatchQueue.main)
       .sink(receiveCompletion: { completion in
         if case .failure = completion {

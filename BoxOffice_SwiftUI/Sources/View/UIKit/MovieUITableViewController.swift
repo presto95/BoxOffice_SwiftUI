@@ -6,11 +6,10 @@
 //  Copyright © 2019 presto. All rights reserved.
 //
 
-import UIKit
 import SwiftUI
+import UIKit
 
 final class MovieUITableViewController: UITableViewController {
-
   var movies = [MoviesResponse.Movie]()
 
   override func viewDidLoad() {
@@ -29,8 +28,8 @@ final class MovieUITableViewController: UITableViewController {
     return cell
   }
 
-  override func tableView(_ tableView: UITableView,
-                          numberOfRowsInSection section: Int) -> Int { movies.count }
+  override func tableView(_: UITableView,
+                          numberOfRowsInSection _: Int) -> Int { movies.count }
 
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     tableView.deselectRow(at: indexPath, animated: true)

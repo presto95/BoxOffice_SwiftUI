@@ -9,8 +9,7 @@
 import SwiftUI
 
 struct MovieDetailView: View {
-
-  @ObservedObject var viewModel: MovieDetailViewModel
+  @ObservedObject private var viewModel: MovieDetailViewModel
 
   init(movieID: String) {
     viewModel = MovieDetailViewModel(movieID: movieID)
@@ -19,11 +18,10 @@ struct MovieDetailView: View {
   var body: some View {
     Group {
       if viewModel.isLoading {
-        ActivityIndicator(animating: $viewModel.isLoading)
+        ActivityIndicator(isAnimating: $viewModel.isLoading)
       } else if !viewModel.movieErrors.isEmpty {
-        MovieRetryView(errors: $viewModel.movieErrors) {
-          self.viewModel.requestData()
-        }
+        MovieRetryView(errors: $viewModel.movieErrors,
+                       onRetry: { self.viewModel.retryMovieCommentsRequest() })
       } else {
         ScrollView {
           summarySection
@@ -51,7 +49,6 @@ struct MovieDetailView: View {
 }
 
 extension MovieDetailView {
-
   var summarySection: some View {
     VStack {
       summaryMainSection

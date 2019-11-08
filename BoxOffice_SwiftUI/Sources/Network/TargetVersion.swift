@@ -7,12 +7,10 @@
 //
 
 enum TargetVersion {
-
   case movieAPI
 }
 
 extension TargetVersion {
-
   var scheme: String {
     switch self {
     case .movieAPI:

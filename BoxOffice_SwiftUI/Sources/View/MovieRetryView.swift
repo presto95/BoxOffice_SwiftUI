@@ -9,9 +9,13 @@
 import SwiftUI
 
 struct MovieRetryView: View {
+  @Binding private var errors: [MovieError]
+  private let onRetry: () -> Void
 
-  @Binding var errors: [MovieError]
-  let onRetry: () -> Void
+  init(errors: Binding<[MovieError]>, onRetry: @escaping () -> Void) {
+    _errors = errors
+    self.onRetry = onRetry
+  }
 
   var body: some View {
     VStack(spacing: 32) {
@@ -38,6 +42,6 @@ struct MovieRetryView: View {
 
 struct MovieRetryView_Previews: PreviewProvider {
   static var previews: some View {
-    MovieRetryView(errors: .constant([]), onRetry: { })
+    MovieRetryView(errors: .constant([]), onRetry: {})
   }
 }

@@ -10,16 +10,15 @@ import Combine
 import UIKit
 
 final class MovieUICollectionViewCell: UICollectionViewCell, NetworkImageFetchable {
+  @IBOutlet private var posterImageView: UIImageView!
 
-  @IBOutlet private weak var posterImageView: UIImageView!
+  @IBOutlet private var gradeImageView: UIImageView!
 
-  @IBOutlet private weak var gradeImageView: UIImageView!
+  @IBOutlet private var primaryLabel: UILabel!
 
-  @IBOutlet private weak var primaryLabel: UILabel!
+  @IBOutlet private var secondaryLabel: UILabel!
 
-  @IBOutlet private weak var secondaryLabel: UILabel!
-
-  @IBOutlet private weak var tertiaryLabel: UILabel!
+  @IBOutlet private var tertiaryLabel: UILabel!
 
   private var cancellables = Set<AnyCancellable>()
 
@@ -31,7 +30,7 @@ final class MovieUICollectionViewCell: UICollectionViewCell, NetworkImageFetchab
 
     secondaryLabel.minimumScaleFactor = 0.5
     secondaryLabel.adjustsFontSizeToFitWidth = true
-    
+
     tertiaryLabel.minimumScaleFactor = 0.5
     tertiaryLabel.adjustsFontSizeToFitWidth = true
   }
@@ -46,7 +45,7 @@ final class MovieUICollectionViewCell: UICollectionViewCell, NetworkImageFetchab
 
   func configure(with movie: MoviesResponse.Movie) {
     networkImageData(from: movie.thumb)
-      .replaceError(with: UIImage(named: "img_placeholder")?.pngData() ?? Data())
+      .replaceError(with: NSDataAsset(name: "img_placeholder")?.data ?? Data())
       .map(UIImage.init)
       .assign(to: \.image, on: posterImageView)
       .store(in: &cancellables)
@@ -63,7 +62,7 @@ final class MovieUICollectionViewCell: UICollectionViewCell, NetworkImageFetchab
     """
     secondaryLabel.textColor = .secondaryLabel
     secondaryLabel.font = .preferredFont(forTextStyle: .body)
-    
+
     tertiaryLabel.text = movie.date
     tertiaryLabel.textColor = .secondaryLabel
     tertiaryLabel.font = .preferredFont(forTextStyle: .body)

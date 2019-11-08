@@ -7,7 +7,6 @@
 //
 
 enum Grade: Int {
-
   case allAges = 0
 
   case twelve = 12
@@ -18,7 +17,6 @@ enum Grade: Int {
 }
 
 extension Grade {
-
   var imageName: String {
     switch self {
     case .allAges:

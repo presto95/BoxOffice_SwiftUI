@@ -7,7 +7,6 @@
 //
 
 enum OrderType: Int, CaseIterable {
-
   case reservation
 
   case curation
@@ -16,7 +15,6 @@ enum OrderType: Int, CaseIterable {
 }
 
 extension OrderType: CustomStringConvertible {
-
   var description: String {
     switch self {
     case .reservation:
