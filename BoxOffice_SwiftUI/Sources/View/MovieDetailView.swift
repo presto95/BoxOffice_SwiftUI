@@ -20,8 +20,7 @@ struct MovieDetailView: View {
       if viewModel.isLoading {
         ActivityIndicator(isAnimating: $viewModel.isLoading)
       } else if !viewModel.movieErrors.isEmpty {
-        MovieRetryView(errors: $viewModel.movieErrors,
-                       onRetry: { self.viewModel.retryMovieCommentsRequest() })
+        MovieRetryView(errors: $viewModel.movieErrors, onRetry: viewModel.retryMovieCommentsRequest)
       } else {
         ScrollView {
           summarySection
@@ -44,7 +43,7 @@ struct MovieDetailView: View {
       }
     }
     .navigationBarTitle(viewModel.movieTitle)
-    .onAppear { self.viewModel.setPresented() }
+    .onAppear(perform: viewModel.setPresented)
   }
 }
 
@@ -62,7 +61,6 @@ extension MovieDetailView {
     HStack {
       Image(uiImage: UIImage(data: viewModel.posterImageData) ?? #imageLiteral(resourceName: "img_placeholder"))
         .resizable()
-        .scaledToFit()
         .aspectRatio(CGSize(width: 61, height: 81), contentMode: .fit)
         .frame(height: 170)
 
@@ -174,12 +172,10 @@ extension MovieDetailView {
 
         Spacer()
 
-        Button(action: {
-          self.viewModel.setShowsCommentPosting()
-        }, label: {
+        Button(action: viewModel.setShowsCommentPosting) {
           Image("btn_compose")
             .renderingMode(.original)
-        })
+        }
       }
 
       ratingContentsSection

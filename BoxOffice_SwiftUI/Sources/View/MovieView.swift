@@ -21,7 +21,7 @@ struct MovieView: View {
       .navigationBarTitle(Text(viewModel.orderTypeDescription), displayMode: .inline)
       .navigationBarItems(trailing: sortButton)
       .actionSheet(isPresented: $viewModel.showsSortActionSheet) { sortActionSheet }
-      .onAppear { self.viewModel.setPresented() }
+      .onAppear(perform: viewModel.setPresented)
     }
   }
 }
@@ -32,8 +32,7 @@ extension MovieView {
       if viewModel.isLoading {
         ActivityIndicator(isAnimating: $viewModel.isLoading)
       } else if !viewModel.movieErrors.isEmpty {
-        MovieRetryView(errors: $viewModel.movieErrors,
-                       onRetry: { self.viewModel.retryMovieRequest() })
+        MovieRetryView(errors: $viewModel.movieErrors, onRetry: viewModel.retryMovieRequest)
       } else {
         MovieTableView(movies: $viewModel.movies, orderType: $viewModel.orderType)
       }
@@ -50,8 +49,7 @@ extension MovieView {
       if viewModel.isLoading {
         ActivityIndicator(isAnimating: $viewModel.isLoading)
       } else if !viewModel.movieErrors.isEmpty {
-        MovieRetryView(errors: $viewModel.movieErrors,
-                       onRetry: { self.viewModel.retryMovieRequest() })
+        MovieRetryView(errors: $viewModel.movieErrors, onRetry: viewModel.retryMovieRequest)
       } else {
         MovieCollectionView(movies: $viewModel.movies, orderType: $viewModel.orderType)
       }
@@ -64,27 +62,19 @@ extension MovieView {
   }
 
   var sortButton: some View {
-    Button(action: {
-      self.viewModel.setShowsSortActionSheet()
-    }, label: {
+    Button(action: viewModel.setShowsSortActionSheet) {
       Image("ic_settings")
         .renderingMode(.original)
-    })
+    }
   }
 
   var sortActionSheet: ActionSheet {
     ActionSheet(title: Text("정렬방식 선택"),
                 message: Text("영화를 어떤 순서로 정렬할까요?"),
                 buttons: [
-                  .default(Text("예매율")) {
-                    self.viewModel.setOrderType(.reservation)
-                  },
-                  .default(Text("큐레이션")) {
-                    self.viewModel.setOrderType(.curation)
-                  },
-                  .default(Text("개봉일")) {
-                    self.viewModel.setOrderType(.date)
-                  },
+                  .default(Text("예매율")) { self.viewModel.setOrderType(.reservation) },
+                  .default(Text("큐레이션")) { self.viewModel.setOrderType(.curation) },
+                  .default(Text("개봉일")) { self.viewModel.setOrderType(.date) },
                   .cancel(Text("취소")),
                 ])
   }

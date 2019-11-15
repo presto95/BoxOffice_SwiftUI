@@ -74,17 +74,13 @@ extension CommentsView {
   }
 
   var cancelButton: some View {
-    Button("취소") {
-      self.presentationMode.wrappedValue.dismiss()
-    }
-    .foregroundColor(.primary)
+    Button("취소") { self.presentationMode.wrappedValue.dismiss() }
+      .foregroundColor(.primary)
   }
 
   var confirmButton: some View {
-    Button("완료") {
-      self.viewModel.postComment()
-    }
-    .foregroundColor(.primary)
+    Button("완료", action: viewModel.postComment)
+      .foregroundColor(.primary)
   }
 }
 
