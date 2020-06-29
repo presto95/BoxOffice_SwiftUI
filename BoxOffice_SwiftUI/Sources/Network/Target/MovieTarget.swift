@@ -8,15 +8,11 @@
 
 import Foundation
 
-struct MovieTarget: TargetType {
+struct MovieTarget: Target {
   var routerVersion: TargetVersion { .movieAPI }
-
   var method: HTTPMethod { .get }
-
   var paths: [String] { ["movie"] }
-
   var parameter: [String: String]?
-
   var body: Data?
 
   init(parameter: [String: String]?) {

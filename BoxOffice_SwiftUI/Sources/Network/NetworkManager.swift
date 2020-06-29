@@ -9,20 +9,22 @@
 import Combine
 import Foundation
 
-protocol NetworkManagerType {
-  func request(_ router: TargetType) -> AnyPublisher<(data: Data, response: URLResponse), Error>
+protocol NetworkManagerProtocol {
+  func request(_ target: Target) -> AnyPublisher<(data: Data, response: URLResponse), Error>
 }
 
-final class NetworkManager: NetworkManagerType {
-  func request(_ target: TargetType) -> AnyPublisher<(data: Data, response: URLResponse), Error> {
+final class NetworkManager: NetworkManagerProtocol {
+  func request(_ target: Target) -> AnyPublisher<(data: Data, response: URLResponse), Error> {
     var components = URLComponents()
     components.scheme = target.routerVersion.scheme
     components.host = target.routerVersion.host
     components.path = target.paths.map { "/\($0)" }.joined()
     components.queryItems = target.parameter?.map { URLQueryItem(name: $0.key, value: $0.value) }
+    
     guard let url = components.url else {
       return Empty().eraseToAnyPublisher()
     }
+    
     var request = URLRequest(url: url, timeoutInterval: 1)
     request.httpMethod = target.method.rawValue
     request.httpBody = target.body

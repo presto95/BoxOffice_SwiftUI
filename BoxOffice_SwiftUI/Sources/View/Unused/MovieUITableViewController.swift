@@ -10,7 +10,7 @@ import SwiftUI
 import UIKit
 
 final class MovieUITableViewController: UITableViewController {
-  var movies = [MoviesResponse.Movie]()
+  var movies = [MoviesResponseModel.Movie]()
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -34,7 +34,8 @@ final class MovieUITableViewController: UITableViewController {
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     tableView.deselectRow(at: indexPath, animated: true)
     let movie = movies[indexPath.row]
-    let nextView = UIHostingController(rootView: MovieDetailView(movieID: movie.id))
+    let viewModel = MovieDetailViewModel(movieID: movie.id)
+    let nextView = UIHostingController(rootView: MovieDetailView(viewModel: viewModel))
     navigationController?.pushViewController(nextView, animated: true)
   }
 }

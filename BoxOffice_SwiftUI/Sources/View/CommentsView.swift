@@ -12,8 +12,8 @@ struct CommentsView: View {
   @Environment(\.presentationMode) private var presentationMode
   @ObservedObject private var viewModel: CommentsViewModel
 
-  init(movie: MovieResponse) {
-    viewModel = CommentsViewModel(movie: movie)
+  init(viewModel: CommentsViewModel) {
+    self.viewModel = viewModel
   }
 
   var body: some View {
@@ -34,9 +34,11 @@ struct CommentsView: View {
   }
 }
 
-extension CommentsView {
+// MARK: - View
+
+private extension CommentsView {
   var starRatingSection: some View {
-    VStack(alignment: .leading) {
+    VStack {
       HStack {
         Text(viewModel.movieTitle)
           .font(.headline)
@@ -45,10 +47,11 @@ extension CommentsView {
       }
 
       VStack {
-        StarRatingBar(score: $viewModel.rating, length: 40)
+        StarRatingBar(score: viewModel.rating, length: 40)
           .gesture(starRatingBarDragGesture)
 
         Text(viewModel.movieRatingString)
+          .font(.headline)
       }
     }
   }
@@ -69,23 +72,24 @@ extension CommentsView {
   var starRatingBarDragGesture: some Gesture {
     DragGesture()
       .onChanged { value in
-        self.viewModel.setRating(Double(value.location.x / 20))
+        let x = max(0, min(value.location.x, 40 * 5))
+        viewModel.setRating(Double(x / 20))
       }
   }
 
   var cancelButton: some View {
-    Button("취소") { self.presentationMode.wrappedValue.dismiss() }
-      .foregroundColor(.primary)
+    Button("취소") { presentationMode.wrappedValue.dismiss() }
   }
 
   var confirmButton: some View {
-    Button("완료", action: viewModel.postComment)
-      .foregroundColor(.primary)
+    Button("완료") { viewModel.requestCommentPosting() }
   }
 }
 
+// MARK: - Preview
+
 struct CommentsView_Previews: PreviewProvider {
   static var previews: some View {
-    CommentsView(movie: .dummy)
+    CommentsView(viewModel: CommentsViewModel(movie: .dummy))
   }
 }

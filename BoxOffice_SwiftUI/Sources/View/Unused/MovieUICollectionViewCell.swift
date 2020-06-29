@@ -1,5 +1,5 @@
 //
-//  MovieTableViewCell.swift
+//  MovieUICollectionViewCell.swift
 //  BoxOffice_SwiftUI
 //
 //  Created by Presto on 2019/10/17.
@@ -9,7 +9,7 @@
 import Combine
 import UIKit
 
-final class MovieUITableViewCell: UITableViewCell, NetworkImageFetchable {
+final class MovieUICollectionViewCell: UICollectionViewCell, NetworkImageFetchable {
   @IBOutlet private var posterImageView: UIImageView!
 
   @IBOutlet private var gradeImageView: UIImageView!
@@ -23,7 +23,7 @@ final class MovieUITableViewCell: UITableViewCell, NetworkImageFetchable {
   private var cancellables = Set<AnyCancellable>()
 
   override func awakeFromNib() {
-    posterImageView.image = UIImage(named: "img_placeholder")
+    posterImageView.image = UIImage(named: "image_placeholder")
 
     primaryLabel.minimumScaleFactor = 0.5
     primaryLabel.adjustsFontSizeToFitWidth = true
@@ -43,7 +43,7 @@ final class MovieUITableViewCell: UITableViewCell, NetworkImageFetchable {
     tertiaryLabel.text = nil
   }
 
-  func configure(with movie: MoviesResponse.Movie) {
+  func configure(with movie: MoviesResponseModel.Movie) {
     networkImageData(from: movie.thumb)
       .replaceError(with: NSDataAsset(name: "img_placeholder")?.data ?? Data())
       .map(UIImage.init)
@@ -58,12 +58,12 @@ final class MovieUITableViewCell: UITableViewCell, NetworkImageFetchable {
     primaryLabel.font = .preferredFont(forTextStyle: .title2)
 
     secondaryLabel.text = """
-    평점 : \(movie.userRating) 예매순위 : \(movie.reservationGrade) 예매율 : \(movie.reservationRate)%
+    \(movie.reservationGrade)위(\(movie.userRating)) / \(movie.reservationRate)%
     """
     secondaryLabel.textColor = .secondaryLabel
     secondaryLabel.font = .preferredFont(forTextStyle: .body)
 
-    tertiaryLabel.text = "개봉일 : \(movie.date)"
+    tertiaryLabel.text = movie.date
     tertiaryLabel.textColor = .secondaryLabel
     tertiaryLabel.font = .preferredFont(forTextStyle: .body)
   }

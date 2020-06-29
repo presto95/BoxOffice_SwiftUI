@@ -1,5 +1,5 @@
 //
-//  MovieViewModel.swift
+//  MovieMainViewModel.swift
 //  BoxOffice_SwiftUI
 //
 //  Created by Presto on 2019/10/16.
@@ -9,35 +9,34 @@
 import Combine
 import Foundation
 
-final class MovieViewModel: ObservableObject {
+final class MovieMainViewModel: ObservableObject {
   enum PresentationType {
     case table
-
     case collection
   }
 
-  private let apiService: MovieAPIServiceType
+  private let apiService: MovieAPIServiceProtocol
 
   private var cancellables = Set<AnyCancellable>()
 
-  init(apiService: MovieAPIServiceType = MovieAPIService()) {
+  init(apiService: MovieAPIServiceProtocol = MovieAPIService()) {
     self.apiService = apiService
 
     isPresentedSubject
       .compactMap { $0 }
       .filter { $0 }
       .removeDuplicates()
-      .map { _ in OrderType.reservation }
-      .sink(receiveValue: { orderType in
-        self.orderTypeSubject.send(orderType)
+      .map { _ in SortMethod.reservation }
+      .sink(receiveValue: { sortMethod in
+        self.sortMethodSubject.send(sortMethod)
       })
       .store(in: &cancellables)
 
-    orderTypeSubject
+    sortMethodSubject
       .compactMap { $0 }
       .removeDuplicates()
-      .sink(receiveValue: { orderType in
-        self.orderType = orderType
+      .sink(receiveValue: { sortMethod in
+        self.sortMethod = sortMethod
         self.requestMovies()
       })
       .store(in: &cancellables)
@@ -54,8 +53,8 @@ final class MovieViewModel: ObservableObject {
     isPresentedSubject.send(true)
   }
 
-  func setOrderType(_ orderType: OrderType) {
-    orderTypeSubject.send(orderType)
+  func setSortMethod(_ sortMethod: SortMethod) {
+    sortMethodSubject.send(sortMethod)
   }
 
   func setShowsSortActionSheet() {
@@ -68,38 +67,31 @@ final class MovieViewModel: ObservableObject {
 
   // MARK: - Outputs
 
-  @Published var presentationType = MovieViewModel.PresentationType.table
-
+  @Published var presentationType = MovieMainViewModel.PresentationType.table
   @Published var showsSortActionSheet = false
-
   @Published var isLoading = false
-
-  @Published var orderType = OrderType.reservation
-
-  @Published var movies = [MoviesResponse.Movie]()
-
+  @Published var sortMethod = SortMethod.reservation
+  @Published var movies = [MoviesResponseModel.Movie]()
   @Published var movieErrors = [MovieError]()
 
-  var orderTypeDescription: String { orderType.description }
+  var sortMethodDescription: String { sortMethod.description }
 
   // MARK: - Subjects
 
   private let isPresentedSubject = CurrentValueSubject<Bool?, Never>(nil)
-
   private let showsSortActionSheetSubject = CurrentValueSubject<Bool?, Never>(nil)
-
-  private let orderTypeSubject = CurrentValueSubject<OrderType?, Never>(nil)
+  private let sortMethodSubject = CurrentValueSubject<SortMethod?, Never>(nil)
 }
 
-extension MovieViewModel {
+extension MovieMainViewModel {
   private func requestMovies() {
     movieErrors = []
     isLoading = true
-    apiService.movies(orderType: orderType)
+    apiService.requestMovies(sortMethod: sortMethod)
       .receive(on: DispatchQueue.main)
       .sink(receiveCompletion: { completion in
         if case .failure = completion {
-          self.movieErrors.append(.movies)
+          self.movieErrors.append(.moviesRequestFailed)
         }
         self.isLoading = false
       }, receiveValue: { moviesResponse in

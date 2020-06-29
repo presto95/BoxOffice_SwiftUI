@@ -8,11 +8,8 @@
 
 enum Grade: Int {
   case allAges = 0
-
   case twelve = 12
-
   case fifteen = 15
-
   case nineteen = 19
 }
 

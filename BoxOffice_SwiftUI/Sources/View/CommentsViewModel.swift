@@ -10,11 +10,11 @@ import Combine
 import Foundation
 
 final class CommentsViewModel: ObservableObject {
-  private let apiService: MovieAPIServiceType
+  private let apiService: MovieAPIServiceProtocol
 
   private var cancellables = Set<AnyCancellable>()
 
-  init(movie: MovieResponse, apiService: MovieAPIServiceType = MovieAPIService()) {
+  init(movie: MovieDetailResponseModel, apiService: MovieAPIServiceProtocol = MovieAPIService()) {
     self.movie = movie
     self.apiService = apiService
 
@@ -30,12 +30,12 @@ final class CommentsViewModel: ObservableObject {
     ratingSubject.send(rating)
   }
 
-  func postComment() {
+  func requestCommentPosting() {
     let comment = Comment(rating: Int(rating),
                           writer: nickname,
                           movieID: movie.id,
                           contents: comments)
-    apiService.commentPosting(comment)
+    apiService.requestCommentPosting(comment: comment)
       .receive(on: DispatchQueue.main)
       .map { _ in true }
       .replaceError(with: false)
@@ -45,20 +45,14 @@ final class CommentsViewModel: ObservableObject {
 
   // MARK: - Outputs
 
-  @Published var movie: MovieResponse = .dummy
-
+  @Published var movie: MovieDetailResponseModel = .dummy
   @Published var rating = 0.0
-
   @Published var nickname = ""
-
   @Published var comments = ""
-
   @Published var isPostingFinished = false
 
   var movieTitle: String { movie.title }
-
   var movieGradeImageName: String { (Grade(rawValue: movie.grade) ?? .allAges).imageName }
-
   var movieRatingString: String { "\(Int(rating))" }
 
   // MARK: - Subjects

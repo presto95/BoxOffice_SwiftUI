@@ -8,15 +8,11 @@
 
 import Foundation
 
-struct CommentsTarget: TargetType {
+struct CommentsTarget: Target {
   var routerVersion: TargetVersion { .movieAPI }
-
   var method: HTTPMethod { .get }
-
   var paths: [String] { ["comments"] }
-
   var parameter: [String: String]?
-
   var body: Data?
 
   init(parameter: [String: String]?) {

@@ -10,20 +10,14 @@ import Foundation
 
 struct Comment: Encodable {
   let rating: Int
-
   let writer: String
-
   let movieID: String
-
   let contents: String
 
   private enum CodingKeys: String, CodingKey {
     case rating
-
     case writer
-
     case movieID = "movie_id"
-
     case contents
   }
 }

@@ -9,59 +9,32 @@
 import SwiftUI
 
 struct StarRatingBar: View {
-  @Binding private var score: Double
+  private let score: Double
   private let length: CGFloat
 
-  init(score: Binding<Double>, length: CGFloat = 20) {
-    _score = score
+  init(score: Double, length: CGFloat = 20) {
+    self.score = score
     self.length = length
   }
 
   var body: some View {
     HStack(spacing: 0) {
-      if score >= 2 {
-        starImage(.full)
-      } else if score > 1 {
-        starImage(.half)
-      } else {
-        starImage(.normal)
-      }
-
-      if score >= 4 {
-        starImage(.full)
-      } else if score > 3 {
-        starImage(.half)
-      } else {
-        starImage(.normal)
-      }
-
-      if score >= 6 {
-        starImage(.full)
-      } else if score > 5 {
-        starImage(.half)
-      } else {
-        starImage(.normal)
-      }
-
-      if score >= 8 {
-        starImage(.full)
-      } else if score > 7 {
-        starImage(.half)
-      } else {
-        starImage(.normal)
-      }
-
-      if score >= 10 {
-        starImage(.full)
-      } else if score > 9 {
-        starImage(.half)
-      } else {
-        starImage(.normal)
+      ForEach(1 ..< 6) { number in
+        let reference = Double(number * 2)
+        if score >= reference {
+          starImage(of: .full)
+        } else if score > reference - 1 {
+          starImage(of: .half)
+        } else {
+          starImage(of: .normal)
+        }
       }
     }
   }
+}
 
-  func starImage(_ type: StarType) -> some View {
+private extension StarRatingBar {
+  func starImage(of type: StarType) -> some View {
     Image(type.imageName)
       .resizable()
       .aspectRatio(1, contentMode: .fit)
@@ -69,8 +42,10 @@ struct StarRatingBar: View {
   }
 }
 
+// MARK: - Preview
+
 struct StarRatingBar_Previews: PreviewProvider {
   static var previews: some View {
-    StarRatingBar(score: .constant(7.8), length: 20)
+    StarRatingBar(score: 7.8, length: 20)
   }
 }

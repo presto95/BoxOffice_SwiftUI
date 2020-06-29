@@ -15,7 +15,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   func scene(_ scene: UIScene,
              willConnectTo _: UISceneSession,
              options _: UIScene.ConnectionOptions) {
-    let contentView = MovieView()
+    let contentView = MovieMainView(viewModel: MovieMainViewModel())
 
     if let windowScene = scene as? UIWindowScene {
       let window = UIWindow(windowScene: windowScene)

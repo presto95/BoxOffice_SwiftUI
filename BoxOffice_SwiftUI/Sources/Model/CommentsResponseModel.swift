@@ -8,50 +8,37 @@
 
 import Foundation
 
-struct CommentsResponse: Decodable, Identifiable {
+struct CommentsResponseModel: Decodable, Identifiable {
   struct Comment: Decodable, Identifiable {
     let movieID: String
-
     let contents: String
-
     let timestamp: Double
-
     let id: String
-
     let writer: String
-
     let rating: Double
 
     private enum CodingKeys: String, CodingKey {
       case movieID = "movie_id"
-
       case contents
-
       case timestamp
-
       case id
-
       case writer
-
       case rating
     }
   }
 
-  let id = UUID()
-
+  var id: String { movieID }
   let comments: [Comment]
-
   let movieID: String
 
   private enum CodingKeys: String, CodingKey {
     case comments
-
     case movieID = "movie_id"
   }
 }
 
-extension CommentsResponse.Comment {
-  static let dummy = CommentsResponse.Comment(movieID: "",
+extension CommentsResponseModel.Comment {
+  static let dummy = CommentsResponseModel.Comment(movieID: "",
                                               contents: "",
                                               timestamp: 0,
                                               id: "",

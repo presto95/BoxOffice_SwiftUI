@@ -10,12 +10,12 @@ import Combine
 import SwiftUI
 
 struct MovieCollectionView: UIViewControllerRepresentable {
-  @Binding private var movies: [MoviesResponse.Movie]
-  @Binding private var orderType: OrderType
+  @Binding private var movies: [MoviesResponseModel.Movie]
+  @Binding private var sortMethod: SortMethod
 
-  init(movies: Binding<[MoviesResponse.Movie]>, orderType: Binding<OrderType>) {
+  init(movies: Binding<[MoviesResponseModel.Movie]>, sortMethod: Binding<SortMethod>) {
     _movies = movies
-    _orderType = orderType
+    _sortMethod = sortMethod
   }
 
   func makeUIViewController(context: Context) -> MovieUICollectionViewController {
@@ -40,17 +40,17 @@ struct MovieCollectionView: UIViewControllerRepresentable {
   final class Coordinator: NSObject {
     private var parent: MovieCollectionView
 
-    private let apiService: MovieAPIServiceType
+    private let apiService: MovieAPIServiceProtocol
 
     private var cancellables = Set<AnyCancellable>()
 
-    init(_ parent: MovieCollectionView, apiService: MovieAPIServiceType = MovieAPIService()) {
+    init(_ parent: MovieCollectionView, apiService: MovieAPIServiceProtocol = MovieAPIService()) {
       self.parent = parent
       self.apiService = apiService
     }
 
     @objc fileprivate func refreshControlValueDidChange(_ sender: UIRefreshControl) {
-      apiService.movies(orderType: parent.orderType)
+      apiService.requestMovies(sortMethod: parent.sortMethod)
         .receive(on: DispatchQueue.main)
         .sink(receiveCompletion: { _ in
           sender.endRefreshing()
@@ -64,6 +64,6 @@ struct MovieCollectionView: UIViewControllerRepresentable {
 
 struct MovieCollectionView_Previews: PreviewProvider {
   static var previews: some View {
-    MovieCollectionView(movies: .constant([]), orderType: .constant(.reservation))
+    MovieCollectionView(movies: .constant([]), sortMethod: .constant(.reservation))
   }
 }

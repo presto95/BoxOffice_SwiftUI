@@ -8,9 +8,7 @@
 
 enum StarType {
   case normal
-
   case half
-
   case full
 }
 

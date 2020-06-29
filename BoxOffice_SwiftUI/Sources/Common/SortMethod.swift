@@ -6,15 +6,13 @@
 //  Copyright © 2019 presto. All rights reserved.
 //
 
-enum OrderType: Int, CaseIterable {
+enum SortMethod: Int, CaseIterable {
   case reservation
-
   case curation
-
   case date
 }
 
-extension OrderType: CustomStringConvertible {
+extension SortMethod: CustomStringConvertible {
   var description: String {
     switch self {
     case .reservation:

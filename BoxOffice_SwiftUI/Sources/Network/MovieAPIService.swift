@@ -9,62 +9,59 @@
 import Combine
 import Foundation
 
-protocol MovieAPIServiceType {
-  func movies(orderType: OrderType) -> AnyPublisher<MoviesResponse, Error>
-
-  func movie(id: String) -> AnyPublisher<MovieResponse, Error>
-
-  func comments(movieID: String) -> AnyPublisher<CommentsResponse, Error>
-
-  func commentPosting(_ comment: Comment) -> AnyPublisher<CommentResponse, Error>
+protocol MovieAPIServiceProtocol {
+  func requestMovies(sortMethod: SortMethod) -> AnyPublisher<MoviesResponseModel, Error>
+  func requestMovieDetail(movieID: String) -> AnyPublisher<MovieDetailResponseModel, Error>
+  func requestComments(movieID: String) -> AnyPublisher<CommentsResponseModel, Error>
+  func requestCommentPosting(comment: Comment) -> AnyPublisher<CommentPostingResponseModel, Error>
 }
 
-final class MovieAPIService: MovieAPIServiceType {
-  private let networkManager: NetworkManagerType
+final class MovieAPIService: MovieAPIServiceProtocol { 
+  private let networkManager: NetworkManagerProtocol
 
-  init(networkManager: NetworkManagerType = NetworkManager()) {
+  init(networkManager: NetworkManagerProtocol = NetworkManager()) {
     self.networkManager = networkManager
   }
 
-  func movies(orderType: OrderType) -> AnyPublisher<MoviesResponse, Error> {
-    Just(orderType)
+  func requestMovies(sortMethod: SortMethod) -> AnyPublisher<MoviesResponseModel, Error> {
+    Just(sortMethod)
       .map(\.rawValue)
       .map(String.init)
       .map { MoviesTarget(parameter: ["order_type": $0]) }
       .setFailureType(to: Error.self)
       .flatMap(networkManager.request(_:))
       .map(\.data)
-      .decode(type: MoviesResponse.self, decoder: JSONDecoder())
+      .decode(type: MoviesResponseModel.self, decoder: JSONDecoder())
       .eraseToAnyPublisher()
   }
 
-  func movie(id: String) -> AnyPublisher<MovieResponse, Error> {
-    Just(id)
+  func requestMovieDetail(movieID: String) -> AnyPublisher<MovieDetailResponseModel, Error> {
+    Just(movieID)
       .map { MovieTarget(parameter: ["id": $0]) }
       .setFailureType(to: Error.self)
       .flatMap(networkManager.request(_:))
       .map(\.data)
-      .decode(type: MovieResponse.self, decoder: JSONDecoder())
+      .decode(type: MovieDetailResponseModel.self, decoder: JSONDecoder())
       .eraseToAnyPublisher()
   }
 
-  func comments(movieID: String) -> AnyPublisher<CommentsResponse, Error> {
+  func requestComments(movieID: String) -> AnyPublisher<CommentsResponseModel, Error> {
     Just(movieID)
       .map { CommentsTarget(parameter: ["movie_id": $0]) }
       .setFailureType(to: Error.self)
       .flatMap(networkManager.request(_:))
       .map(\.data)
-      .decode(type: CommentsResponse.self, decoder: JSONDecoder())
+      .decode(type: CommentsResponseModel.self, decoder: JSONDecoder())
       .eraseToAnyPublisher()
   }
 
-  func commentPosting(_ comment: Comment) -> AnyPublisher<CommentResponse, Error> {
+  func requestCommentPosting(comment: Comment) -> AnyPublisher<CommentPostingResponseModel, Error> {
     Just(comment)
       .encode(encoder: JSONEncoder())
       .map { CommentPostingTarget(body: $0) }
       .flatMap(networkManager.request(_:))
       .map(\.data)
-      .decode(type: CommentResponse.self, decoder: JSONDecoder())
+      .decode(type: CommentPostingResponseModel.self, decoder: JSONDecoder())
       .eraseToAnyPublisher()
   }
 }

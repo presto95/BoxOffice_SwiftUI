@@ -12,8 +12,8 @@ struct MultipleSpacer: View {
   private let count: Int
   private let minLength: CGFloat?
 
-  init(_ count: Int = 1, minLength: CGFloat? = nil) {
-    self.count = count < 1 ? 1 : count
+  init(count: Int = 1, minLength: CGFloat? = nil) {
+    self.count = max(1, count)
     self.minLength = minLength
   }
 
@@ -23,6 +23,8 @@ struct MultipleSpacer: View {
     }
   }
 }
+
+// MARK: - Preview
 
 struct MultipleSpacer_Previews: PreviewProvider {
   static var previews: some View {

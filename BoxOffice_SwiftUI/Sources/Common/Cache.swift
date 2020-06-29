@@ -10,32 +10,25 @@ import Foundation
 
 protocol CacheProtocol {
   associatedtype Key
-
   associatedtype Value
 
-  func add(_: Value, forKey: Key)
-
-  func remove(forKey: Key)
-
-  func fetch(forKey: Key) -> Value?
+  static func add(_ value: Value, forKey key: Key)
+  static func remove(forKey key: Key)
+  static func value(forKey key: Key) -> Value?
 }
 
 final class ImageCache: CacheProtocol {
-  static let shared = ImageCache()
+  private static let cache = NSCache<NSString, NSData>()
 
-  private init() {}
-
-  private let cache = NSCache<NSString, NSData>()
-
-  func add(_ imageData: Data, forKey key: String) {
-    cache.setObject(imageData as NSData, forKey: key as NSString)
+  static func add(_ value: Data, forKey key: String) {
+    cache.setObject(value as NSData, forKey: key as NSString)
   }
 
-  func remove(forKey key: String) {
+  static func remove(forKey key: String) {
     cache.removeObject(forKey: key as NSString)
   }
 
-  func fetch(forKey key: String) -> Data? {
+  static func value(forKey key: String) -> Data? {
     guard let data = cache.object(forKey: key as NSString) else { return nil }
     return Data(referencing: data)
   }

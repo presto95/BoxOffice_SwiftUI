@@ -9,11 +9,11 @@
 import SwiftUI
 
 struct MovieRetryView: View {
-  @Binding private var errors: [MovieError]
+  private let errors: [MovieError]
   private let onRetry: () -> Void
 
-  init(errors: Binding<[MovieError]>, onRetry: @escaping () -> Void) {
-    _errors = errors
+  init(errors: [MovieError], onRetry: @escaping () -> Void) {
+    self.errors = errors
     self.onRetry = onRetry
   }
 
@@ -21,27 +21,34 @@ struct MovieRetryView: View {
     VStack(spacing: 32) {
       VStack(spacing: 8) {
         Text("정보를 불러오지 못했습니다.")
-          .font(.largeTitle)
-          .minimumScaleFactor(0.9)
+          .font(.title3)
+          .fontWeight(.bold)
+          .lineLimit(1)
 
         VStack {
           ForEach(errors, id: \.self) { error in
             Text(error.localizedDescription)
-              .font(.subheadline)
+              .font(.body)
               .foregroundColor(.secondary)
           }
         }
       }
 
-      Button("다시 시도하기", action: onRetry)
-        .font(.title)
+      Button(action: onRetry) {
+        Text("다시 시도하기")
+          .font(.title3)
+          .fontWeight(.semibold)
+      }
+      .padding(.all)
     }
     .padding()
   }
 }
 
+// MARK: - Preview
+
 struct MovieRetryView_Previews: PreviewProvider {
   static var previews: some View {
-    MovieRetryView(errors: .constant([]), onRetry: {})
+    MovieRetryView(errors: [.commentPostingRequestFailed], onRetry: {})
   }
 }

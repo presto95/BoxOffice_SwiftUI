@@ -10,7 +10,7 @@ import SwiftUI
 import UIKit
 
 final class MovieUICollectionViewController: UICollectionViewController {
-  var movies = [MoviesResponse.Movie]()
+  var movies = [MoviesResponseModel.Movie]()
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -37,7 +37,8 @@ final class MovieUICollectionViewController: UICollectionViewController {
                                didSelectItemAt indexPath: IndexPath) {
     collectionView.deselectItem(at: indexPath, animated: true)
     let movie = movies[indexPath.item]
-    let nextView = UIHostingController(rootView: MovieDetailView(movieID: movie.id))
+    let viewModel = MovieDetailViewModel(movieID: movie.id)
+    let nextView = UIHostingController(rootView: MovieDetailView(viewModel: viewModel))
     navigationController?.pushViewController(nextView, animated: true)
   }
 }

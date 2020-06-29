@@ -11,32 +11,30 @@ import SwiftUI
 struct MovieDetailView: View {
   @ObservedObject private var viewModel: MovieDetailViewModel
 
-  init(movieID: String) {
-    viewModel = MovieDetailViewModel(movieID: movieID)
+  init(viewModel: MovieDetailViewModel) {
+    self.viewModel = viewModel
   }
 
   var body: some View {
     Group {
       if viewModel.isLoading {
-        ActivityIndicator(isAnimating: $viewModel.isLoading)
-      } else if !viewModel.movieErrors.isEmpty {
-        MovieRetryView(errors: $viewModel.movieErrors, onRetry: viewModel.retryMovieCommentsRequest)
+        ProgressView()
+          .progressViewStyle(CircularProgressViewStyle())
+      } else if viewModel.movieErrors.isEmpty == false {
+        MovieRetryView(errors: viewModel.movieErrors, onRetry: viewModel.retryMovieCommentsRequest)
       } else {
         ScrollView {
           summarySection
 
           Divider()
-            .padding(4)
 
           synopsisSection
 
           Divider()
-            .padding(4)
 
           actorSection
 
           Divider()
-            .padding(4)
 
           ratingSection
         }
@@ -47,9 +45,11 @@ struct MovieDetailView: View {
   }
 }
 
-extension MovieDetailView {
+// MARK: - Section: Summary
+
+private extension MovieDetailView {
   var summarySection: some View {
-    VStack {
+    VStack(spacing: 20) {
       summaryMainSection
 
       summarySubSection
@@ -59,32 +59,43 @@ extension MovieDetailView {
 
   var summaryMainSection: some View {
     HStack {
-      Image(uiImage: UIImage(data: viewModel.posterImageData) ?? #imageLiteral(resourceName: "img_placeholder"))
-        .resizable()
+      PosterImage(data: viewModel.posterImageData)
         .aspectRatio(CGSize(width: 61, height: 81), contentMode: .fit)
         .frame(height: 170)
+        .cornerRadius(5)
+        .shadow(radius: 2)
 
       VStack(alignment: .leading) {
-        MultipleSpacer(2)
+        MultipleSpacer(count: 2)
 
-        HStack {
+        HStack(alignment: .center) {
           Text(viewModel.movieTitle)
-            .font(.title)
+            .font(.title3)
+            .fontWeight(.bold)
+            .lineLimit(2)
 
           Image(viewModel.movieGradeImageName)
         }
 
         Spacer()
 
-        Text(viewModel.movieDate)
-          .foregroundColor(.secondary)
+        VStack(alignment: .leading, spacing: 4) {
+          Text(viewModel.movieDate)
+            .font(.subheadline)
+            .fontWeight(.medium)
+            .foregroundColor(.secondary)
+            .lineLimit(1)
+            .minimumScaleFactor(0.5)
 
-        Spacer()
+          Text(viewModel.movieGenreAndDuration)
+            .font(.subheadline)
+            .fontWeight(.medium)
+            .foregroundColor(.secondary)
+            .lineLimit(1)
+            .minimumScaleFactor(0.5)
+        }
 
-        Text(viewModel.movieGenreAndDuration)
-          .foregroundColor(.secondary)
-
-        MultipleSpacer(2)
+        MultipleSpacer(count: 2)
       }
       .frame(height: 170)
 
@@ -99,20 +110,21 @@ extension MovieDetailView {
           .font(.headline)
 
         Text(viewModel.movieReservationMetric)
+          .font(.footnote)
           .foregroundColor(.secondary)
       }
-
       Divider()
         .padding(.horizontal, 8)
 
-      VStack(spacing: 8) {
+      VStack(spacing: 4) {
         Text("평점")
           .font(.headline)
 
         Text(viewModel.movieUserRatingString)
+          .font(.footnote)
           .foregroundColor(.secondary)
 
-        StarRatingBar(score: .constant(viewModel.movieUserRating))
+        StarRatingBar(score: viewModel.movieUserRating)
       }
 
       Divider()
@@ -123,18 +135,24 @@ extension MovieDetailView {
           .font(.headline)
 
         Text(viewModel.movieAudience)
+          .font(.footnote)
           .foregroundColor(.secondary)
       }
     }
-    .frame(height: 60)
   }
+}
 
+// MARK: - Section: Info
+
+private extension MovieDetailView {
   var synopsisSection: some View {
     VStack(alignment: .leading, spacing: 8) {
       Text("줄거리")
         .font(.headline)
 
       Text(viewModel.movieSynopsis)
+        .font(.footnote)
+        .fontWeight(.medium)
         .padding(.leading, 4)
     }
     .padding()
@@ -147,23 +165,33 @@ extension MovieDetailView {
 
       HStack {
         Text("감독")
-          .font(.headline)
+          .font(.subheadline)
+          .fontWeight(.semibold)
 
         Text(viewModel.movieDirector)
+          .font(.footnote)
+          .fontWeight(.medium)
       }
       .padding(.leading, 4)
 
       HStack(alignment: .top) {
         Text("출연")
-          .font(.headline)
+          .font(.subheadline)
+          .fontWeight(.semibold)
 
         Text(viewModel.movieActor)
+          .font(.footnote)
+          .fontWeight(.medium)
       }
       .padding(.leading, 4)
     }
     .padding()
   }
+}
 
+// MARK: - Section: Rating
+
+private extension MovieDetailView {
   var ratingSection: some View {
     VStack(alignment: .leading, spacing: 8) {
       HStack {
@@ -181,31 +209,37 @@ extension MovieDetailView {
       ratingContentsSection
     }
     .padding()
-    .sheet(isPresented: $viewModel.showsCommentPosting) {
-      CommentsView(movie: self.viewModel.movie)
+    .sheet(isPresented: $viewModel.showsCommentPosting) { 
+      CommentsView(viewModel: CommentsViewModel(movie: viewModel.movie))
     }
   }
 
   var ratingContentsSection: some View {
     ForEach(viewModel.comments.indices) { index in
-      HStack {
+      HStack(alignment: .top) {
         Image("ic_user_loading")
           .resizable()
           .aspectRatio(1, contentMode: .fit)
-          .frame(height: 70)
+          .frame(height: 50)
 
-        VStack(alignment: .leading) {
-          HStack {
-            Text(self.viewModel.commentsWriter(at: index))
+        VStack(alignment: .leading, spacing: 8) {
+          VStack(alignment: .leading) {
+            HStack {
+              Text(viewModel.commentsWriter(at: index))
+                .font(.subheadline)
+                .fontWeight(.semibold)
 
-            StarRatingBar(score: .constant(self.viewModel.commentsScore(at: index)))
+              StarRatingBar(score: viewModel.commentsScore(at: index))
+            }
+
+            Text(viewModel.commentsDateString(at: index))
+              .font(.footnote)
+              .foregroundColor(.secondary)
           }
 
-          Text(self.viewModel.commentsDateString(at: index))
-
-          Spacer()
-
-          Text(self.viewModel.commentsContents(at: index))
+          Text(viewModel.commentsContents(at: index))
+            .font(.footnote)
+            .fontWeight(.medium)
         }
       }
       .padding(.vertical, 8)
@@ -213,8 +247,10 @@ extension MovieDetailView {
   }
 }
 
+// MARK: - Preview
+
 struct MovieDetailView_Previews: PreviewProvider {
   static var previews: some View {
-    MovieDetailView(movieID: "")
+    MovieDetailView(viewModel: MovieDetailViewModel(movieID: ""))
   }
 }
