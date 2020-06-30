@@ -26,12 +26,12 @@ final class MovieGridCellModel: ObservableObject, NetworkImageFetchable {
 
   func requestPosterImage(from urlString: String) {
     networkImageData(from: urlString)
-      .sink(receiveCompletion: { [self] completion in
+      .sink(receiveCompletion: { [weak self] completion in
         if case .failure = completion {
-          self.posterImageDataSubject.send(nil)
+          self?.posterImageDataSubject.send(nil)
         }
-      }, receiveValue: { [self] data in
-        self.posterImageDataSubject.send(data)
+      }, receiveValue: { [weak self] data in
+        self?.posterImageDataSubject.send(data)
       })
       .store(in: &cancellables)
   }
@@ -39,13 +39,15 @@ final class MovieGridCellModel: ObservableObject, NetworkImageFetchable {
   // MARK: - Outputs
 
   @Published var posterImageData: Data?
+
   var gradeImageName: String { Grade(rawValue: movie.grade)?.imageName ?? "" }
+
   var primaryText: String { movie.title }
+
   var secondaryText: String {
-    """
-    \(movie.reservationGrade)위(\(movie.userRating)) / \(movie.reservationRate)%
-    """
+    "\(movie.reservationGrade)위(\(movie.userRating)) / \(movie.reservationRate)%"
   }
+
   var tertiaryText: String { movie.date }
 
   // MARK: - Subjects

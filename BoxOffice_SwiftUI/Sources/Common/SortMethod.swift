@@ -6,7 +6,7 @@
 //  Copyright © 2019 presto. All rights reserved.
 //
 
-enum SortMethod: Int, CaseIterable {
+enum SortMethod: Int {
   case reservation
   case curation
   case date

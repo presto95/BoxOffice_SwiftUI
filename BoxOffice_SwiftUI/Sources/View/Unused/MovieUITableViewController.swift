@@ -18,6 +18,8 @@ final class MovieUITableViewController: UITableViewController {
                        forCellReuseIdentifier: "movieTableCell")
   }
 
+  // MARK: UITableViewDataSource Implementation
+
   override func tableView(_ tableView: UITableView,
                           cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "movieTableCell", for: indexPath)
@@ -30,6 +32,8 @@ final class MovieUITableViewController: UITableViewController {
 
   override func tableView(_: UITableView,
                           numberOfRowsInSection _: Int) -> Int { movies.count }
+
+  // MARK: UITableViewDelegate Implementation
 
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     tableView.deselectRow(at: indexPath, animated: true)

@@ -24,14 +24,12 @@ struct MovieListCell: View {
         .cornerRadius(5)
         .shadow(radius: 2)
       
-      VStack {
+      VStack(alignment: .leading) {
         Spacer()
         
         HStack(alignment: .center) {
-          Text(viewModel.primaryText)
-            .font(.title3)
-            .fontWeight(.bold)
-            .lineLimit(2)
+          Text(viewModel.title)
+            .titleStyle()
           
           Image(viewModel.gradeImageName)
           
@@ -40,27 +38,18 @@ struct MovieListCell: View {
         
         Spacer()
 
-        VStack(spacing: 4) {
-          HStack {
-            Text(viewModel.secondaryText)
-              .font(.subheadline)
-              .fontWeight(.medium)
-              .foregroundColor(.secondary)
-              .lineLimit(1)
-              .minimumScaleFactor(0.5)
+        VStack(alignment: .leading, spacing: 4) {
+          Text(viewModel.rating)
+            .contentsStyle()
 
-            Spacer()
-          }
+          Text(viewModel.reservationGrade)
+            .contentsStyle()
 
-          HStack {
-            Text(viewModel.tertiaryText)
-              .font(.subheadline)
-              .fontWeight(.medium)
-              .foregroundColor(.secondary)
-              .lineLimit(1)
+          Text(viewModel.reservationRate)
+            .contentsStyle()
 
-            Spacer()
-          }
+          Text(viewModel.date)
+            .contentsStyle()
         }
 
         Spacer()

@@ -19,6 +19,7 @@ final class MovieUITableViewCell: UITableViewCell, NetworkImageFetchable {
   private var cancellables = Set<AnyCancellable>()
 
   override func awakeFromNib() {
+    super.awakeFromNib()
     posterImageView.image = UIImage(named: "img_placeholder")
 
     primaryLabel.minimumScaleFactor = 0.5
@@ -32,6 +33,7 @@ final class MovieUITableViewCell: UITableViewCell, NetworkImageFetchable {
   }
 
   override func prepareForReuse() {
+    super.prepareForReuse()
     posterImageView.image = UIImage(named: "img_placeholder")
     gradeImageView.image = nil
     primaryLabel.text = nil

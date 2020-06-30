@@ -30,6 +30,6 @@ struct MovieListView: View {
 
 struct MovieListView_Previews: PreviewProvider {
   static var previews: some View {
-    MovieListView(movies: .constant([]), sortMethod: .constant(.curation))
+    MovieListView(movies: .constant([.dummy]), sortMethod: .constant(.curation))
   }
 }

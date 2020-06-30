@@ -21,7 +21,7 @@ struct MovieDetailView: View {
         ProgressView()
           .progressViewStyle(CircularProgressViewStyle())
       } else if viewModel.movieErrors.isEmpty == false {
-        MovieRetryView(errors: viewModel.movieErrors, onRetry: viewModel.retryMovieCommentsRequest)
+        MovieRetryView(errors: viewModel.movieErrors, onRetry: viewModel.requestData)
       } else {
         ScrollView {
           summarySection
@@ -40,8 +40,8 @@ struct MovieDetailView: View {
         }
       }
     }
-    .navigationBarTitle(viewModel.movieTitle)
-    .onAppear(perform: viewModel.setPresented)
+    .navigationBarTitle(viewModel.title)
+    .onAppear(perform: viewModel.requestData)
   }
 }
 
@@ -69,30 +69,20 @@ private extension MovieDetailView {
         MultipleSpacer(count: 2)
 
         HStack(alignment: .center) {
-          Text(viewModel.movieTitle)
-            .font(.title3)
-            .fontWeight(.bold)
-            .lineLimit(2)
+          Text(viewModel.title)
+            .titleStyle()
 
-          Image(viewModel.movieGradeImageName)
+          Image(viewModel.gradeImageName)
         }
 
         Spacer()
 
         VStack(alignment: .leading, spacing: 4) {
-          Text(viewModel.movieDate)
-            .font(.subheadline)
-            .fontWeight(.medium)
-            .foregroundColor(.secondary)
-            .lineLimit(1)
-            .minimumScaleFactor(0.5)
+          Text(viewModel.date)
+            .contentsStyle()
 
-          Text(viewModel.movieGenreAndDuration)
-            .font(.subheadline)
-            .fontWeight(.medium)
-            .foregroundColor(.secondary)
-            .lineLimit(1)
-            .minimumScaleFactor(0.5)
+          Text(viewModel.genreAndDuration)
+            .contentsStyle()
         }
 
         MultipleSpacer(count: 2)
@@ -109,7 +99,7 @@ private extension MovieDetailView {
         Text("예매율")
           .font(.headline)
 
-        Text(viewModel.movieReservationMetric)
+        Text(viewModel.reservationMetric)
           .font(.footnote)
           .foregroundColor(.secondary)
       }
@@ -120,11 +110,11 @@ private extension MovieDetailView {
         Text("평점")
           .font(.headline)
 
-        Text(viewModel.movieUserRatingString)
+        Text(viewModel.userRatingDescription)
           .font(.footnote)
           .foregroundColor(.secondary)
 
-        StarRatingBar(score: viewModel.movieUserRating)
+        StarRatingBar(score: viewModel.userRating)
       }
 
       Divider()
@@ -134,7 +124,7 @@ private extension MovieDetailView {
         Text("누적관객수")
           .font(.headline)
 
-        Text(viewModel.movieAudience)
+        Text(viewModel.audience)
           .font(.footnote)
           .foregroundColor(.secondary)
       }
@@ -150,7 +140,7 @@ private extension MovieDetailView {
       Text("줄거리")
         .font(.headline)
 
-      Text(viewModel.movieSynopsis)
+      Text(viewModel.synopsis)
         .font(.footnote)
         .fontWeight(.medium)
         .padding(.leading, 4)
@@ -168,7 +158,7 @@ private extension MovieDetailView {
           .font(.subheadline)
           .fontWeight(.semibold)
 
-        Text(viewModel.movieDirector)
+        Text(viewModel.director)
           .font(.footnote)
           .fontWeight(.medium)
       }
@@ -179,7 +169,7 @@ private extension MovieDetailView {
           .font(.subheadline)
           .fontWeight(.semibold)
 
-        Text(viewModel.movieActor)
+        Text(viewModel.actor)
           .font(.footnote)
           .fontWeight(.medium)
       }
@@ -215,7 +205,7 @@ private extension MovieDetailView {
   }
 
   var ratingContentsSection: some View {
-    ForEach(viewModel.comments.indices) { index in
+    ForEach(viewModel.comments) { comment in
       HStack(alignment: .top) {
         Image("ic_user_loading")
           .resizable()
@@ -225,19 +215,19 @@ private extension MovieDetailView {
         VStack(alignment: .leading, spacing: 8) {
           VStack(alignment: .leading) {
             HStack {
-              Text(viewModel.commentsWriter(at: index))
+              Text(comment.writer)
                 .font(.subheadline)
                 .fontWeight(.semibold)
 
-              StarRatingBar(score: viewModel.commentsScore(at: index))
+              StarRatingBar(score: comment.rating, length: 15)
             }
 
-            Text(viewModel.commentsDateString(at: index))
+            Text(viewModel.commentDateString(timestamp: comment.timestamp))
               .font(.footnote)
               .foregroundColor(.secondary)
           }
 
-          Text(viewModel.commentsContents(at: index))
+          Text(comment.contents)
             .font(.footnote)
             .fontWeight(.medium)
         }

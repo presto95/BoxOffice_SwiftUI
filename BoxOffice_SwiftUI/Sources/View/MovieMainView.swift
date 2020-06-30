@@ -18,8 +18,9 @@ struct MovieMainView: View {
   var body: some View {
     NavigationView {
       TabView(selection: $viewModel.presentationType) {
-        movieTableView
-        movieCollectionView
+        movieListView
+
+        movieGridView
       }
       .navigationBarTitle(Text(viewModel.sortMethodDescription), displayMode: .inline)
       .navigationBarItems(trailing: sortButton)
@@ -32,37 +33,39 @@ struct MovieMainView: View {
 // MARK: - View
 
 private extension MovieMainView {
-  var movieTableView: some View {
+  var movieListView: some View {
     Group {
       if viewModel.isLoading {
         ProgressView()
           .progressViewStyle(CircularProgressViewStyle())
       } else if viewModel.movieErrors.isEmpty == false {
-        MovieRetryView(errors: viewModel.movieErrors, onRetry: viewModel.retryMovieRequest)
+        MovieRetryView(errors: viewModel.movieErrors, onRetry: viewModel.requestMovies)
       } else {
         MovieListView(movies: $viewModel.movies, sortMethod: $viewModel.sortMethod)
       }
     }
     .tabItem {
       Image("ic_list")
+
       Text("Table")
     }
     .tag(MovieMainViewModel.PresentationType.table)
   }
 
-  var movieCollectionView: some View {
+  var movieGridView: some View {
     Group {
       if viewModel.isLoading {
         ProgressView()
           .progressViewStyle(CircularProgressViewStyle())
       } else if viewModel.movieErrors.isEmpty == false {
-        MovieRetryView(errors: viewModel.movieErrors, onRetry: viewModel.retryMovieRequest)
+        MovieRetryView(errors: viewModel.movieErrors, onRetry: viewModel.requestMovies)
       } else {
         MovieGridView(movies: $viewModel.movies, sortMethod: $viewModel.sortMethod)
       }
     }
     .tabItem {
       Image("ic_collection")
+      
       Text("Grid")
     }
     .tag(MovieMainViewModel.PresentationType.collection)
@@ -76,14 +79,15 @@ private extension MovieMainView {
   }
 
   var sortActionSheet: ActionSheet {
-    ActionSheet(title: Text("정렬방식 선택"),
-                message: Text("영화를 어떤 순서로 정렬할까요?"),
-                buttons: [
-                  .default(Text("예매율")) { self.viewModel.setSortMethod(.reservation) },
-                  .default(Text("큐레이션")) { self.viewModel.setSortMethod(.curation) },
-                  .default(Text("개봉일")) { self.viewModel.setSortMethod(.date) },
-                  .cancel(Text("취소")),
-                ])
+    ActionSheet(
+      title: Text("정렬방식 선택"),
+      message: Text("영화를 어떤 순서로 정렬할까요?"),
+      buttons: [
+        .default(Text("예매율")) { viewModel.setSortMethod(.reservation) },
+        .default(Text("큐레이션")) { viewModel.setSortMethod(.curation) },
+        .default(Text("개봉일")) { viewModel.setSortMethod(.date) },
+        .cancel(Text("취소")),
+      ])
   }
 }
 

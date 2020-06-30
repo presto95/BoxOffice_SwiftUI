@@ -59,8 +59,10 @@ struct MovieTableView: UIViewControllerRepresentable {
   }
 }
 
+// MARK: - Preview
+
 struct MovieTableView_Previews: PreviewProvider {
   static var previews: some View {
-    MovieTableView(movies: .constant([]), sortMethod: .constant(.reservation))
+    MovieTableView(movies: .constant([.dummy]), sortMethod: .constant(.reservation))
   }
 }

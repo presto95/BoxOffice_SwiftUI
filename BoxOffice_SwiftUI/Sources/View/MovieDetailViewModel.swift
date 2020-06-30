@@ -26,8 +26,8 @@ final class MovieDetailViewModel: ObservableObject, NetworkImageFetchable {
 
     isPresentedSubject
       .compactMap { $0 }
-      .sink(receiveValue: { [self] _ in
-        self.requestData()
+      .sink(receiveValue: { [weak self] _ in
+        self?.requestData()
       })
       .store(in: &cancellables)
 
@@ -42,36 +42,42 @@ final class MovieDetailViewModel: ObservableObject, NetworkImageFetchable {
       .assign(to: \.showsCommentPosting, on: self)
       .store(in: &cancellables)
 
-    movieResponseSubject
+    let movieResponseSharedPublisher = movieResponseSubject
       .compactMap { $0 }
       .tryMap { try $0.get() }
-      .sink(receiveCompletion: { [self] completion in
+      .share()
+
+    movieResponseSharedPublisher
+      .sink(receiveCompletion: { [weak self] completion in
+        self?.movieErrors.append(.movieDetailRequestFailed)
+      }, receiveValue: { [weak self] movieResponse in
+        self?.movie = movieResponse
+      })
+      .store(in: &cancellables)
+
+    movieResponseSharedPublisher
+      .flatMap { [weak self] response -> AnyPublisher<Data, Error> in
+        guard let self = self else { return Empty<Data, Error>().eraseToAnyPublisher() }
+        return self.networkImageData(from: response.imageURLString)
+      }
+      .sink(receiveCompletion: { [weak self] completion in
         if case .failure = completion {
-          self.movieErrors.append(.movieDetailRequestFailed)
+          self?.posterImageDataSubject.send(nil)
         }
-      }, receiveValue: { [self] movieResponse in
-        self.movie = movieResponse
-        self.networkImageData(from: movieResponse.imageURLString)
-          .sink(receiveCompletion: { [self] completion in
-            if case .failure = completion {
-              self.posterImageDataSubject.send(nil)
-            }
-          }, receiveValue: { [self] data in
-            self.posterImageDataSubject.send(data)
-          })
-          .store(in: &cancellables)
+      }, receiveValue: { [weak self] data in
+        self?.posterImageDataSubject.send(data)
       })
       .store(in: &cancellables)
 
     commentsSubject
       .compactMap { $0 }
       .tryMap { try $0.get() }
-      .sink(receiveCompletion: { [self] completion in
+      .sink(receiveCompletion: { [weak self] completion in
         if case .failure = completion {
-          self.movieErrors.append(.commentsRequestFailed)
+          self?.movieErrors.append(.commentsRequestFailed)
         }
-      }, receiveValue: { [self] comments in
-        self.comments = comments
+      }, receiveValue: { [weak self] comments in
+        self?.comments = comments
       })
       .store(in: &cancellables)
 
@@ -90,8 +96,35 @@ final class MovieDetailViewModel: ObservableObject, NetworkImageFetchable {
     showsCommentPostingSubject.send(true)
   }
 
-  func retryMovieCommentsRequest() {
-    requestData()
+  func requestData() {
+    changeLoading(true, to: .movie)
+    changeLoading(true, to: .comments)
+
+    movieErrors = []
+
+    apiService.requestMovieDetail(movieID: movieID)
+      .receive(on: DispatchQueue.main)
+      .sink(receiveCompletion: { [weak self] completion in
+        if case let .failure(error) = completion {
+          self?.movieResponseSubject.send(.failure(error))
+        }
+        self?.changeLoading(false, to: .movie)
+      }, receiveValue: { [weak self] movieResponse in
+        self?.movieResponseSubject.send(.success(movieResponse))
+      })
+      .store(in: &cancellables)
+
+    apiService.requestComments(movieID: movieID)
+      .receive(on: DispatchQueue.main)
+      .sink(receiveCompletion: { [weak self] completion in
+        if case let .failure(error) = completion {
+          self?.commentsSubject.send(.failure(error))
+        }
+        self?.changeLoading(false, to: .comments)
+      }, receiveValue: { [weak self] commentsResponse in
+        self?.commentsSubject.send(.success(commentsResponse.comments))
+      })
+      .store(in: &cancellables)
   }
 
   // MARK: - Outputs
@@ -103,30 +136,31 @@ final class MovieDetailViewModel: ObservableObject, NetworkImageFetchable {
   @Published var posterImageData: Data?
   @Published var movieErrors: [MovieError] = []
 
-  var movieTitle: String { movie.title }
-  var movieGradeImageName: String { (Grade(rawValue: movie.grade) ?? .allAges).imageName }
-  var movieDate: String { "\(movie.date) 개봉" }
-  var movieGenreAndDuration: String { "\(movie.genre) / \(movie.duration)분" }
-  var movieReservationMetric: String {
+  var title: String { movie.title }
+
+  var gradeImageName: String { (Grade(rawValue: movie.grade) ?? .allAges).imageName }
+
+  var date: String { "\(movie.date) 개봉" }
+
+  var genreAndDuration: String { "\(movie.genre) / \(movie.duration)분" }
+
+  var reservationMetric: String {
     "\(movie.reservationGrade)위 \(String(format: "%.1f%%", movie.reservationRate))"
   }
-  var movieUserRatingString: String { String(format: "%.2f", movie.userRating) }
-  var movieUserRating: Double { movie.userRating }
-  var movieAudience: String {
-    let formatter = NumberFormatter()
-    formatter.numberStyle = .decimal
-    return formatter.string(from: movie.audience as NSNumber) ?? "?"
-  }
-  var movieSynopsis: String { movie.synopsis }
-  var movieDirector: String { movie.director }
-  var movieActor: String { movie.actor }
 
-  func commentsWriter(at index: Int) -> String { comments[index].writer }
-  func commentsScore(at index: Int) -> Double { comments[index].rating }
-  func commentsContents(at index: Int) -> String { comments[index].contents }
-  func commentsDateString(at index: Int) -> String {
-    comments[index].dateString(formatter: .custom("yyyy-MM-dd HH:mm:ss"))
+  var userRatingDescription: String { String(format: "%.2f", movie.userRating) }
+
+  var userRating: Double { movie.userRating }
+
+  var audience: String {
+    return NumberFormatter.decimal.string(from: movie.audience as NSNumber) ?? "?"
   }
+
+  var synopsis: String { movie.synopsis }
+
+  var director: String { movie.director }
+
+  var actor: String { movie.actor }
 
   // MARK: - Subjects
 
@@ -138,40 +172,9 @@ final class MovieDetailViewModel: ObservableObject, NetworkImageFetchable {
   private let posterImageDataSubject = CurrentValueSubject<Data?, Never>(nil)
 }
 
+// MARK: - Private Method
+
 extension MovieDetailViewModel {
-  private func requestData() {
-    movieErrors = []
-    apiService.requestMovieDetail(movieID: movieID)
-      .receive(on: DispatchQueue.main)
-      .handleEvents(receiveSubscription: { [self] _ in
-        self.changeLoading(true, to: .movie)
-      })
-      .sink(receiveCompletion: { [self] completion in
-        if case let .failure(error) = completion {
-          self.movieResponseSubject.send(.failure(error))
-        }
-        self.changeLoading(false, to: .movie)
-      }, receiveValue: { [self] movieResponse in
-        self.movieResponseSubject.send(.success(movieResponse))
-      })
-      .store(in: &cancellables)
-
-    apiService.requestComments(movieID: movieID)
-      .receive(on: DispatchQueue.main)
-      .handleEvents(receiveSubscription: { [self] _ in
-        self.changeLoading(true, to: .comments)
-      })
-      .sink(receiveCompletion: { [self] completion in
-        if case let .failure(error) = completion {
-          self.commentsSubject.send(.failure(error))
-        }
-        self.changeLoading(false, to: .comments)
-      }, receiveValue: { [self] commentsResponse in
-        self.commentsSubject.send(.success(commentsResponse.comments))
-      })
-      .store(in: &cancellables)
-  }
-
   private func changeLoading(_ value: Bool, to type: MovieDetailViewModel.RequestType) {
     var currentLoading = isLoadingSubject.value ?? (false, false)
     switch type {
@@ -181,5 +184,12 @@ extension MovieDetailViewModel {
       currentLoading.1 = value
     }
     isLoadingSubject.send(currentLoading)
+  }
+}
+
+extension MovieDetailViewModel {
+  func commentDateString(timestamp: Double) -> String {
+    let formatter = DateFormatter.custom("yyyy-MM-dd HH:mm:ss")
+    return formatter.string(from: Date(timeIntervalSince1970: timestamp))
   }
 }

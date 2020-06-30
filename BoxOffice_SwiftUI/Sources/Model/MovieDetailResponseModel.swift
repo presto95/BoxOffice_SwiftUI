@@ -43,18 +43,18 @@ struct MovieDetailResponseModel: Decodable, Identifiable {
 }
 
 extension MovieDetailResponseModel {
-  static let dummy = MovieDetailResponseModel(userRating: 0,
-                                   actor: "",
-                                   director: "",
-                                   date: "",
-                                   grade: 0,
-                                   reservationRate: 0,
+  static let dummy = MovieDetailResponseModel(userRating: 9.5,
+                                   actor: "Presto",
+                                   director: "Presto",
+                                   date: "2020-02-02",
+                                   grade: 7,
+                                   reservationRate: 32.2,
                                    imageURLString: "",
-                                   duration: 0,
-                                   id: "",
-                                   reservationGrade: 0,
-                                   title: "",
-                                   synopsis: "",
-                                   audience: 0,
-                                   genre: "")
+                                   duration: 120,
+                                   id: "1",
+                                   reservationGrade: 1,
+                                   title: "영화",
+                                   synopsis: "줄거리",
+                                   audience: 172948,
+                                   genre: "장르")
 }

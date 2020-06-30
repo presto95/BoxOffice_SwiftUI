@@ -11,18 +11,15 @@ import UIKit
 
 final class MovieUICollectionViewCell: UICollectionViewCell, NetworkImageFetchable {
   @IBOutlet private var posterImageView: UIImageView!
-
   @IBOutlet private var gradeImageView: UIImageView!
-
   @IBOutlet private var primaryLabel: UILabel!
-
   @IBOutlet private var secondaryLabel: UILabel!
-
   @IBOutlet private var tertiaryLabel: UILabel!
 
   private var cancellables = Set<AnyCancellable>()
 
   override func awakeFromNib() {
+    super.awakeFromNib()
     posterImageView.image = UIImage(named: "image_placeholder")
 
     primaryLabel.minimumScaleFactor = 0.5
@@ -36,6 +33,7 @@ final class MovieUICollectionViewCell: UICollectionViewCell, NetworkImageFetchab
   }
 
   override func prepareForReuse() {
+    super.prepareForReuse()
     posterImageView.image = UIImage(named: "img_placeholder")
     gradeImageView.image = nil
     primaryLabel.text = nil

@@ -39,7 +39,7 @@ struct MovieRetryView: View {
           .font(.title3)
           .fontWeight(.semibold)
       }
-      .padding(.all)
+      .padding()
     }
     .padding()
   }

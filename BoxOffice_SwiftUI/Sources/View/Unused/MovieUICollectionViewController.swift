@@ -19,6 +19,8 @@ final class MovieUICollectionViewController: UICollectionViewController {
                             forCellWithReuseIdentifier: "movieCollectionCell")
   }
 
+  // MARK: UICollectionViewDataSource Implementation
+
   override func collectionView(_ collectionView: UICollectionView,
                                cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "movieCollectionCell",
@@ -33,6 +35,8 @@ final class MovieUICollectionViewController: UICollectionViewController {
   override func collectionView(_: UICollectionView,
                                numberOfItemsInSection _: Int) -> Int { movies.count }
 
+  // MARK: UICollectionViewDelegate Implementation
+
   override func collectionView(_ collectionView: UICollectionView,
                                didSelectItemAt indexPath: IndexPath) {
     collectionView.deselectItem(at: indexPath, animated: true)
@@ -41,9 +45,9 @@ final class MovieUICollectionViewController: UICollectionViewController {
     let nextView = UIHostingController(rootView: MovieDetailView(viewModel: viewModel))
     navigationController?.pushViewController(nextView, animated: true)
   }
-}
 
-extension MovieUICollectionViewController: UICollectionViewDelegateFlowLayout {
+  // MARK: - UICollectionViewDelegateFlowLayout Implementation
+
   func collectionView(_: UICollectionView,
                       layout _: UICollectionViewLayout,
                       sizeForItemAt _: IndexPath) -> CGSize {

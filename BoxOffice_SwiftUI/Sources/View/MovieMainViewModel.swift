@@ -61,8 +61,21 @@ final class MovieMainViewModel: ObservableObject {
     showsSortActionSheetSubject.send(true)
   }
 
-  func retryMovieRequest() {
-    requestMovies()
+  func requestMovies() {
+    movieErrors = []
+    isLoading = true
+
+    apiService.requestMovies(sortMethod: sortMethod)
+      .receive(on: DispatchQueue.main)
+      .sink(receiveCompletion: { [weak self] completion in
+        if case .failure = completion {
+          self?.movieErrors.append(.moviesRequestFailed)
+        }
+        self?.isLoading = false
+      }, receiveValue: { [weak self] moviesResponse in
+        self?.movies = moviesResponse.movies
+      })
+      .store(in: &cancellables)
   }
 
   // MARK: - Outputs
@@ -81,22 +94,4 @@ final class MovieMainViewModel: ObservableObject {
   private let isPresentedSubject = CurrentValueSubject<Bool?, Never>(nil)
   private let showsSortActionSheetSubject = CurrentValueSubject<Bool?, Never>(nil)
   private let sortMethodSubject = CurrentValueSubject<SortMethod?, Never>(nil)
-}
-
-extension MovieMainViewModel {
-  private func requestMovies() {
-    movieErrors = []
-    isLoading = true
-    apiService.requestMovies(sortMethod: sortMethod)
-      .receive(on: DispatchQueue.main)
-      .sink(receiveCompletion: { completion in
-        if case .failure = completion {
-          self.movieErrors.append(.moviesRequestFailed)
-        }
-        self.isLoading = false
-      }, receiveValue: { moviesResponse in
-        self.movies = moviesResponse.movies
-      })
-      .store(in: &cancellables)
-  }
 }

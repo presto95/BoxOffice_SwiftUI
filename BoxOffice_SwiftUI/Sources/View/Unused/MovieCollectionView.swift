@@ -62,8 +62,10 @@ struct MovieCollectionView: UIViewControllerRepresentable {
   }
 }
 
+// MARK: - Preview
+
 struct MovieCollectionView_Previews: PreviewProvider {
   static var previews: some View {
-    MovieCollectionView(movies: .constant([]), sortMethod: .constant(.reservation))
+    MovieCollectionView(movies: .constant([.dummy]), sortMethod: .constant(.reservation))
   }
 }

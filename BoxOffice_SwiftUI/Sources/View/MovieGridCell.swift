@@ -21,7 +21,6 @@ struct MovieGridCell: View {
       ZStack(alignment: .topTrailing) {
         PosterImage(data: viewModel.posterImageData)
           .aspectRatio(61 / 91, contentMode: .fit)
-          .frame(width: UIScreen.main.bounds.width / 2)
           .cornerRadius(5)
           .shadow(radius: 2)
         
@@ -34,29 +33,21 @@ struct MovieGridCell: View {
 
       VStack(spacing: 4) {
         Text(viewModel.primaryText)
-          .font(.title3)
-          .fontWeight(.bold)
-          .lineLimit(2)
+          .titleStyle()
           .multilineTextAlignment(.center)
 
         Text(viewModel.secondaryText)
-          .font(.subheadline)
-          .fontWeight(.medium)
-          .foregroundColor(.secondary)
-          .lineLimit(1)
-          .minimumScaleFactor(0.5)
+          .contentsStyle()
 
         Text(viewModel.tertiaryText)
-          .font(.subheadline)
-          .fontWeight(.medium)
-          .foregroundColor(.secondary)
-          .lineLimit(1)
-          .minimumScaleFactor(0.5)
+          .contentsStyle()
       }
       .padding(.bottom, 4)
     }
   }
 }
+
+// MARK: - Preview
 
 struct MovieGridCell_Previews: PreviewProvider {
   static var previews: some View {

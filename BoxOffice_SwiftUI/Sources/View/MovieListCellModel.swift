@@ -26,12 +26,12 @@ final class MovieListCellModel: ObservableObject, NetworkImageFetchable {
   
   func requestPosterImage(from urlString: String) {
       networkImageData(from: urlString)
-        .sink(receiveCompletion: { [self] completion in
+        .sink(receiveCompletion: { [weak self] completion in
           if case .failure = completion {
-            self.posterImageDataSubject.send(nil)
+            self?.posterImageDataSubject.send(nil)
           }
-        }, receiveValue: { [self] data in
-          self.posterImageDataSubject.send(data)
+        }, receiveValue: { [weak self] data in
+          self?.posterImageDataSubject.send(data)
         })
         .store(in: &cancellables)
   }
@@ -39,14 +39,18 @@ final class MovieListCellModel: ObservableObject, NetworkImageFetchable {
   // MARK: - Outputs
   
   @Published var posterImageData: Data?
+  
   var gradeImageName: String { Grade(rawValue: movie.grade)?.imageName ?? "" }
-  var primaryText: String { movie.title }
-  var secondaryText: String {
-    """
-    평점 : \(movie.userRating) 예매순위 : \(movie.reservationGrade) 예매율 : \(movie.reservationRate)%
-    """
-  }
-  var tertiaryText: String { "개봉일 : \(movie.date)" }
+
+  var title: String { movie.title }
+
+  var rating: String { "평점 : \(movie.userRating)" }
+
+  var reservationGrade: String { "예매순위 : \(movie.reservationGrade)" }
+
+  var reservationRate: String { "예매율 : \(movie.reservationRate)%" }
+
+  var date: String { "개봉일 : \(movie.date)" }
   
   // MARK: - Subjects
   

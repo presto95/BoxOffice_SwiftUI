@@ -38,14 +38,10 @@ struct CommentsResponseModel: Decodable, Identifiable {
 }
 
 extension CommentsResponseModel.Comment {
-  static let dummy = CommentsResponseModel.Comment(movieID: "",
-                                              contents: "",
+  static let dummy = CommentsResponseModel.Comment(movieID: "1",
+                                              contents: "컨텐츠",
                                               timestamp: 0,
-                                              id: "",
-                                              writer: "",
-                                              rating: 0)
-
-  func dateString(formatter: DateFormatter) -> String {
-    formatter.string(from: Date(timeIntervalSince1970: timestamp))
-  }
+                                              id: "1",
+                                              writer: "Presto",
+                                              rating: 8.4)
 }
