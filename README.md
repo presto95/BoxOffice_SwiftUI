@@ -1,6 +1,6 @@
 # BoxOffice_SwiftUI
 
-✨ **2020.07 Under Updating**
+✨ **2020.06 Update**
 
 - Swift 5.3
 - iOS 14
