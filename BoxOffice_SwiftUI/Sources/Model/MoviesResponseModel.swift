@@ -6,7 +6,7 @@
 //  Copyright © 2019 presto. All rights reserved.
 //
 
-import Foundation
+import struct Foundation.UUID
 
 struct MoviesResponseModel: Decodable, Identifiable {
   struct Movie: Decodable, Identifiable, Equatable {

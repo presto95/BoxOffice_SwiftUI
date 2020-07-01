@@ -7,7 +7,7 @@
 //
 
 import Combine
-import SwiftUI
+import Foundation
 
 final class MovieGridCellModel: ObservableObject, NetworkImageFetchable {
   private var cancellables = Set<AnyCancellable>()

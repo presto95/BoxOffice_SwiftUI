@@ -6,7 +6,7 @@
 //  Copyright © 2020 presto. All rights reserved.
 //
 
-import Foundation
+import class Foundation.NumberFormatter
 
 extension NumberFormatter {
   static let decimal: NumberFormatter = {

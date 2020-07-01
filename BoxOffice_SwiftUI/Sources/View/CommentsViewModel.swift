@@ -62,7 +62,8 @@ final class CommentsViewModel: ObservableObject {
                           writer: nickname,
                           movieID: movieSubject.value?.id ?? "",
                           contents: comments)
-    apiService.requestCommentPosting(comment: comment)
+    Just(comment)
+      .flatMap(apiService.requestCommentPosting(comment:))
       .receive(on: DispatchQueue.main)
       .map { _ in true }
       .replaceError(with: true)

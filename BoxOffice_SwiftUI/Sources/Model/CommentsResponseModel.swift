@@ -6,8 +6,6 @@
 //  Copyright © 2019 presto. All rights reserved.
 //
 
-import Foundation
-
 struct CommentsResponseModel: Decodable, Identifiable {
   struct Comment: Decodable, Identifiable {
     let movieID: String

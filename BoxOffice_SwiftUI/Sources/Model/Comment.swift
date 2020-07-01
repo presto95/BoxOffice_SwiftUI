@@ -6,8 +6,6 @@
 //  Copyright © 2019 presto. All rights reserved.
 //
 
-import Foundation
-
 struct Comment: Encodable {
   let rating: Int
   let writer: String

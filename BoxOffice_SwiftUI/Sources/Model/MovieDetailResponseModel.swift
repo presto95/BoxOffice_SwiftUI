@@ -6,8 +6,6 @@
 //  Copyright © 2019 presto. All rights reserved.
 //
 
-import Foundation
-
 struct MovieDetailResponseModel: Decodable, Identifiable {
   let userRating: Double
   let actor: String

@@ -6,8 +6,6 @@
 //  Copyright © 2019 presto. All rights reserved.
 //
 
-import Foundation
-
 struct CommentPostingResponseModel: Decodable {
   let rating: Int
   let timestamp: Double

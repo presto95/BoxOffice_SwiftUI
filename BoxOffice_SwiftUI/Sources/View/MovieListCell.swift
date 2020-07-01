@@ -6,7 +6,6 @@
 //  Copyright © 2020 presto. All rights reserved.
 //
 
-import Foundation
 import SwiftUI
 
 struct MovieListCell: View {
