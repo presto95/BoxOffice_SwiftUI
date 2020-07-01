@@ -27,18 +27,24 @@ final class MovieMainViewModel: ObservableObject {
       .filter { $0 }
       .removeDuplicates()
       .map { _ in SortMethod.reservation }
-      .sink(receiveValue: { sortMethod in
-        self.sortMethodSubject.send(sortMethod)
+      .sink(receiveValue: { [weak self] sortMethod in
+        self?.sortMethodSubject.send(sortMethod)
       })
       .store(in: &cancellables)
 
     sortMethodSubject
       .compactMap { $0 }
       .removeDuplicates()
-      .sink(receiveValue: { sortMethod in
-        self.sortMethod = sortMethod
-        self.requestMovies()
+      .sink(receiveValue: { [weak self] sortMethod in
+        self?.sortMethod = sortMethod
+        self?.requestMovies()
       })
+      .store(in: &cancellables)
+
+    sortMethodSubject
+      .compactMap { $0 }
+      .map(\.description)
+      .assign(to: \.sortMethodDescription, on: self)
       .store(in: &cancellables)
 
     showsSortActionSheetSubject
@@ -80,14 +86,13 @@ final class MovieMainViewModel: ObservableObject {
 
   // MARK: - Outputs
 
-  @Published var presentationType = MovieMainViewModel.PresentationType.table
-  @Published var showsSortActionSheet = false
-  @Published var isLoading = false
-  @Published var sortMethod = SortMethod.reservation
-  @Published var movies = [MoviesResponseModel.Movie]()
-  @Published var movieErrors = [MovieError]()
-
-  var sortMethodDescription: String { sortMethod.description }
+  @Published var presentationType: MovieMainViewModel.PresentationType = .table
+  @Published var showsSortActionSheet: Bool = false
+  @Published var isLoading: Bool = false
+  @Published var sortMethod: SortMethod = .reservation
+  @Published var movies: [MoviesResponseModel.Movie] = []
+  @Published var movieErrors: [MovieError] = []
+  @Published var sortMethodDescription: String = ""
 
   // MARK: - Subjects
 

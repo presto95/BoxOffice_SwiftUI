@@ -190,7 +190,7 @@
 		19163944235852EA002B9EC1 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				19F9B93924AA273D00CAAB28 /* Unused */,
+				19F9B93924AA273D00CAAB28 /* Unused (UIKit) */,
 				191E19F22357371D00D8963A /* MovieMainView.swift */,
 				191E1A022357396000D8963A /* MovieMainViewModel.swift */,
 				19F9B92D24A8E98800CAAB28 /* MovieListView.swift */,
@@ -307,7 +307,7 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
-		19F9B93924AA273D00CAAB28 /* Unused */ = {
+		19F9B93924AA273D00CAAB28 /* Unused (UIKit) */ = {
 			isa = PBXGroup;
 			children = (
 				19F9B93A24AA274500CAAB28 /* ActivityIndicator.swift */,
@@ -320,7 +320,7 @@
 				1916392C2357E8BA002B9EC1 /* MovieUICollectionViewCell.swift */,
 				1916392D2357E8BA002B9EC1 /* MovieUICollectionViewCell.xib */,
 			);
-			path = Unused;
+			path = "Unused (UIKit)";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

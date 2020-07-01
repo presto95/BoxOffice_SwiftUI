@@ -64,7 +64,7 @@ private extension MovieMainView {
       }
     }
     .tabItem {
-      Image("ic_collection")
+      Image("ic_grid")
       
       Text("Grid")
     }

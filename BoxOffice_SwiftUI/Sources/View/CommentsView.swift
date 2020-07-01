@@ -30,6 +30,11 @@ struct CommentsView: View {
       .navigationBarItems(leading: cancelButton, trailing: confirmButton)
       .frame(maxWidth: .infinity, maxHeight: .infinity)
       .padding()
+      .onReceive(viewModel.$isPostingFinished) { isPostingFinished in
+        if isPostingFinished {
+          presentationMode.wrappedValue.dismiss()
+        }
+      }
     }
   }
 }
@@ -40,17 +45,17 @@ private extension CommentsView {
   var starRatingSection: some View {
     VStack {
       HStack {
-        Text(viewModel.movieTitle)
+        Text(viewModel.title)
           .font(.headline)
 
-        Image(viewModel.movieGradeImageName)
+        Image(viewModel.gradeImageName)
       }
 
       VStack {
         StarRatingBar(score: viewModel.rating, length: 40)
           .gesture(starRatingBarDragGesture)
 
-        Text(viewModel.movieRatingString)
+        Text(viewModel.ratingString)
           .font(.headline)
       }
     }

@@ -12,19 +12,20 @@ import Foundation
 protocol NetworkImageFetchable {}
 
 extension NetworkImageFetchable {
-  func networkImageData(from urlString: String) -> AnyPublisher<Data, Error> {
+  func networkImageData(from urlString: String) -> AnyPublisher<Data?, Never> {
     if let imageData = ImageCache.value(forKey: urlString) {
       return Just(imageData)
-        .setFailureType(to: Error.self)
         .eraseToAnyPublisher()
     } else {
       return Just(urlString)
         .compactMap { URL(string: $0) }
         .receive(on: DispatchQueue.global(qos: .utility))
-        .tryMap { try Data(contentsOf: $0) }
+        .map { try? Data(contentsOf: $0) }
         .retry(1)
         .handleEvents(receiveOutput: { data in
-          ImageCache.add(data, forKey: urlString)
+          if let data = data {
+            ImageCache.add(data, forKey: urlString)
+          }
         })
         .receive(on: DispatchQueue.main)
         .eraseToAnyPublisher()

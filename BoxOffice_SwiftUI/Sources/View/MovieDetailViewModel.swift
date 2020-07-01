@@ -16,12 +16,10 @@ final class MovieDetailViewModel: ObservableObject, NetworkImageFetchable {
   }
 
   private let apiService: MovieAPIServiceProtocol
-  private let movieID: String
 
   private var cancellables = Set<AnyCancellable>()
 
   init(movieID: String, apiService: MovieAPIServiceProtocol = MovieAPIService()) {
-    self.movieID = movieID
     self.apiService = apiService
 
     isPresentedSubject
@@ -42,12 +40,12 @@ final class MovieDetailViewModel: ObservableObject, NetworkImageFetchable {
       .assign(to: \.showsCommentPosting, on: self)
       .store(in: &cancellables)
 
-    let movieResponseSharedPublisher = movieResponseSubject
+    let movieSharedPublisher = movieSubject
       .compactMap { $0 }
-      .tryMap { try $0.get() }
+      .compactMap { try? $0.get() }
       .share()
 
-    movieResponseSharedPublisher
+    movieSharedPublisher
       .sink(receiveCompletion: { [weak self] completion in
         self?.movieErrors.append(.movieDetailRequestFailed)
       }, receiveValue: { [weak self] movieResponse in
@@ -55,18 +53,72 @@ final class MovieDetailViewModel: ObservableObject, NetworkImageFetchable {
       })
       .store(in: &cancellables)
 
-    movieResponseSharedPublisher
-      .flatMap { [weak self] response -> AnyPublisher<Data, Error> in
-        guard let self = self else { return Empty<Data, Error>().eraseToAnyPublisher() }
-        return self.networkImageData(from: response.imageURLString)
-      }
-      .sink(receiveCompletion: { [weak self] completion in
-        if case .failure = completion {
-          self?.posterImageDataSubject.send(nil)
-        }
-      }, receiveValue: { [weak self] data in
-        self?.posterImageDataSubject.send(data)
-      })
+    movieSharedPublisher
+      .map(\.imageURLString)
+      .flatMap(networkImageData(from:))
+      .assign(to: \.posterImageData, on: self)
+      .store(in: &cancellables)
+
+    movieSharedPublisher
+      .map(\.title)
+      .assign(to: \.title, on: self)
+      .store(in: &cancellables)
+
+    movieSharedPublisher
+      .map(\.grade)
+      .compactMap(Grade.init)
+      .map(\.imageName)
+      .assign(to: \.gradeImageName, on: self)
+      .store(in: &cancellables)
+
+    movieSharedPublisher
+      .map(\.date)
+      .map { "\($0) 개봉" }
+      .assign(to: \.date, on: self)
+      .store(in: &cancellables)
+
+    movieSharedPublisher
+      .map { ($0.genre, $0.duration) }
+      .map { "\($0) / \($1)분" }
+      .assign(to: \.genreAndDuration, on: self)
+      .store(in: &cancellables)
+
+    movieSharedPublisher
+      .map { ($0.reservationGrade, $0.reservationRate) }
+      .map { "\($0)위 \(String(format: "%.1f%%", $1))" }
+      .assign(to: \.reservationMetric, on: self)
+      .store(in: &cancellables)
+
+    movieSharedPublisher
+      .map(\.userRating)
+      .assign(to: \.userRating, on: self)
+      .store(in: &cancellables)
+
+    movieSharedPublisher
+      .map(\.userRating)
+      .map { String(format: "%.2f", $0) }
+      .assign(to: \.userRatingDescription, on: self)
+      .store(in: &cancellables)
+
+    movieSharedPublisher
+      .map(\.audience)
+      .compactMap { NumberFormatter.decimal.string(from: $0 as NSNumber) }
+      .assign(to: \.audience, on: self)
+      .store(in: &cancellables)
+
+    movieSharedPublisher
+      .map(\.synopsis)
+      .assign(to: \.synopsis, on: self)
+      .store(in: &cancellables)
+
+    movieSharedPublisher
+      .map(\.director)
+      .assign(to: \.director, on: self)
+      .store(in: &cancellables)
+
+    movieSharedPublisher
+      .map(\.actor)
+      .assign(to: \.actor, on: self)
       .store(in: &cancellables)
 
     commentsSubject
@@ -81,9 +133,7 @@ final class MovieDetailViewModel: ObservableObject, NetworkImageFetchable {
       })
       .store(in: &cancellables)
 
-    posterImageDataSubject
-      .assign(to: \.posterImageData, on: self)
-      .store(in: &cancellables)
+    movieIDSubject.send(movieID)
   }
 
   // MARK: - Inputs
@@ -97,30 +147,36 @@ final class MovieDetailViewModel: ObservableObject, NetworkImageFetchable {
   }
 
   func requestData() {
-    changeLoading(true, to: .movie)
-    changeLoading(true, to: .comments)
+    setLoading(true, to: .movie)
+    setLoading(true, to: .comments)
 
     movieErrors = []
 
-    apiService.requestMovieDetail(movieID: movieID)
+    movieIDSubject
+      .compactMap { $0 }
+      .first()
+      .flatMap(apiService.requestMovieDetail(movieID:))
       .receive(on: DispatchQueue.main)
       .sink(receiveCompletion: { [weak self] completion in
         if case let .failure(error) = completion {
-          self?.movieResponseSubject.send(.failure(error))
+          self?.movieSubject.send(.failure(error))
         }
-        self?.changeLoading(false, to: .movie)
+        self?.setLoading(false, to: .movie)
       }, receiveValue: { [weak self] movieResponse in
-        self?.movieResponseSubject.send(.success(movieResponse))
+        self?.movieSubject.send(.success(movieResponse))
       })
       .store(in: &cancellables)
 
-    apiService.requestComments(movieID: movieID)
+    movieIDSubject
+      .compactMap { $0 }
+      .first()
+      .flatMap(apiService.requestComments(movieID:))
       .receive(on: DispatchQueue.main)
       .sink(receiveCompletion: { [weak self] completion in
         if case let .failure(error) = completion {
           self?.commentsSubject.send(.failure(error))
         }
-        self?.changeLoading(false, to: .comments)
+        self?.setLoading(false, to: .comments)
       }, receiveValue: { [weak self] commentsResponse in
         self?.commentsSubject.send(.success(commentsResponse.comments))
       })
@@ -136,52 +192,38 @@ final class MovieDetailViewModel: ObservableObject, NetworkImageFetchable {
   @Published var posterImageData: Data?
   @Published var movieErrors: [MovieError] = []
 
-  var title: String { movie.title }
-
-  var gradeImageName: String { (Grade(rawValue: movie.grade) ?? .allAges).imageName }
-
-  var date: String { "\(movie.date) 개봉" }
-
-  var genreAndDuration: String { "\(movie.genre) / \(movie.duration)분" }
-
-  var reservationMetric: String {
-    "\(movie.reservationGrade)위 \(String(format: "%.1f%%", movie.reservationRate))"
-  }
-
-  var userRatingDescription: String { String(format: "%.2f", movie.userRating) }
-
-  var userRating: Double { movie.userRating }
-
-  var audience: String {
-    return NumberFormatter.decimal.string(from: movie.audience as NSNumber) ?? "?"
-  }
-
-  var synopsis: String { movie.synopsis }
-
-  var director: String { movie.director }
-
-  var actor: String { movie.actor }
+  @Published var title: String = ""
+  @Published var gradeImageName: String = ""
+  @Published var date: String = ""
+  @Published var genreAndDuration: String = ""
+  @Published var reservationMetric: String = ""
+  @Published var userRating: Double = 0
+  @Published var userRatingDescription: String = ""
+  @Published var audience: String = ""
+  @Published var synopsis: String = ""
+  @Published var director: String = ""
+  @Published var actor: String = ""
 
   // MARK: - Subjects
 
   private let isPresentedSubject = CurrentValueSubject<Void?, Never>(nil)
   private let isLoadingSubject = CurrentValueSubject<(Bool, Bool)?, Never>(nil)
   private let showsCommentPostingSubject = CurrentValueSubject<Bool?, Never>(nil)
-  private let movieResponseSubject = CurrentValueSubject<Result<MovieDetailResponseModel, Error>?, Never>(nil)
+  private let movieIDSubject = CurrentValueSubject<String?, Never>(nil)
+  private let movieSubject = CurrentValueSubject<Result<MovieDetailResponseModel, Error>?, Never>(nil)
   private let commentsSubject = CurrentValueSubject<Result<[CommentsResponseModel.Comment], Error>?, Never>(nil)
-  private let posterImageDataSubject = CurrentValueSubject<Data?, Never>(nil)
 }
 
 // MARK: - Private Method
 
 extension MovieDetailViewModel {
-  private func changeLoading(_ value: Bool, to type: MovieDetailViewModel.RequestType) {
+  private func setLoading(_ loading: Bool, to type: MovieDetailViewModel.RequestType) {
     var currentLoading = isLoadingSubject.value ?? (false, false)
     switch type {
     case .movie:
-      currentLoading.0 = value
+      currentLoading.0 = loading
     case .comments:
-      currentLoading.1 = value
+      currentLoading.1 = loading
     }
     isLoadingSubject.send(currentLoading)
   }

@@ -43,7 +43,8 @@ final class MovieUITableViewCell: UITableViewCell, NetworkImageFetchable {
 
   func configure(with movie: MoviesResponseModel.Movie) {
     networkImageData(from: movie.thumb)
-      .replaceError(with: NSDataAsset(name: "img_placeholder")?.data ?? Data())
+      .replaceError(with: NSDataAsset(name: "img_placeholder")?.data)
+      .compactMap { $0 }
       .map(UIImage.init)
       .assign(to: \.image, on: posterImageView)
       .store(in: &cancellables)

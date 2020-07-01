@@ -10,50 +10,69 @@ import Combine
 import Foundation
 
 final class MovieListCellModel: ObservableObject, NetworkImageFetchable {
-  private let movie: MoviesResponseModel.Movie
   private var cancellables = Set<AnyCancellable>()
   
   init(movie: MoviesResponseModel.Movie) {
-    self.movie = movie
-    requestPosterImage(from: movie.thumb)
-    
-    posterImageDataSubject
+    let movieSharedPublisher = movieSubject
+      .compactMap { $0 }
+      .share()
+
+    movieSharedPublisher
+      .map(\.grade)
+      .compactMap(Grade.init)
+      .map(\.imageName)
+      .assign(to: \.gradeImageName, on: self)
+      .store(in: &cancellables)
+
+    movieSharedPublisher
+      .map(\.title)
+      .assign(to: \.title, on: self)
+      .store(in: &cancellables)
+
+    movieSharedPublisher
+      .map(\.userRating)
+      .map { "평점 : \($0)" }
+      .assign(to: \.rating, on: self)
+      .store(in: &cancellables)
+
+    movieSharedPublisher
+      .map(\.reservationGrade)
+      .map { "예매순위 : \($0)" }
+      .assign(to: \.reservationGrade, on: self)
+      .store(in: &cancellables)
+
+    movieSharedPublisher
+      .map(\.reservationRate)
+      .map { "예매율 : \($0)%" }
+      .assign(to: \.reservationRate, on: self)
+      .store(in: &cancellables)
+
+    movieSharedPublisher
+      .map(\.date)
+      .map { "개봉일 : \($0)" }
+      .assign(to: \.date, on: self)
+      .store(in: &cancellables)
+
+    movieSharedPublisher
+      .map(\.thumb)
+      .flatMap(networkImageData(from:))
       .assign(to: \.posterImageData, on: self)
       .store(in: &cancellables)
+
+    movieSubject.send(movie)
   }
-  
-  // MARK: - Inputs
-  
-  func requestPosterImage(from urlString: String) {
-      networkImageData(from: urlString)
-        .sink(receiveCompletion: { [weak self] completion in
-          if case .failure = completion {
-            self?.posterImageDataSubject.send(nil)
-          }
-        }, receiveValue: { [weak self] data in
-          self?.posterImageDataSubject.send(data)
-        })
-        .store(in: &cancellables)
-  }
-  
+
   // MARK: - Outputs
   
   @Published var posterImageData: Data?
-  
-  var gradeImageName: String { Grade(rawValue: movie.grade)?.imageName ?? "" }
-
-  var title: String { movie.title }
-
-  var rating: String { "평점 : \(movie.userRating)" }
-
-  var reservationGrade: String { "예매순위 : \(movie.reservationGrade)" }
-
-  var reservationRate: String { "예매율 : \(movie.reservationRate)%" }
-
-  var date: String { "개봉일 : \(movie.date)" }
+  @Published var gradeImageName: String = ""
+  @Published var title: String = ""
+  @Published var rating: String = ""
+  @Published var reservationGrade: String = ""
+  @Published var reservationRate: String = ""
+  @Published var date: String = ""
   
   // MARK: - Subjects
-  
-  private let posterImageDataSubject = CurrentValueSubject<Data?, Never>(nil)
+
   private let movieSubject = CurrentValueSubject<MoviesResponseModel.Movie?, Never>(nil)
 }

@@ -15,13 +15,40 @@ final class CommentsViewModel: ObservableObject {
   private var cancellables = Set<AnyCancellable>()
 
   init(movie: MovieDetailResponseModel, apiService: MovieAPIServiceProtocol = MovieAPIService()) {
-    self.movie = movie
     self.apiService = apiService
 
-    ratingSubject
+    let movieSharedPublisher = movieSubject
       .compactMap { $0 }
+      .share()
+
+    movieSharedPublisher
+      .map(\.title)
+      .assign(to: \.title, on: self)
+      .store(in: &cancellables)
+
+    movieSharedPublisher
+      .map(\.grade)
+      .compactMap(Grade.init)
+      .map(\.imageName)
+      .assign(to: \.gradeImageName, on: self)
+      .store(in: &cancellables)
+
+    let ratingSharedPublisher = ratingSubject
+      .compactMap { $0 }
+      .share()
+
+    ratingSharedPublisher
+      .map(Int.init)
+      .map(String.init)
+      .assign(to: \.ratingString, on: self)
+      .store(in: &cancellables)
+
+    ratingSharedPublisher
       .assign(to: \.rating, on: self)
       .store(in: &cancellables)
+
+    movieSubject.send(movie)
+    ratingSubject.send(0)
   }
 
   // MARK: - Inputs
@@ -33,31 +60,28 @@ final class CommentsViewModel: ObservableObject {
   func requestCommentPosting() {
     let comment = Comment(rating: Int(rating),
                           writer: nickname,
-                          movieID: movie.id,
+                          movieID: movieSubject.value?.id ?? "",
                           contents: comments)
     apiService.requestCommentPosting(comment: comment)
       .receive(on: DispatchQueue.main)
       .map { _ in true }
-      .replaceError(with: false)
+      .replaceError(with: true)
       .assign(to: \.isPostingFinished, on: self)
       .store(in: &cancellables)
   }
 
   // MARK: - Outputs
 
-  @Published var movie: MovieDetailResponseModel = .dummy
-  @Published var rating = 0.0
+  @Published var title: String = ""
+  @Published var gradeImageName: String = ""
+  @Published var rating: Double = 0
+  @Published var ratingString: String = ""
   @Published var nickname = ""
   @Published var comments = ""
-  @Published var isPostingFinished = false
-
-  var movieTitle: String { movie.title }
-
-  var movieGradeImageName: String { (Grade(rawValue: movie.grade) ?? .allAges).imageName }
-  
-  var movieRatingString: String { "\(Int(rating))" }
+  @Published var isPostingFinished: Bool = false
 
   // MARK: - Subjects
 
+  private let movieSubject = CurrentValueSubject<MovieDetailResponseModel?, Never>(nil)
   private let ratingSubject = CurrentValueSubject<Double?, Never>(nil)
 }

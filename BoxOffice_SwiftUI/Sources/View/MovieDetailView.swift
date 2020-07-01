@@ -41,7 +41,11 @@ struct MovieDetailView: View {
       }
     }
     .navigationBarTitle(viewModel.title)
-    .onAppear(perform: viewModel.requestData)
+    .onReceive(viewModel.$showsCommentPosting) { showsCommentPosting in
+      if showsCommentPosting == false {
+        viewModel.requestData()
+      }
+    }
   }
 }
 

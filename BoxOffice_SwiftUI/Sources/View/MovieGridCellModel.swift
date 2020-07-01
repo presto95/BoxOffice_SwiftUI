@@ -10,48 +10,53 @@ import Combine
 import SwiftUI
 
 final class MovieGridCellModel: ObservableObject, NetworkImageFetchable {
-  private let movie: MoviesResponseModel.Movie
   private var cancellables = Set<AnyCancellable>()
   
   init(movie: MoviesResponseModel.Movie) {
-    self.movie = movie
-    requestPosterImage(from: movie.thumb)
+    let movieSharedPublisher = movieSubject
+      .compactMap { $0 }
+      .share()
 
-    posterImageDataSubject
+    movieSharedPublisher
+      .map(\.grade)
+      .compactMap(Grade.init)
+      .map(\.imageName)
+      .assign(to: \.gradeImageName, on: self)
+      .store(in: &cancellables)
+
+    movieSharedPublisher
+      .map(\.title)
+      .assign(to: \.primaryText, on: self)
+      .store(in: &cancellables)
+
+    movieSharedPublisher
+      .map { "\($0.reservationGrade)위(\($0.userRating)) / \($0.reservationRate)%" }
+      .assign(to: \.secondaryText, on: self)
+      .store(in: &cancellables)
+
+    movieSharedPublisher
+      .map(\.date)
+      .assign(to: \.tertiaryText, on: self)
+      .store(in: &cancellables)
+
+    movieSharedPublisher
+      .map(\.thumb)
+      .flatMap(networkImageData(from:))
       .assign(to: \.posterImageData, on: self)
       .store(in: &cancellables)
-  }
 
-  // MARK: - Inputs
-
-  func requestPosterImage(from urlString: String) {
-    networkImageData(from: urlString)
-      .sink(receiveCompletion: { [weak self] completion in
-        if case .failure = completion {
-          self?.posterImageDataSubject.send(nil)
-        }
-      }, receiveValue: { [weak self] data in
-        self?.posterImageDataSubject.send(data)
-      })
-      .store(in: &cancellables)
+    movieSubject.send(movie)
   }
 
   // MARK: - Outputs
 
   @Published var posterImageData: Data?
-
-  var gradeImageName: String { Grade(rawValue: movie.grade)?.imageName ?? "" }
-
-  var primaryText: String { movie.title }
-
-  var secondaryText: String {
-    "\(movie.reservationGrade)위(\(movie.userRating)) / \(movie.reservationRate)%"
-  }
-
-  var tertiaryText: String { movie.date }
+  @Published var gradeImageName: String = ""
+  @Published var primaryText: String = ""
+  @Published var secondaryText: String = ""
+  @Published var tertiaryText: String = ""
 
   // MARK: - Subjects
 
-  private let posterImageDataSubject = CurrentValueSubject<Data?, Never>(nil)
   private let movieSubject = CurrentValueSubject<MoviesResponseModel.Movie?, Never>(nil)
 }
