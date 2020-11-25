@@ -16,7 +16,6 @@ final class MovieMainViewModel: ObservableObject {
   }
 
   private let apiService: MovieAPIServiceProtocol
-
   private var cancellables = Set<AnyCancellable>()
 
   init(apiService: MovieAPIServiceProtocol = MovieAPIService()) {
@@ -68,7 +67,7 @@ final class MovieMainViewModel: ObservableObject {
   }
 
   func requestMovies() {
-    movieErrors = []
+    movieErrors.removeAll()
     isLoading = true
 
     apiService.requestMovies(sortMethod: sortMethod)

@@ -11,7 +11,6 @@ import Foundation
 
 final class CommentsViewModel: ObservableObject {
   private let apiService: MovieAPIServiceProtocol
-
   private var cancellables = Set<AnyCancellable>()
 
   init(movie: MovieDetailResponseModel, apiService: MovieAPIServiceProtocol = MovieAPIService()) {

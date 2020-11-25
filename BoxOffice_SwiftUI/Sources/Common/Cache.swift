@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol CacheProtocol {
+protocol Cache {
   associatedtype Key
   associatedtype Value
 
@@ -17,7 +17,7 @@ protocol CacheProtocol {
   static func value(forKey key: Key) -> Value?
 }
 
-final class ImageCache: CacheProtocol {
+final class ImageCache: Cache {
   private static let cache = NSCache<NSString, NSData>()
 
   static func add(_ value: Data, forKey key: String) {

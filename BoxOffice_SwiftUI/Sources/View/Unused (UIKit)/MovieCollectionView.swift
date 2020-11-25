@@ -39,9 +39,7 @@ struct MovieCollectionView: UIViewControllerRepresentable {
 
   final class Coordinator: NSObject {
     private var parent: MovieCollectionView
-
     private let apiService: MovieAPIServiceProtocol
-
     private var cancellables = Set<AnyCancellable>()
 
     init(_ parent: MovieCollectionView, apiService: MovieAPIServiceProtocol = MovieAPIService()) {

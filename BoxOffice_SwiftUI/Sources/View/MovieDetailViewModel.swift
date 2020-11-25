@@ -16,7 +16,6 @@ final class MovieDetailViewModel: ObservableObject, NetworkImageFetchable {
   }
 
   private let apiService: MovieAPIServiceProtocol
-
   private var cancellables = Set<AnyCancellable>()
 
   init(movieID: String, apiService: MovieAPIServiceProtocol = MovieAPIService()) {
@@ -150,7 +149,7 @@ final class MovieDetailViewModel: ObservableObject, NetworkImageFetchable {
     setLoading(true, to: .movie)
     setLoading(true, to: .comments)
 
-    movieErrors = []
+    movieErrors.removeAll()
 
     movieIDSubject
       .compactMap { $0 }
