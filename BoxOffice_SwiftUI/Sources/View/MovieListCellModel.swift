@@ -9,10 +9,14 @@
 import Combine
 import Foundation
 
-final class MovieListCellModel: ObservableObject, NetworkImageFetchable {
+final class MovieListCellModel: ObservableObject {
+  private let apiService: MovieAPIServiceProtocol
   private var cancellables = Set<AnyCancellable>()
   
-  init(movie: MoviesResponseModel.Movie) {
+  init(movie: MoviesResponseModel.Movie,
+       apiService: MovieAPIServiceProtocol = MovieAPIService()) {
+    self.apiService = apiService
+    
     let movieSharedPublisher = movieSubject
       .compactMap { $0 }
       .share()
@@ -55,7 +59,9 @@ final class MovieListCellModel: ObservableObject, NetworkImageFetchable {
 
     movieSharedPublisher
       .map(\.thumb)
-      .flatMap(networkImageData(from:))
+      .flatMap(apiService.requestImageData(fromURLString:))
+      .replaceError(with: Data())
+      .compactMap { $0 }
       .assign(to: \.posterImageData, on: self)
       .store(in: &cancellables)
 

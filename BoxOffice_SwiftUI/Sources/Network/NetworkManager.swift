@@ -10,11 +10,12 @@ import Combine
 import Foundation
 
 protocol NetworkManagerProtocol {
-  func request(_ target: Target) -> AnyPublisher<(data: Data, response: URLResponse), Error>
+  func request(from target: Target) -> AnyPublisher<Data, Error>
+  func request(fromURLString urlString: String) -> AnyPublisher<Data, Error>
 }
 
 final class NetworkManager: NetworkManagerProtocol {
-  func request(_ target: Target) -> AnyPublisher<(data: Data, response: URLResponse), Error> {
+  func request(from target: Target) -> AnyPublisher<Data, Error> {
     var components = URLComponents()
     components.scheme = target.routerVersion.scheme
     components.host = target.routerVersion.host
@@ -30,6 +31,19 @@ final class NetworkManager: NetworkManagerProtocol {
     request.httpBody = target.body
     return URLSession.shared.dataTaskPublisher(for: request)
       .retry(1)
+      .mapError { $0 as Error }
+      .map(\.data)
+      .eraseToAnyPublisher()
+  }
+
+  func request(fromURLString urlString: String) -> AnyPublisher<Data, Error> {
+    return Just(urlString)
+      .compactMap(URL.init)
+      .setFailureType(to: URLError.self)
+      .receive(on: DispatchQueue.global(qos: .utility))
+      .flatMap(URLSession.shared.dataTaskPublisher(for:))
+      .retry(1)
+      .map(\.data)
       .mapError { $0 as Error }
       .eraseToAnyPublisher()
   }

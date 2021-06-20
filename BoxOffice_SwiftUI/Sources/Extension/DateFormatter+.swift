@@ -6,7 +6,7 @@
 //  Copyright © 2019 presto. All rights reserved.
 //
 
-import class Foundation.DateFormatter
+import Foundation
 
 extension DateFormatter {
   static func custom(_ format: String) -> DateFormatter {

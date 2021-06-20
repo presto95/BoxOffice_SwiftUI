@@ -9,7 +9,7 @@
 import Combine
 import Foundation
 
-final class MovieDetailViewModel: ObservableObject, NetworkImageFetchable {
+final class MovieDetailViewModel: ObservableObject {
   private enum RequestType {
     case movie
     case comments
@@ -54,7 +54,9 @@ final class MovieDetailViewModel: ObservableObject, NetworkImageFetchable {
 
     movieSharedPublisher
       .map(\.imageURLString)
-      .flatMap(networkImageData(from:))
+      .flatMap(apiService.requestImageData(fromURLString:))
+      .replaceError(with: Data())
+      .compactMap { $0 }
       .assign(to: \.posterImageData, on: self)
       .store(in: &cancellables)
 
