@@ -27,14 +27,17 @@ struct MovieDetailView: View {
           summarySection
 
           Divider()
+            .padding(.horizontal, 16)
 
           synopsisSection
-//
+
           Divider()
+            .padding(.horizontal, 16)
 
           actorSection
 
           Divider()
+            .padding(.horizontal, 16)
 
           ratingSection
         }
@@ -42,9 +45,11 @@ struct MovieDetailView: View {
     }
     .navigationTitle(viewModel.title)
     .navigationBarTitleDisplayMode(.inline)
-    .onReceive(viewModel.$showsCommentPosting) { showsCommentPosting in
-      if showsCommentPosting == false {
-        viewModel.requestData()
+    .toolbar {
+      ToolbarItem(placement: .navigationBarTrailing) {
+        Button(action: viewModel.requestData) {
+          Image(systemName: "arrow.triangle.2.circlepath")
+        }
       }
     }
   }
@@ -218,8 +223,9 @@ private extension MovieDetailView {
       ratingContentsSection
     }
     .padding()
-    .sheet(isPresented: $viewModel.showsCommentPosting) { 
+    .sheet(isPresented: $viewModel.showsCommentPostingView) { 
       CommentPostingView(viewModel: CommentPostingViewModel(movie: viewModel.movie))
+        .accentColor(.purple)
     }
   }
 

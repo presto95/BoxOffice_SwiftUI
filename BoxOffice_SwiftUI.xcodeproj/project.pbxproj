@@ -134,20 +134,12 @@
 		19340CBF2680BE3A00E88186 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		19340CC62680BE3C00E88186 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		19340CC72680BE3C00E88186 /* BoxOffice_iOS_Clip.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BoxOffice_iOS_Clip.entitlements; sourceTree = "<group>"; };
-		19340CD52680BE4E00E88186 /* BoxOffice_macOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOffice_macOSApp.swift; sourceTree = "<group>"; };
-		19340CD72680BE4E00E88186 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		19340CDE2680BE4F00E88186 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		19340CDF2680BE4F00E88186 /* BoxOffice_macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BoxOffice_macOS.entitlements; sourceTree = "<group>"; };
 		19340CE72680BE5E00E88186 /* BoxOffice iOS WidgetsExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "BoxOffice iOS WidgetsExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		19340CE92680BE5E00E88186 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		19340CEB2680BE5E00E88186 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		19340CEE2680BE5E00E88186 /* BoxOffice_iOS_Widgets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOffice_iOS_Widgets.swift; sourceTree = "<group>"; };
 		19340CF02680BE5E00E88186 /* BoxOffice_iOS_Widgets.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = BoxOffice_iOS_Widgets.intentdefinition; sourceTree = "<group>"; };
 		19340CF32680BE5F00E88186 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		19340D052680BE6D00E88186 /* BoxOffice_macOS_Widgets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOffice_macOS_Widgets.swift; sourceTree = "<group>"; };
-		19340D072680BE6D00E88186 /* BoxOffice_macOS_Widgets.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = BoxOffice_macOS_Widgets.intentdefinition; sourceTree = "<group>"; };
-		19340D0A2680BE6E00E88186 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		19340D0B2680BE6E00E88186 /* BoxOffice_macOS_Widgets.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BoxOffice_macOS_Widgets.entitlements; sourceTree = "<group>"; };
 		1984CB51235F59E800E4B20E /* MovieRetryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieRetryView.swift; sourceTree = "<group>"; };
 		1984CB53235F610900E4B20E /* MultipleSpacer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleSpacer.swift; sourceTree = "<group>"; };
 		1984CB552360116300E4B20E /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
@@ -301,8 +293,6 @@
 				191E19ED2357371D00D8963A /* iOS */,
 				19340CBC2680BE3A00E88186 /* iOS Clip */,
 				19340CED2680BE5E00E88186 /* iOS Widgets */,
-				19340CD42680BE4E00E88186 /* macOS */,
-				19340D042680BE6D00E88186 /* macOS Widgets */,
 				19340CE82680BE5E00E88186 /* Frameworks */,
 				191E19EC2357371D00D8963A /* Products */,
 			);
@@ -345,17 +335,6 @@
 			path = "iOS Clip";
 			sourceTree = "<group>";
 		};
-		19340CD42680BE4E00E88186 /* macOS */ = {
-			isa = PBXGroup;
-			children = (
-				19340CD52680BE4E00E88186 /* BoxOffice_macOSApp.swift */,
-				19340CD72680BE4E00E88186 /* ContentView.swift */,
-				19340CDE2680BE4F00E88186 /* Info.plist */,
-				19340CDF2680BE4F00E88186 /* BoxOffice_macOS.entitlements */,
-			);
-			path = macOS;
-			sourceTree = "<group>";
-		};
 		19340CE82680BE5E00E88186 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -373,17 +352,6 @@
 				19340CF32680BE5F00E88186 /* Info.plist */,
 			);
 			path = "iOS Widgets";
-			sourceTree = "<group>";
-		};
-		19340D042680BE6D00E88186 /* macOS Widgets */ = {
-			isa = PBXGroup;
-			children = (
-				19340D052680BE6D00E88186 /* BoxOffice_macOS_Widgets.swift */,
-				19340D072680BE6D00E88186 /* BoxOffice_macOS_Widgets.intentdefinition */,
-				19340D0A2680BE6E00E88186 /* Info.plist */,
-				19340D0B2680BE6E00E88186 /* BoxOffice_macOS_Widgets.entitlements */,
-			);
-			path = "macOS Widgets";
 			sourceTree = "<group>";
 		};
 		19340D152680BEEC00E88186 /* Shared */ = {

@@ -26,8 +26,10 @@ struct CommentPostingView: View {
 
         ratingFormSection
       }
-      .navigationBarTitle(Text("한줄평 작성"), displayMode: .inline)
-      .navigationBarItems(leading: cancelButton, trailing: confirmButton)
+      .navigationTitle("한줄평 작성")
+      .navigationBarTitleDisplayMode(.inline)
+      .toolbar { ToolbarItem(placement: .navigationBarLeading) { cancelButton } }
+      .toolbar { ToolbarItem(placement: .navigationBarTrailing) { confirmButton } }
       .frame(maxWidth: .infinity, maxHeight: .infinity)
       .padding()
       .onReceive(viewModel.$isPostingFinished) { isPostingFinished in

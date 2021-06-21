@@ -36,7 +36,7 @@ final class MovieDetailViewModel: ObservableObject {
 
     showsCommentPostingSubject
       .compactMap { $0 }
-      .assign(to: \.showsCommentPosting, on: self)
+      .assign(to: \.showsCommentPostingView, on: self)
       .store(in: &cancellables)
 
     let movieSharedPublisher = movieSubject
@@ -187,7 +187,7 @@ final class MovieDetailViewModel: ObservableObject {
   // MARK: - Outputs
 
   @Published var isLoading = false
-  @Published var showsCommentPosting = false
+  @Published var showsCommentPostingView = false
   @Published var movie: MovieDetailResponseModel = .dummy
   @Published var comments: [CommentsResponseModel.Comment] = []
   @Published var posterImageData: Data?
