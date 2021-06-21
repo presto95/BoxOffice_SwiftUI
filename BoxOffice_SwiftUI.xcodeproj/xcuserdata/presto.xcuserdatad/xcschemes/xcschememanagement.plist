@@ -4,10 +4,33 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>BoxOffice_SwiftUI.xcscheme_^#shared#^_</key>
+		<key>BoxOffice iOS Clip.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>3</integer>
+		</dict>
+		<key>BoxOffice iOS Widgets.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
+		<key>BoxOffice.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>191E19EA2357371D00D8963A</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>19340CE62680BE5E00E88186</key>
+		<dict>
+			<key>primary</key>
+			<true/>
 		</dict>
 	</dict>
 </dict>
