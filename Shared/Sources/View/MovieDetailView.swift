@@ -104,16 +104,22 @@ private extension MovieDetailView {
     }
     
     var summarySubSection: some View {
-        HStack(alignment: .top) {
+        HStack {
             Spacer()
             
-            VStack(spacing: 8) {
+            VStack {
+                Spacer()
+
                 Text("예매율")
                     .font(.headline)
+
+                Spacer()
                 
                 Text(viewModel.reservationMetric)
                     .font(.footnote)
                     .foregroundColor(.secondary)
+
+                Spacer()
             }
             
             Group {
@@ -124,15 +130,23 @@ private extension MovieDetailView {
                 Spacer()
             }
             
-            VStack(spacing: 4) {
+            VStack {
+                Spacer()
+
                 Text("평점")
                     .font(.headline)
+
+                Spacer()
                 
                 Text(viewModel.userRatingDescription)
                     .font(.footnote)
                     .foregroundColor(.secondary)
+
+                Spacer()
                 
                 StarRatingBar(score: viewModel.userRating)
+
+                Spacer()
             }
             
             Group {
@@ -143,13 +157,19 @@ private extension MovieDetailView {
                 Spacer()
             }
             
-            VStack(spacing: 8) {
+            VStack {
+                Spacer()
+
                 Text("누적관객수")
                     .font(.headline)
+
+                Spacer()
                 
                 Text(viewModel.audience)
                     .font(.footnote)
                     .foregroundColor(.secondary)
+
+                Spacer()
             }
             
             Spacer()
