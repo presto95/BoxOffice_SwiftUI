@@ -24,22 +24,26 @@ struct MovieDetailView: View {
                 MovieRetryView(errors: viewModel.movieErrors, onRetry: viewModel.requestData)
             } else {
                 ScrollView {
-                    summarySection
-                    
-                    Divider()
-                        .padding(.horizontal, 16)
-                    
-                    synopsisSection
-                    
-                    Divider()
-                        .padding(.horizontal, 16)
-                    
-                    actorSection
-                    
-                    Divider()
-                        .padding(.horizontal, 16)
-                    
-                    ratingSection
+                    VStack(alignment: .leading) {
+                        summarySection
+
+                        Divider()
+                            .padding(.horizontal, 16)
+
+                        synopsisSection
+
+                        Divider()
+                            .padding(.horizontal, 16)
+
+                        actorSection
+
+                        Divider()
+                            .padding(.horizontal, 16)
+
+                        ratingSection
+
+                        Spacer()
+                    }
                 }
             }
         }
@@ -59,7 +63,7 @@ struct MovieDetailView: View {
 
 private extension MovieDetailView {
     var summarySection: some View {
-        VStack(spacing: 20) {
+        VStack(alignment: .leading, spacing: 20) {
             summaryMainSection
             
             summarySubSection
@@ -70,14 +74,13 @@ private extension MovieDetailView {
     var summaryMainSection: some View {
         HStack {
             PosterImage(data: viewModel.posterImageData)
-                .aspectRatio(61 / 91, contentMode: .fit)
-                .frame(height: 170)
                 .cornerRadius(5)
-            
+                .aspectRatio(61 / 91, contentMode: .fit)
+
             VStack(alignment: .leading) {
                 MultipleSpacer(count: 2)
                 
-                HStack(alignment: .center) {
+                HStack {
                     Text(viewModel.title)
                         .titleStyle()
                     
@@ -96,10 +99,8 @@ private extension MovieDetailView {
                 
                 MultipleSpacer(count: 2)
             }
-            .frame(height: 170)
-            
-            Spacer()
         }
+        .frame(height: 170)
     }
     
     var summarySubSection: some View {
@@ -153,6 +154,7 @@ private extension MovieDetailView {
             
             Spacer()
         }
+        .frame(height: 70)
     }
 }
 
