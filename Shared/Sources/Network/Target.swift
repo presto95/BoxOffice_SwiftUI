@@ -9,9 +9,9 @@
 import Foundation
 
 protocol Target {
-  var routerVersion: TargetVersion { get }
-  var method: HTTPMethod { get }
-  var paths: [String] { get }
-  var parameter: [String: String]? { get }
-  var body: Data? { get }
+    var routerVersion: TargetVersion { get }
+    var method: HTTPMethod { get }
+    var paths: [String] { get }
+    var parameter: [String: String]? { get }
+    var body: Data? { get }
 }

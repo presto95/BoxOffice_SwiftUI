@@ -10,6 +10,6 @@ import Foundation
 import Combine
 
 protocol NetworkManagerProtocol {
-  func publisher(from target: Target) -> AnyPublisher<Data, Error>
-  func publisher(fromURLString urlString: String) -> AnyPublisher<Data, Error>
+    func publisher(from target: Target) -> AnyPublisher<Data, Error>
+    func publisher(fromURLString urlString: String) -> AnyPublisher<Data, Error>
 }

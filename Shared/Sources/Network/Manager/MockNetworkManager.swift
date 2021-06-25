@@ -10,15 +10,15 @@ import Foundation
 import Combine
 
 final class MockNetworkManager: NetworkManagerProtocol {
-  func publisher(from target: Target) -> AnyPublisher<Data, Error> {
-    Just(Data())
-      .setFailureType(to: Error.self)
-      .eraseToAnyPublisher()
-  }
-
-  func publisher(fromURLString urlString: String) -> AnyPublisher<Data, Error> {
-    Just(Data())
-      .setFailureType(to: Error.self)
-      .eraseToAnyPublisher()
-  }
+    func publisher(from target: Target) -> AnyPublisher<Data, Error> {
+        Just(Data())
+            .setFailureType(to: Error.self)
+            .eraseToAnyPublisher()
+    }
+    
+    func publisher(fromURLString urlString: String) -> AnyPublisher<Data, Error> {
+        Just(Data())
+            .setFailureType(to: Error.self)
+            .eraseToAnyPublisher()
+    }
 }

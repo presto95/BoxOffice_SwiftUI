@@ -7,20 +7,20 @@
 //
 
 enum StarType {
-  case normal
-  case half
-  case full
+    case normal
+    case half
+    case full
 }
 
 extension StarType {
-  var imageName: String {
-    switch self {
-    case .normal:
-      return "ic_star_large"
-    case .half:
-      return "ic_star_large_half"
-    case .full:
-      return "ic_star_large_full"
+    var imageName: String {
+        switch self {
+        case .normal:
+            return "ic_star_large"
+        case .half:
+            return "ic_star_large_half"
+        case .full:
+            return "ic_star_large_full"
+        }
     }
-  }
 }

@@ -9,13 +9,13 @@
 import Foundation
 
 struct MoviesTarget: Target {
-  var routerVersion: TargetVersion { .movieAPI }
-  var method: HTTPMethod { .get }
-  var paths: [String] { ["movies"] }
-  var parameter: [String: String]?
-  var body: Data?
-
-  init(parameter: [String: String]?) {
-    self.parameter = parameter
-  }
+    var routerVersion: TargetVersion { .movieAPI }
+    var method: HTTPMethod { .get }
+    var paths: [String] { ["movies"] }
+    var parameter: [String: String]?
+    var body: Data?
+    
+    init(parameter: [String: String]?) {
+        self.parameter = parameter
+    }
 }

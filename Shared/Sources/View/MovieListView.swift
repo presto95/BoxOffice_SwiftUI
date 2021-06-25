@@ -9,27 +9,32 @@
 import SwiftUI
 
 struct MovieListView: View {
-  @Binding private var movies: [MoviesResponseModel.Movie]
-  @Binding private var sortMethod: SortMethod
-  
-  init(movies: Binding<[MoviesResponseModel.Movie]>, sortMethod: Binding<SortMethod>) {
-    _movies = movies
-    _sortMethod = sortMethod
-  }
-  
-  var body: some View {
-    List(movies) { movie in
-      NavigationLink(destination: MovieDetailView(viewModel: MovieDetailViewModel(movieID: movie.id))) {
-        MovieListCell(viewModel: MovieListCellModel(movie: movie))
-      }
+    @Binding private var movies: [MoviesResponseModel.Movie]
+    @Binding private var sortMethod: SortMethod
+    
+    init(movies: Binding<[MoviesResponseModel.Movie]>, sortMethod: Binding<SortMethod>) {
+        _movies = movies
+        _sortMethod = sortMethod
     }
-  }
+    
+    var body: some View {
+        List(movies) { movie in
+            let destinationViewModel = MovieDetailViewModel(movieID: movie.id)
+            let destination = MovieDetailView(viewModel: destinationViewModel)
+
+            NavigationLink(destination: destination) {
+                let viewModel = MovieListCellModel(movie: movie)
+
+                MovieListCell(viewModel: viewModel)
+            }
+        }
+    }
 }
 
 // MARK: - Preview
 
 struct MovieListView_Previews: PreviewProvider {
-  static var previews: some View {
-    MovieListView(movies: .constant([.dummy]), sortMethod: .constant(.curation))
-  }
+    static var previews: some View {
+        MovieListView(movies: .constant([.dummy]), sortMethod: .constant(.curation))
+    }
 }

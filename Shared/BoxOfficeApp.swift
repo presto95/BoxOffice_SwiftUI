@@ -10,10 +10,10 @@ import SwiftUI
 
 @main
 struct BoxOfficeApp: App {
-  var body: some Scene {
-    WindowGroup {
-      MovieMainView(viewModel: MovieMainViewModel(apiService: MovieAPIService()))
-        .accentColor(.purple)
+    var body: some Scene {
+        WindowGroup {
+            MovieMainView(viewModel: MovieMainViewModel(apiService: MovieAPIService()))
+                .accentColor(.purple)
+        }
     }
-  }
 }

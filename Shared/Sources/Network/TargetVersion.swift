@@ -7,21 +7,21 @@
 //
 
 enum TargetVersion {
-  case movieAPI
+    case movieAPI
 }
 
 extension TargetVersion {
-  var scheme: String {
-    switch self {
-    case .movieAPI:
-      return "https"
+    var scheme: String {
+        switch self {
+        case .movieAPI:
+            return "https"
+        }
     }
-  }
-
-  var host: String {
-    switch self {
-    case .movieAPI:
-      return "connect-boxoffice.run.goorm.io"
+    
+    var host: String {
+        switch self {
+        case .movieAPI:
+            return "connect-boxoffice.run.goorm.io"
+        }
     }
-  }
 }

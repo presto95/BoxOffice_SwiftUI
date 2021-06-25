@@ -14,49 +14,49 @@ import AppKit
 import SwiftUI
 
 struct PosterImage: View {
-  private let data: Data?
-
-  init(data: Data?) {
-    self.data = data
-  }
-
-  var body: some View {
-    #if os(iOS)
-    if let data = data, let posterUIImage = UIImage(data: data) {
-      return AnyView(
-        Image(uiImage: posterUIImage)
-          .resizable()
-      )
-    } else {
-      return AnyView(placeholder)
+    private let data: Data?
+    
+    init(data: Data?) {
+        self.data = data
     }
-    #else
-    if let data = data, let posterUIImage = NSImage(data: data) {
-      return AnyView(
-        Image(nsImage: posterUIImage)
-          .resizable()
-      )
-    } else {
-      return AnyView(placeholder)
+    
+    var body: some View {
+        #if os(iOS)
+        if let data = data, let posterUIImage = UIImage(data: data) {
+            return AnyView(
+                Image(uiImage: posterUIImage)
+                    .resizable()
+            )
+        } else {
+            return AnyView(placeholder)
+        }
+        #else
+        if let data = data, let posterUIImage = NSImage(data: data) {
+            return AnyView(
+                Image(nsImage: posterUIImage)
+                    .resizable()
+            )
+        } else {
+            return AnyView(placeholder)
+        }
+        #endif
     }
-    #endif
-  }
 }
 
 // MARK: - View
 
 private extension PosterImage {
-  var placeholder: some View {
-    Image(systemName: "photo")
-      .resizable()
-      .aspectRatio(contentMode: .fit)
-  }
+    var placeholder: some View {
+        Image(systemName: "photo")
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+    }
 }
 
 // MARK: - Preview
 
 struct PosterImage_Previews: PreviewProvider {
-  static var previews: some View {
-    PosterImage(data: nil)
-  }
+    static var previews: some View {
+        PosterImage(data: nil)
+    }
 }

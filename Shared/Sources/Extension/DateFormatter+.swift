@@ -9,9 +9,9 @@
 import Foundation
 
 extension DateFormatter {
-  static func custom(_ format: String) -> DateFormatter {
-    let formatter = DateFormatter()
-    formatter.dateFormat = format
-    return formatter
-  }
+    static func custom(_ format: String) -> DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateFormat = format
+        return formatter
+    }
 }

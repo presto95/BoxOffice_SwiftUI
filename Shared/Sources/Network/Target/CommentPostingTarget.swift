@@ -9,13 +9,13 @@
 import Foundation
 
 struct CommentPostingTarget: Target {
-  var routerVersion: TargetVersion { .movieAPI }
-  var method: HTTPMethod { .post }
-  var paths: [String] { ["comment"] }
-  var parameter: [String: String]?
-  var body: Data?
-
-  init(body: Data?) {
-    self.body = body
-  }
+    var routerVersion: TargetVersion { .movieAPI }
+    var method: HTTPMethod { .post }
+    var paths: [String] { ["comment"] }
+    var parameter: [String: String]?
+    var body: Data?
+    
+    init(body: Data?) {
+        self.body = body
+    }
 }

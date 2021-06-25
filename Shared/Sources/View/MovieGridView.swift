@@ -9,32 +9,36 @@
 import SwiftUI
 
 struct MovieGridView: View {
-  @Binding private var movies: [MoviesResponseModel.Movie]
-  @Binding private var sortMethod: SortMethod
-  
-  init(movies: Binding<[MoviesResponseModel.Movie]>, sortMethod: Binding<SortMethod>) {
-    _movies = movies
-    _sortMethod = sortMethod
-  }
-  
-  var body: some View {
-    ScrollView {
-      LazyVGrid(columns: Array(repeating: GridItem(.flexible(), alignment: .top), count: 2)) {
-        ForEach(movies) { movie in
-          NavigationLink(destination: MovieDetailView(viewModel: MovieDetailViewModel(movieID: movie.id))) {
-            MovieGridCell(viewModel: MovieGridCellModel(movie: movie))
-          }
-          .buttonStyle(PlainButtonStyle())
-        }
-      }
+    @Binding private var movies: [MoviesResponseModel.Movie]
+    @Binding private var sortMethod: SortMethod
+    
+    init(movies: Binding<[MoviesResponseModel.Movie]>, sortMethod: Binding<SortMethod>) {
+        _movies = movies
+        _sortMethod = sortMethod
     }
-  }
+    
+    var body: some View {
+        ScrollView {
+            LazyVGrid(columns: Array(repeating: GridItem(.flexible(), alignment: .top), count: 2)) {
+                ForEach(movies) { movie in
+                    let destinationViewModel = MovieDetailViewModel(movieID: movie.id)
+                    let destination = MovieDetailView(viewModel: destinationViewModel)
+                    NavigationLink(destination: destination) {
+                        let viewModel = MovieGridCellModel(movie: movie)
+
+                        MovieGridCell(viewModel: viewModel)
+                    }
+                    .buttonStyle(PlainButtonStyle())
+                }
+            }
+        }
+    }
 }
 
 // MARK: - Preview
 
 struct MovieGridView_Previews: PreviewProvider {
-  static var previews: some View {
-    MovieGridView(movies: .constant([.dummy]), sortMethod: .constant(.curation))
-  }
+    static var previews: some View {
+        MovieGridView(movies: .constant([.dummy]), sortMethod: .constant(.curation))
+    }
 }
