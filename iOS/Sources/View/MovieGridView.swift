@@ -21,7 +21,7 @@ struct MovieGridView: View {
         ScrollView {
             LazyVGrid(columns: Array(repeating: GridItem(.flexible(), alignment: .top), count: 2)) {
                 ForEach(movies) { movie in
-                    let destinationViewModel = MovieDetailViewModel(movieID: movie.id)
+                    let destinationViewModel = MovieDetailViewModel(movieID: movie.id, movieTitle: movie.title)
                     let destination = MovieDetailView(viewModel: destinationViewModel)
                     NavigationLink(destination: destination) {
                         let viewModel = MovieGridCellModel(movie: movie)
@@ -31,6 +31,7 @@ struct MovieGridView: View {
                     .buttonStyle(PlainButtonStyle())
                 }
             }
+            .padding(.horizontal, 6)
         }
     }
 }

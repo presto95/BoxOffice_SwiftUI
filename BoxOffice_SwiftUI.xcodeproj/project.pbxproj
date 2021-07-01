@@ -3,10 +3,16 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		190679F5268E0EDC004C6FEC /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 19340CE92680BE5E00E88186 /* WidgetKit.framework */; };
+		190679F6268E0EDC004C6FEC /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 19340CEB2680BE5E00E88186 /* SwiftUI.framework */; };
+		190679FC268E0EDE004C6FEC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 190679FB268E0EDE004C6FEC /* Assets.xcassets */; };
+		19067A02268E0EDE004C6FEC /* BoxOffice iOS Widgets.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 190679F4268E0EDC004C6FEC /* BoxOffice iOS Widgets.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		19067A06268E0F81004C6FEC /* SampleWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 190679EE268E0B4D004C6FEC /* SampleWidget.swift */; };
+		19067A07268E0F81004C6FEC /* BoxOfficeWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 190679EB268E0AF0004C6FEC /* BoxOfficeWidgetBundle.swift */; };
 		1916394C2358589C002B9EC1 /* StarType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1916394B2358589C002B9EC1 /* StarType.swift */; };
 		191639502358C68D002B9EC1 /* StarRatingBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1916394F2358C68D002B9EC1 /* StarRatingBar.swift */; };
 		1916395223594BA3002B9EC1 /* DateFormatter+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1916395123594BA3002B9EC1 /* DateFormatter+.swift */; };
@@ -28,15 +34,6 @@
 		191E1A1F2357725200D8963A /* Grade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191E1A1E2357725200D8963A /* Grade.swift */; };
 		19340CB42680B42700E88186 /* MovieAPIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19340CB32680B42700E88186 /* MovieAPIError.swift */; };
 		19340CB62680BC6E00E88186 /* BoxOfficeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19340CB52680BC6E00E88186 /* BoxOfficeApp.swift */; };
-		19340CBE2680BE3A00E88186 /* BoxOffice_iOS_ClipApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19340CBD2680BE3A00E88186 /* BoxOffice_iOS_ClipApp.swift */; };
-		19340CC02680BE3A00E88186 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19340CBF2680BE3A00E88186 /* ContentView.swift */; };
-		19340CCA2680BE3C00E88186 /* BoxOffice iOS Clip.app in Embed App Clips */ = {isa = PBXBuildFile; fileRef = 19340CBB2680BE3A00E88186 /* BoxOffice iOS Clip.app */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		19340CEA2680BE5E00E88186 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 19340CE92680BE5E00E88186 /* WidgetKit.framework */; };
-		19340CEC2680BE5E00E88186 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 19340CEB2680BE5E00E88186 /* SwiftUI.framework */; };
-		19340CEF2680BE5E00E88186 /* BoxOffice_iOS_Widgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19340CEE2680BE5E00E88186 /* BoxOffice_iOS_Widgets.swift */; };
-		19340CF42680BE5F00E88186 /* BoxOffice_iOS_Widgets.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 19340CF02680BE5E00E88186 /* BoxOffice_iOS_Widgets.intentdefinition */; };
-		19340CF52680BE5F00E88186 /* BoxOffice_iOS_Widgets.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 19340CF02680BE5E00E88186 /* BoxOffice_iOS_Widgets.intentdefinition */; };
-		19340CF82680BE5F00E88186 /* BoxOffice iOS WidgetsExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 19340CE72680BE5E00E88186 /* BoxOffice iOS WidgetsExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		1984CB52235F59E800E4B20E /* MovieRetryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1984CB51235F59E800E4B20E /* MovieRetryView.swift */; };
 		1984CB54235F610900E4B20E /* MultipleSpacer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1984CB53235F610900E4B20E /* MultipleSpacer.swift */; };
 		1984CB562360116300E4B20E /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1984CB552360116300E4B20E /* HTTPMethod.swift */; };
@@ -64,19 +61,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		19340CC82680BE3C00E88186 /* PBXContainerItemProxy */ = {
+		19067A00268E0EDE004C6FEC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 191E19E32357371D00D8963A /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 19340CBA2680BE3A00E88186;
-			remoteInfo = "BoxOffice iOS Clip";
-		};
-		19340CF62680BE5F00E88186 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 191E19E32357371D00D8963A /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 19340CE62680BE5E00E88186;
-			remoteInfo = "BoxOffice iOS WidgetsExtension";
+			remoteGlobalIDString = 190679F3268E0EDC004C6FEC;
+			remoteInfo = "ios-widgetsExtension";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -87,7 +77,6 @@
 			dstPath = "$(CONTENTS_FOLDER_PATH)/AppClips";
 			dstSubfolderSpec = 16;
 			files = (
-				19340CCA2680BE3C00E88186 /* BoxOffice iOS Clip.app in Embed App Clips */,
 			);
 			name = "Embed App Clips";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -98,7 +87,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				19340CF82680BE5F00E88186 /* BoxOffice iOS WidgetsExtension.appex in Embed App Extensions */,
+				19067A02268E0EDE004C6FEC /* BoxOffice iOS Widgets.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -106,6 +95,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		190679EB268E0AF0004C6FEC /* BoxOfficeWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeWidgetBundle.swift; sourceTree = "<group>"; };
+		190679EE268E0B4D004C6FEC /* SampleWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleWidget.swift; sourceTree = "<group>"; };
+		190679F4268E0EDC004C6FEC /* BoxOffice iOS Widgets.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "BoxOffice iOS Widgets.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		190679FB268E0EDE004C6FEC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		190679FD268E0EDE004C6FEC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1916394B2358589C002B9EC1 /* StarType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarType.swift; sourceTree = "<group>"; };
 		1916394F2358C68D002B9EC1 /* StarRatingBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarRatingBar.swift; sourceTree = "<group>"; };
 		1916395123594BA3002B9EC1 /* DateFormatter+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+.swift"; sourceTree = "<group>"; };
@@ -129,17 +123,8 @@
 		191E1A1E2357725200D8963A /* Grade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grade.swift; sourceTree = "<group>"; };
 		19340CB32680B42700E88186 /* MovieAPIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieAPIError.swift; sourceTree = "<group>"; };
 		19340CB52680BC6E00E88186 /* BoxOfficeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeApp.swift; sourceTree = "<group>"; };
-		19340CBB2680BE3A00E88186 /* BoxOffice iOS Clip.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "BoxOffice iOS Clip.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		19340CBD2680BE3A00E88186 /* BoxOffice_iOS_ClipApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOffice_iOS_ClipApp.swift; sourceTree = "<group>"; };
-		19340CBF2680BE3A00E88186 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		19340CC62680BE3C00E88186 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		19340CC72680BE3C00E88186 /* BoxOffice_iOS_Clip.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BoxOffice_iOS_Clip.entitlements; sourceTree = "<group>"; };
-		19340CE72680BE5E00E88186 /* BoxOffice iOS WidgetsExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "BoxOffice iOS WidgetsExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		19340CE92680BE5E00E88186 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		19340CEB2680BE5E00E88186 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
-		19340CEE2680BE5E00E88186 /* BoxOffice_iOS_Widgets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOffice_iOS_Widgets.swift; sourceTree = "<group>"; };
-		19340CF02680BE5E00E88186 /* BoxOffice_iOS_Widgets.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = BoxOffice_iOS_Widgets.intentdefinition; sourceTree = "<group>"; };
-		19340CF32680BE5F00E88186 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1984CB51235F59E800E4B20E /* MovieRetryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieRetryView.swift; sourceTree = "<group>"; };
 		1984CB53235F610900E4B20E /* MultipleSpacer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleSpacer.swift; sourceTree = "<group>"; };
 		1984CB552360116300E4B20E /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
@@ -160,8 +145,6 @@
 		19F9B93524A8FD0000CAAB28 /* MovieGridCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieGridCell.swift; sourceTree = "<group>"; };
 		19F9B93724A8FD0A00CAAB28 /* MovieGridCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieGridCellModel.swift; sourceTree = "<group>"; };
 		19F9B93C24AA39D000CAAB28 /* PosterImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PosterImage.swift; sourceTree = "<group>"; };
-		19FABE3D2680CA7600810611 /* BoxOffice iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "BoxOffice iOS.entitlements"; sourceTree = "<group>"; };
-		19FABE3E2680CA7600810611 /* BoxOffice iOS WidgetsExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "BoxOffice iOS WidgetsExtension.entitlements"; sourceTree = "<group>"; };
 		19FABE3F2680CFBA00810611 /* MockMovieAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockMovieAPIService.swift; sourceTree = "<group>"; };
 		19FABE422680CFD800810611 /* MovieAPIServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieAPIServiceProtocol.swift; sourceTree = "<group>"; };
 		19FABE452680D02B00810611 /* NetworkManagerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManagerProtocol.swift; sourceTree = "<group>"; };
@@ -169,6 +152,15 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		190679F1268E0EDC004C6FEC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				190679F6268E0EDC004C6FEC /* SwiftUI.framework in Frameworks */,
+				190679F5268E0EDC004C6FEC /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		191E19E82357371D00D8963A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -176,25 +168,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		19340CB82680BE3A00E88186 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		19340CE42680BE5E00E88186 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				19340CEC2680BE5E00E88186 /* SwiftUI.framework in Frameworks */,
-				19340CEA2680BE5E00E88186 /* WidgetKit.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		190679F7268E0EDC004C6FEC /* iOS Widgets */ = {
+			isa = PBXGroup;
+			children = (
+				190679EB268E0AF0004C6FEC /* BoxOfficeWidgetBundle.swift */,
+				190679EE268E0B4D004C6FEC /* SampleWidget.swift */,
+				190679FB268E0EDE004C6FEC /* Assets.xcassets */,
+				190679FD268E0EDE004C6FEC /* Info.plist */,
+			);
+			path = "iOS Widgets";
+			sourceTree = "<group>";
+		};
 		1916394123584AFC002B9EC1 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
@@ -287,12 +274,8 @@
 		191E19E22357371D00D8963A = {
 			isa = PBXGroup;
 			children = (
-				19FABE3E2680CA7600810611 /* BoxOffice iOS WidgetsExtension.entitlements */,
-				19FABE3D2680CA7600810611 /* BoxOffice iOS.entitlements */,
-				19340D152680BEEC00E88186 /* Shared */,
-				191E19ED2357371D00D8963A /* iOS */,
-				19340CBC2680BE3A00E88186 /* iOS Clip */,
-				19340CED2680BE5E00E88186 /* iOS Widgets */,
+				19340D152680BEEC00E88186 /* iOS */,
+				190679F7268E0EDC004C6FEC /* iOS Widgets */,
 				19340CE82680BE5E00E88186 /* Frameworks */,
 				191E19EC2357371D00D8963A /* Products */,
 			);
@@ -302,18 +285,9 @@
 			isa = PBXGroup;
 			children = (
 				191E19EB2357371D00D8963A /* BoxOffice.app */,
-				19340CBB2680BE3A00E88186 /* BoxOffice iOS Clip.app */,
-				19340CE72680BE5E00E88186 /* BoxOffice iOS WidgetsExtension.appex */,
+				190679F4268E0EDC004C6FEC /* BoxOffice iOS Widgets.appex */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		191E19ED2357371D00D8963A /* iOS */ = {
-			isa = PBXGroup;
-			children = (
-				191E19FC2357371E00D8963A /* Info.plist */,
-			);
-			path = iOS;
 			sourceTree = "<group>";
 		};
 		191E19F62357371E00D8963A /* Preview Content */ = {
@@ -322,17 +296,6 @@
 				191E19F72357371E00D8963A /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
-			sourceTree = "<group>";
-		};
-		19340CBC2680BE3A00E88186 /* iOS Clip */ = {
-			isa = PBXGroup;
-			children = (
-				19340CBD2680BE3A00E88186 /* BoxOffice_iOS_ClipApp.swift */,
-				19340CBF2680BE3A00E88186 /* ContentView.swift */,
-				19340CC62680BE3C00E88186 /* Info.plist */,
-				19340CC72680BE3C00E88186 /* BoxOffice_iOS_Clip.entitlements */,
-			);
-			path = "iOS Clip";
 			sourceTree = "<group>";
 		};
 		19340CE82680BE5E00E88186 /* Frameworks */ = {
@@ -344,24 +307,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		19340CED2680BE5E00E88186 /* iOS Widgets */ = {
-			isa = PBXGroup;
-			children = (
-				19340CEE2680BE5E00E88186 /* BoxOffice_iOS_Widgets.swift */,
-				19340CF02680BE5E00E88186 /* BoxOffice_iOS_Widgets.intentdefinition */,
-				19340CF32680BE5F00E88186 /* Info.plist */,
-			);
-			path = "iOS Widgets";
-			sourceTree = "<group>";
-		};
-		19340D152680BEEC00E88186 /* Shared */ = {
+		19340D152680BEEC00E88186 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
 				1916394123584AFC002B9EC1 /* Sources */,
 				1916394223584B00002B9EC1 /* Resources */,
 				19340CB52680BC6E00E88186 /* BoxOfficeApp.swift */,
+				191E19FC2357371E00D8963A /* Info.plist */,
 			);
-			path = Shared;
+			path = iOS;
 			sourceTree = "<group>";
 		};
 		1984CB5F2360226F00E4B20E /* Target */ = {
@@ -416,6 +370,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		190679F3268E0EDC004C6FEC /* BoxOffice iOS Widgets */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 19067A03268E0EDE004C6FEC /* Build configuration list for PBXNativeTarget "BoxOffice iOS Widgets" */;
+			buildPhases = (
+				190679F0268E0EDC004C6FEC /* Sources */,
+				190679F1268E0EDC004C6FEC /* Frameworks */,
+				190679F2268E0EDC004C6FEC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "BoxOffice iOS Widgets";
+			productName = "ios-widgetsExtension";
+			productReference = 190679F4268E0EDC004C6FEC /* BoxOffice iOS Widgets.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		191E19EA2357371D00D8963A /* BoxOffice */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 191E19FF2357371E00D8963A /* Build configuration list for PBXNativeTarget "BoxOffice" */;
@@ -429,47 +400,12 @@
 			buildRules = (
 			);
 			dependencies = (
-				19340CC92680BE3C00E88186 /* PBXTargetDependency */,
-				19340CF72680BE5F00E88186 /* PBXTargetDependency */,
+				19067A01268E0EDE004C6FEC /* PBXTargetDependency */,
 			);
 			name = BoxOffice;
 			productName = BoxOffice_SwiftUI;
 			productReference = 191E19EB2357371D00D8963A /* BoxOffice.app */;
 			productType = "com.apple.product-type.application";
-		};
-		19340CBA2680BE3A00E88186 /* BoxOffice iOS Clip */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 19340CCB2680BE3C00E88186 /* Build configuration list for PBXNativeTarget "BoxOffice iOS Clip" */;
-			buildPhases = (
-				19340CB72680BE3A00E88186 /* Sources */,
-				19340CB82680BE3A00E88186 /* Frameworks */,
-				19340CB92680BE3A00E88186 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "BoxOffice iOS Clip";
-			productName = "BoxOffice iOS Clip";
-			productReference = 19340CBB2680BE3A00E88186 /* BoxOffice iOS Clip.app */;
-			productType = "com.apple.product-type.application.on-demand-install-capable";
-		};
-		19340CE62680BE5E00E88186 /* BoxOffice iOS WidgetsExtension */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 19340CF92680BE5F00E88186 /* Build configuration list for PBXNativeTarget "BoxOffice iOS WidgetsExtension" */;
-			buildPhases = (
-				19340CE32680BE5E00E88186 /* Sources */,
-				19340CE42680BE5E00E88186 /* Frameworks */,
-				19340CE52680BE5E00E88186 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "BoxOffice iOS WidgetsExtension";
-			productName = "BoxOffice iOS WidgetsExtension";
-			productReference = 19340CE72680BE5E00E88186 /* BoxOffice iOS WidgetsExtension.appex */;
-			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -481,14 +417,11 @@
 				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = presto;
 				TargetAttributes = {
+					190679F3268E0EDC004C6FEC = {
+						CreatedOnToolsVersion = 12.5.1;
+					};
 					191E19EA2357371D00D8963A = {
 						CreatedOnToolsVersion = 11.1;
-					};
-					19340CBA2680BE3A00E88186 = {
-						CreatedOnToolsVersion = 12.5;
-					};
-					19340CE62680BE5E00E88186 = {
-						CreatedOnToolsVersion = 12.5;
 					};
 				};
 			};
@@ -506,13 +439,20 @@
 			projectRoot = "";
 			targets = (
 				191E19EA2357371D00D8963A /* BoxOffice */,
-				19340CBA2680BE3A00E88186 /* BoxOffice iOS Clip */,
-				19340CE62680BE5E00E88186 /* BoxOffice iOS WidgetsExtension */,
+				190679F3268E0EDC004C6FEC /* BoxOffice iOS Widgets */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		190679F2268E0EDC004C6FEC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				190679FC268E0EDE004C6FEC /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		191E19E92357371D00D8963A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -522,23 +462,18 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		19340CB92680BE3A00E88186 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		19340CE52680BE5E00E88186 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		190679F0268E0EDC004C6FEC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				19067A06268E0F81004C6FEC /* SampleWidget.swift in Sources */,
+				19067A07268E0F81004C6FEC /* BoxOfficeWidgetBundle.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		191E19E72357371D00D8963A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -574,7 +509,6 @@
 				191E1A092357397800D8963A /* CommentPostingView.swift in Sources */,
 				19FABE462680D02B00810611 /* NetworkManagerProtocol.swift in Sources */,
 				19F9B93824A8FD0A00CAAB28 /* MovieGridCellModel.swift in Sources */,
-				19340CF52680BE5F00E88186 /* BoxOffice_iOS_Widgets.intentdefinition in Sources */,
 				19F9B93424A8FCF500CAAB28 /* MovieGridView.swift in Sources */,
 				19340CB42680B42700E88186 /* MovieAPIError.swift in Sources */,
 				1998CA9D24AB2679003D592A /* Text+.swift in Sources */,
@@ -590,41 +524,59 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		19340CB72680BE3A00E88186 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				19340CC02680BE3A00E88186 /* ContentView.swift in Sources */,
-				19340CBE2680BE3A00E88186 /* BoxOffice_iOS_ClipApp.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		19340CE32680BE5E00E88186 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				19340CF42680BE5F00E88186 /* BoxOffice_iOS_Widgets.intentdefinition in Sources */,
-				19340CEF2680BE5E00E88186 /* BoxOffice_iOS_Widgets.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		19340CC92680BE3C00E88186 /* PBXTargetDependency */ = {
+		19067A01268E0EDE004C6FEC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			platformFilter = ios;
-			target = 19340CBA2680BE3A00E88186 /* BoxOffice iOS Clip */;
-			targetProxy = 19340CC82680BE3C00E88186 /* PBXContainerItemProxy */;
-		};
-		19340CF72680BE5F00E88186 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 19340CE62680BE5E00E88186 /* BoxOffice iOS WidgetsExtension */;
-			targetProxy = 19340CF62680BE5F00E88186 /* PBXContainerItemProxy */;
+			target = 190679F3268E0EDC004C6FEC /* BoxOffice iOS Widgets */;
+			targetProxy = 19067A00268E0EDE004C6FEC /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		19067A04268E0EDE004C6FEC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = H79MF628K3;
+				INFOPLIST_FILE = "iOS Widgets/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.presto.BoxOffice-SwiftUI.ios-widgets";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		19067A05268E0EDE004C6FEC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = H79MF628K3;
+				INFOPLIST_FILE = "iOS Widgets/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.presto.BoxOffice-SwiftUI.ios-widgets";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		191E19FD2357371E00D8963A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -748,7 +700,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "BoxOffice iOS.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_ASSET_PATHS = "\"Shared/Resources/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"iOS/Resources/Preview Content\"";
 				DEVELOPMENT_TEAM = H79MF628K3;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = iOS/Info.plist;
@@ -772,7 +724,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "BoxOffice iOS.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_ASSET_PATHS = "\"Shared/Resources/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"iOS/Resources/Preview Content\"";
 				DEVELOPMENT_TEAM = H79MF628K3;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = iOS/Info.plist;
@@ -789,103 +741,18 @@
 			};
 			name = Release;
 		};
-		19340CCC2680BE3C00E88186 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = "iOS Clip/BoxOffice_iOS_Clip.entitlements";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_ASSET_PATHS = "\"Shared/Resources/Preview Content\"";
-				DEVELOPMENT_TEAM = H79MF628K3;
-				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = "iOS Clip/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.presto.BoxOffice-SwiftUI.Clip";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		19340CCD2680BE3C00E88186 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = "iOS Clip/BoxOffice_iOS_Clip.entitlements";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_ASSET_PATHS = "\"Shared/Resources/Preview Content\"";
-				DEVELOPMENT_TEAM = H79MF628K3;
-				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = "iOS Clip/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.presto.BoxOffice-SwiftUI.Clip";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
-		19340CFA2680BE5F00E88186 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
-				CODE_SIGN_ENTITLEMENTS = "BoxOffice iOS WidgetsExtension.entitlements";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = H79MF628K3;
-				INFOPLIST_FILE = "iOS Widgets/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.presto.BoxOffice-SwiftUI.BoxOffice-iOS-Widgets";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SUPPORTS_MACCATALYST = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		19340CFB2680BE5F00E88186 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
-				CODE_SIGN_ENTITLEMENTS = "BoxOffice iOS WidgetsExtension.entitlements";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = H79MF628K3;
-				INFOPLIST_FILE = "iOS Widgets/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.presto.BoxOffice-SwiftUI.BoxOffice-iOS-Widgets";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SUPPORTS_MACCATALYST = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		19067A03268E0EDE004C6FEC /* Build configuration list for PBXNativeTarget "BoxOffice iOS Widgets" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				19067A04268E0EDE004C6FEC /* Debug */,
+				19067A05268E0EDE004C6FEC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		191E19E62357371D00D8963A /* Build configuration list for PBXProject "BoxOffice_SwiftUI" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -900,24 +767,6 @@
 			buildConfigurations = (
 				191E1A002357371E00D8963A /* Debug */,
 				191E1A012357371E00D8963A /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		19340CCB2680BE3C00E88186 /* Build configuration list for PBXNativeTarget "BoxOffice iOS Clip" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				19340CCC2680BE3C00E88186 /* Debug */,
-				19340CCD2680BE3C00E88186 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		19340CF92680BE5F00E88186 /* Build configuration list for PBXNativeTarget "BoxOffice iOS WidgetsExtension" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				19340CFA2680BE5F00E88186 /* Debug */,
-				19340CFB2680BE5F00E88186 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

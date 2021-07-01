@@ -52,7 +52,6 @@ struct MovieListCell: View {
                 
                 Spacer()
             }
-            .padding(.trailing, 20)
         }
     }
 }

@@ -15,9 +15,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "19340CE62680BE5E00E88186"
-               BuildableName = "BoxOffice iOS WidgetsExtension.appex"
-               BlueprintName = "BoxOffice iOS WidgetsExtension"
+               BlueprintIdentifier = "190679F3268E0EDC004C6FEC"
+               BuildableName = "BoxOffice iOS Widgets.appex"
+               BlueprintName = "BoxOffice iOS Widgets"
                ReferencedContainer = "container:BoxOffice_SwiftUI.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>

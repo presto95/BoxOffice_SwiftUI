@@ -18,17 +18,17 @@ final class MovieDetailViewModel: ObservableObject {
     @Published private(set) var posterImageData: Data?
     @Published private(set) var movieErrors: [MovieAPIError] = []
 
-    @Published private(set) var title: String = ""
+    @Published private(set) var title: String = "-"
     @Published private(set) var gradeImageName: String = ""
-    @Published private(set) var date: String = ""
-    @Published private(set) var genreAndDuration: String = ""
-    @Published private(set) var reservationMetric: String = ""
+    @Published private(set) var date: String = "-"
+    @Published private(set) var genreAndDuration: String = "-"
+    @Published private(set) var reservationMetric: String = "-"
     @Published private(set) var userRating: Double = 0
-    @Published private(set) var userRatingDescription: String = ""
-    @Published private(set) var audience: String = ""
-    @Published private(set) var synopsis: String = ""
-    @Published private(set) var director: String = ""
-    @Published private(set) var actor: String = ""
+    @Published private(set) var userRatingDescription: String = "-"
+    @Published private(set) var audience: String = "-"
+    @Published private(set) var synopsis: String = "-"
+    @Published private(set) var director: String = "-"
+    @Published private(set) var actor: String = "-"
 
     private let isPresentedSubject = CurrentValueSubject<Void?, Never>(nil)
     private let isLoadingSubject = CurrentValueSubject<(Bool, Bool)?, Never>(nil)
@@ -40,8 +40,9 @@ final class MovieDetailViewModel: ObservableObject {
     private let apiService: MovieAPIServiceProtocol
     private var cancellables = Set<AnyCancellable>()
     
-    init(movieID: String, apiService: MovieAPIServiceProtocol = MovieAPIService()) {
+    init(movieID: String, movieTitle: String, apiService: MovieAPIServiceProtocol = MovieAPIService()) {
         self.apiService = apiService
+        self.title = title
         
         isPresentedSubject
             .compactMap { $0 }

@@ -19,7 +19,7 @@ struct MovieListView: View {
     
     var body: some View {
         List(movies) { movie in
-            let destinationViewModel = MovieDetailViewModel(movieID: movie.id)
+            let destinationViewModel = MovieDetailViewModel(movieID: movie.id, movieTitle: movie.title)
             let destination = MovieDetailView(viewModel: destinationViewModel)
 
             NavigationLink(destination: destination) {
