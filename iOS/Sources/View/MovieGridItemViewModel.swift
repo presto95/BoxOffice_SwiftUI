@@ -1,5 +1,5 @@
 //
-//  MovieGridCellModel.swift
+//  MovieGridItemViewModel.swift
 //  BoxOffice_SwiftUI
 //
 //  Created by Presto on 2020/06/29.
@@ -9,7 +9,7 @@
 import Combine
 import Foundation
 
-final class MovieGridCellModel: ObservableObject {
+final class MovieGridItemViewModel: ObservableObject {
     @Published private(set) var posterImageData: Data?
     @Published private(set) var gradeImageName: String = ""
     @Published private(set) var primaryText: String = ""

@@ -23,9 +23,9 @@ struct MovieListView: View {
             let destination = MovieDetailView(viewModel: destinationViewModel)
 
             NavigationLink(destination: destination) {
-                let viewModel = MovieListCellModel(movie: movie)
+                let viewModel = MovieListItemViewModel(movie: movie)
 
-                MovieListCell(viewModel: viewModel)
+                MovieListItemView(viewModel: viewModel)
             }
         }
     }

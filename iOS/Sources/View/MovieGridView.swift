@@ -24,9 +24,9 @@ struct MovieGridView: View {
                     let destinationViewModel = MovieDetailViewModel(movieID: movie.id, movieTitle: movie.title)
                     let destination = MovieDetailView(viewModel: destinationViewModel)
                     NavigationLink(destination: destination) {
-                        let viewModel = MovieGridCellModel(movie: movie)
+                        let viewModel = MovieGridItemViewModel(movie: movie)
 
-                        MovieGridCell(viewModel: viewModel)
+                        MovieGridItemView(viewModel: viewModel)
                     }
                     .buttonStyle(PlainButtonStyle())
                 }

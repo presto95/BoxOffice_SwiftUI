@@ -1,5 +1,5 @@
 //
-//  MovieListCellModel.swift
+//  MovieListItemViewModel.swift
 //  BoxOffice_SwiftUI
 //
 //  Created by Presto on 2020/06/29.
@@ -9,7 +9,7 @@
 import Combine
 import Foundation
 
-final class MovieListCellModel: ObservableObject {
+final class MovieListItemViewModel: ObservableObject {
     @Published private(set) var posterImageData: Data?
     @Published private(set) var gradeImageName: String = ""
     @Published private(set) var title: String = ""
@@ -45,25 +45,24 @@ final class MovieListCellModel: ObservableObject {
         
         movieSharedPublisher
             .map(\.userRating)
-            .map { "평점\t\t\t\($0)" }
+            .map { String($0) }
             .assign(to: \.rating, on: self)
             .store(in: &cancellables)
         
         movieSharedPublisher
             .map(\.reservationGrade)
-            .map { "예매순위\t\t\($0)" }
+            .map(String.init)
             .assign(to: \.reservationGrade, on: self)
             .store(in: &cancellables)
         
         movieSharedPublisher
             .map(\.reservationRate)
-            .map { "예매율\t\t\($0)%" }
+            .map { "\($0)%" }
             .assign(to: \.reservationRate, on: self)
             .store(in: &cancellables)
         
         movieSharedPublisher
             .map(\.date)
-            .map { "개봉일\t\t\($0)" }
             .assign(to: \.date, on: self)
             .store(in: &cancellables)
         

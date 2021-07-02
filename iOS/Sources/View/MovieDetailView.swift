@@ -41,8 +41,6 @@ struct MovieDetailView: View {
                             .padding(.horizontal, 16)
 
                         ratingSection
-
-                        Spacer()
                     }
                 }
             }

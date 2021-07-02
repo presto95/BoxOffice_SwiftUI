@@ -1,5 +1,5 @@
 //
-//  MovieGridCell.swift
+//  MovieGridItemView.swift
 //  BoxOffice_SwiftUI
 //
 //  Created by Presto on 2020/06/29.
@@ -8,10 +8,10 @@
 
 import SwiftUI
 
-struct MovieGridCell: View {
-    @ObservedObject private var viewModel: MovieGridCellModel
+struct MovieGridItemView: View {
+    @ObservedObject private var viewModel: MovieGridItemViewModel
     
-    init(viewModel: MovieGridCellModel) {
+    init(viewModel: MovieGridItemViewModel) {
         self.viewModel = viewModel
     }
     
@@ -49,7 +49,7 @@ struct MovieGridCell: View {
 
 struct MovieGridCell_Previews: PreviewProvider {
     static var previews: some View {
-        MovieGridCell(viewModel: MovieGridCellModel(movie: .dummy))
+        MovieGridItemView(viewModel: MovieGridItemViewModel(movie: .dummy))
             .frame(maxWidth: UIScreen.main.bounds.width / 2)
     }
 }
