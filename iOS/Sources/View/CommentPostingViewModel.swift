@@ -22,23 +22,22 @@ final class CommentPostingViewModel: ObservableObject {
     private let movieSubject = CurrentValueSubject<MovieDetailResponseModel?, Never>(nil)
     private let ratingSubject = CurrentValueSubject<Double?, Never>(nil)
 
-    private let apiService: MovieAPIServiceProtocol
     private var cancellables = Set<AnyCancellable>()
     
-    init(movie: MovieDetailResponseModel, apiService: MovieAPIServiceProtocol = MovieAPIService()) {
-        self.apiService = apiService
-        
+    init(movie: MovieDetailResponseModel) {
         let movieSharedPublisher = movieSubject
             .compactMap { $0 }
             .share()
         
         movieSharedPublisher
             .map(\.title)
+            .removeDuplicates()
             .assign(to: \.title, on: self)
             .store(in: &cancellables)
         
         movieSharedPublisher
             .map(\.grade)
+            .removeDuplicates()
             .compactMap(Grade.init)
             .map(\.imageName)
             .assign(to: \.gradeImageName, on: self)
@@ -49,12 +48,14 @@ final class CommentPostingViewModel: ObservableObject {
             .share()
         
         ratingSharedPublisher
+            .removeDuplicates()
             .map(Int.init)
             .map(String.init)
             .assign(to: \.ratingString, on: self)
             .store(in: &cancellables)
         
         ratingSharedPublisher
+            .removeDuplicates()
             .assign(to: \.rating, on: self)
             .store(in: &cancellables)
         
@@ -67,12 +68,19 @@ final class CommentPostingViewModel: ObservableObject {
     }
     
     func requestCommentPosting() {
+        let apiService = DIContainer.shared.resolve(APIService.self)
         let comment = Comment(rating: Int(rating),
                               writer: nickname,
                               movieID: movieSubject.value?.id ?? "",
                               contents: comments)
         Just(comment)
-            .flatMap(apiService.commentPostingPublisher(with:))
+            .flatMap { comment -> CommentPostingPublisher in
+                guard let apiService = apiService else {
+                    return Empty().eraseToAnyPublisher()
+                }
+                return apiService.commentPostingPublisher(with: comment)
+                    .eraseToAnyPublisher()
+            }
             .receive(on: DispatchQueue.main)
             .map { _ in true }
             .replaceError(with: true)

@@ -18,19 +18,17 @@ final class MovieGridItemViewModel: ObservableObject {
 
     private let movieSubject = CurrentValueSubject<MoviesResponseModel.Movie?, Never>(nil)
 
-    private let apiService: MovieAPIServiceProtocol
     private var cancellables = Set<AnyCancellable>()
     
-    init(movie: MoviesResponseModel.Movie,
-         apiService: MovieAPIServiceProtocol = MovieAPIService()) {
-        self.apiService = apiService
-        
+    init(movie: MoviesResponseModel.Movie) {
+        let apiService = DIContainer.shared.resolve(APIService.self)
         let movieSharedPublisher = movieSubject
             .compactMap { $0 }
             .share()
         
         movieSharedPublisher
             .map(\.grade)
+            .removeDuplicates()
             .compactMap(Grade.init)
             .map(\.imageName)
             .assign(to: \.gradeImageName, on: self)
@@ -38,27 +36,37 @@ final class MovieGridItemViewModel: ObservableObject {
         
         movieSharedPublisher
             .map(\.title)
+            .removeDuplicates()
             .assign(to: \.primaryText, on: self)
             .store(in: &cancellables)
         
         movieSharedPublisher
             .map { "\($0.reservationGrade)위(\($0.userRating)) / \($0.reservationRate)%" }
+            .removeDuplicates()
             .assign(to: \.secondaryText, on: self)
             .store(in: &cancellables)
         
         movieSharedPublisher
             .map(\.date)
+            .removeDuplicates()
             .assign(to: \.tertiaryText, on: self)
             .store(in: &cancellables)
         
         movieSharedPublisher
             .map(\.thumb)
-            .flatMap(apiService.imageDataPublisher(fromURLString:))
+            .removeDuplicates()
+            .flatMap { thumb -> ImageDataPublisher in
+                guard let apiService = apiService else {
+                    return Empty().eraseToAnyPublisher()
+                }
+                return apiService.imageDataPublisher(fromURLString: thumb)
+                    .eraseToAnyPublisher()
+            }
             .replaceError(with: Data())
             .compactMap { $0 }
             .assign(to: \.posterImageData, on: self)
             .store(in: &cancellables)
-        
+
         movieSubject.send(movie)
     }
 }

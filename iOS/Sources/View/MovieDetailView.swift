@@ -16,41 +16,48 @@ struct MovieDetailView: View {
     }
     
     var body: some View {
-        Group {
-            if viewModel.isLoading {
-                ProgressView()
-                    .progressViewStyle(CircularProgressViewStyle())
-            } else if viewModel.movieErrors.isEmpty == false {
-                MovieRetryView(errors: viewModel.movieErrors, onRetry: viewModel.requestData)
-            } else {
-                ScrollView {
-                    VStack(alignment: .leading) {
-                        summarySection
-
-                        Divider()
-                            .padding(.horizontal, 16)
-
-                        synopsisSection
-
-                        Divider()
-                            .padding(.horizontal, 16)
-
-                        actorSection
-
-                        Divider()
-                            .padding(.horizontal, 16)
-
-                        ratingSection
+        content
+            .navigationTitle(viewModel.title)
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(action: viewModel.requestData) {
+                        Image(systemName: "arrow.triangle.2.circlepath")
                     }
                 }
             }
-        }
-        .navigationTitle(viewModel.title)
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button(action: viewModel.requestData) {
-                    Image(systemName: "arrow.triangle.2.circlepath")
+            .onAppear {
+                viewModel.setPresented()
+            }
+    }
+}
+
+private extension MovieDetailView {
+    @ViewBuilder var content: some View {
+        if viewModel.isLoading {
+            ProgressView()
+                .progressViewStyle(CircularProgressViewStyle())
+        } else if viewModel.movieErrors.isEmpty == false {
+            MovieRetryView(errors: viewModel.movieErrors, onRetry: viewModel.requestData)
+        } else {
+            ScrollView {
+                VStack(alignment: .leading) {
+                    summarySection
+
+                    Divider()
+                        .padding(.horizontal, 16)
+
+                    synopsisSection
+
+                    Divider()
+                        .padding(.horizontal, 16)
+
+                    actorSection
+
+                    Divider()
+                        .padding(.horizontal, 16)
+
+                    ratingSection
                 }
             }
         }

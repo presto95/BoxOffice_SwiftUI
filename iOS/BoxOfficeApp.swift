@@ -10,9 +10,14 @@ import SwiftUI
 
 @main
 struct BoxOfficeApp: App {
+    init() {
+        DIContainer.shared.register(NetworkManager())
+        DIContainer.shared.register(APIService())
+    }
+
     var body: some Scene {
         WindowGroup {
-            MovieMainView(viewModel: MovieMainViewModel(apiService: MovieAPIService()))
+            MovieMainView(viewModel: MovieMainViewModel())
                 .accentColor(.purple)
         }
     }

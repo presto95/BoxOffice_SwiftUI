@@ -16,23 +16,20 @@ final class MovieMainViewModel: ObservableObject {
     @Published var movies: [MoviesResponseModel.Movie] = []
     
     @Published private(set) var isLoading: Bool = false
-    @Published private(set) var movieErrors: [MovieAPIError] = []
+    @Published private(set) var movieErrors: [APIError] = []
     @Published private(set) var sortMethodDescription: String = ""
 
     private let isPresentedSubject = CurrentValueSubject<Bool?, Never>(nil)
     private let showsSortActionSheetSubject = CurrentValueSubject<Bool?, Never>(nil)
     private let sortMethodSubject = CurrentValueSubject<SortMethod?, Never>(nil)
 
-    private let apiService: MovieAPIServiceProtocol
     private var cancellables = Set<AnyCancellable>()
     
-    init(apiService: MovieAPIServiceProtocol = MovieAPIService()) {
-        self.apiService = apiService
-        
+    init() {        
         isPresentedSubject
             .compactMap { $0 }
-            .filter { $0 }
             .removeDuplicates()
+            .filter { $0 }
             .map { _ in SortMethod.reservation }
             .sink(receiveValue: { [weak self] sortMethod in
                 self?.sortMethodSubject.send(sortMethod)
@@ -51,6 +48,7 @@ final class MovieMainViewModel: ObservableObject {
         
         showsSortActionSheetSubject
             .compactMap { $0 }
+            .removeDuplicates()
             .assign(to: \.showsSortActionSheet, on: self)
             .store(in: &cancellables)
     }
@@ -70,8 +68,9 @@ final class MovieMainViewModel: ObservableObject {
     func requestMovies() {
         movieErrors.removeAll()
         isLoading = true
-        
-        apiService.moviesPublisher(with: sortMethod)
+
+        let apiService = DIContainer.shared.resolve(APIService.self)
+        apiService?.moviesPublisher(with: sortMethod)
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { [weak self] completion in
                 switch completion {

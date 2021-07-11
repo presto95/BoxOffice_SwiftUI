@@ -9,10 +9,10 @@
 import SwiftUI
 
 struct MovieRetryView: View {
-    private let errors: [MovieAPIError]
+    private let errors: [APIError]
     private let onRetry: () -> Void
     
-    init(errors: [MovieAPIError], onRetry: @escaping () -> Void) {
+    init(errors: [APIError], onRetry: @escaping () -> Void) {
         self.errors = errors
         self.onRetry = onRetry
     }

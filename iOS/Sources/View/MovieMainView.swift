@@ -19,8 +19,7 @@ struct MovieMainView: View {
         TabView(selection: $viewModel.currentTab) {
             NavigationView {
                 movieListView
-                    .navigationTitle(Text("BoxOffice"))
-                    .navigationBarTitleDisplayMode(.automatic)
+                    .movieMainViewNavigationBarStyle()
                     .toolbar {
                         ToolbarItem(placement: .navigationBarTrailing) {
                             sortButton
@@ -34,8 +33,7 @@ struct MovieMainView: View {
 
             NavigationView {
                 movieGridView
-                    .navigationTitle(Text("BoxOffice"))
-                    .navigationBarTitleDisplayMode(.automatic)
+                    .movieMainViewNavigationBarStyle()
                     .toolbar {
                         ToolbarItem(placement: .navigationBarTrailing) {
                             sortButton
@@ -57,29 +55,25 @@ struct MovieMainView: View {
 // MARK: - View
 
 private extension MovieMainView {
-    var movieListView: some View {
-        Group {
-            if viewModel.isLoading {
-                ProgressView()
-                    .progressViewStyle(CircularProgressViewStyle())
-            } else if viewModel.movieErrors.isEmpty == false {
-                MovieRetryView(errors: viewModel.movieErrors, onRetry: viewModel.requestMovies)
-            } else {
-                MovieListView(movies: $viewModel.movies, sortMethod: $viewModel.sortMethod)
-            }
+    @ViewBuilder var movieListView: some View {
+        if viewModel.isLoading {
+            ProgressView()
+                .progressViewStyle(CircularProgressViewStyle())
+        } else if viewModel.movieErrors.isEmpty == false {
+            MovieRetryView(errors: viewModel.movieErrors, onRetry: viewModel.requestMovies)
+        } else {
+            MovieListView(movies: $viewModel.movies, sortMethod: $viewModel.sortMethod)
         }
     }
 
-    var movieGridView: some View {
-        Group {
-            if viewModel.isLoading {
-                ProgressView()
-                    .progressViewStyle(CircularProgressViewStyle())
-            } else if viewModel.movieErrors.isEmpty == false {
-                MovieRetryView(errors: viewModel.movieErrors, onRetry: viewModel.requestMovies)
-            } else {
-                MovieGridView(movies: $viewModel.movies, sortMethod: $viewModel.sortMethod)
-            }
+    @ViewBuilder var movieGridView: some View {
+        if viewModel.isLoading {
+            ProgressView()
+                .progressViewStyle(CircularProgressViewStyle())
+        } else if viewModel.movieErrors.isEmpty == false {
+            MovieRetryView(errors: viewModel.movieErrors, onRetry: viewModel.requestMovies)
+        } else {
+            MovieGridView(movies: $viewModel.movies, sortMethod: $viewModel.sortMethod)
         }
     }
 

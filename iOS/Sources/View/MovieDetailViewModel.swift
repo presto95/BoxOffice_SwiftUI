@@ -16,7 +16,7 @@ final class MovieDetailViewModel: ObservableObject {
     @Published private(set) var movie: MovieDetailResponseModel = .dummy
     @Published private(set) var comments: [CommentsResponseModel.Comment] = []
     @Published private(set) var posterImageData: Data?
-    @Published private(set) var movieErrors: [MovieAPIError] = []
+    @Published private(set) var movieErrors: [APIError] = []
 
     @Published private(set) var title: String = "-"
     @Published private(set) var gradeImageName: String = ""
@@ -30,22 +30,24 @@ final class MovieDetailViewModel: ObservableObject {
     @Published private(set) var director: String = "-"
     @Published private(set) var actor: String = "-"
 
-    private let isPresentedSubject = CurrentValueSubject<Void?, Never>(nil)
+    private let isPresentedSubject = CurrentValueSubject<Bool?, Never>(nil)
     private let isLoadingSubject = CurrentValueSubject<(Bool, Bool)?, Never>(nil)
     private let showsCommentPostingSubject = CurrentValueSubject<Bool?, Never>(nil)
     private let movieIDSubject = CurrentValueSubject<String?, Never>(nil)
     private let movieSubject = CurrentValueSubject<Result<MovieDetailResponseModel, Error>?, Never>(nil)
     private let commentsSubject = CurrentValueSubject<Result<[CommentsResponseModel.Comment], Error>?, Never>(nil)
-    
-    private let apiService: MovieAPIServiceProtocol
+
     private var cancellables = Set<AnyCancellable>()
     
-    init(movieID: String, movieTitle: String, apiService: MovieAPIServiceProtocol = MovieAPIService()) {
-        self.apiService = apiService
-        self.title = title
+    init(movieID: String, movieTitle: String) {
+        self.title = movieTitle
+
+        let apiService = DIContainer.shared.resolve(APIService.self)
         
         isPresentedSubject
             .compactMap { $0 }
+            .removeDuplicates()
+            .filter { $0 }
             .sink(receiveValue: { [weak self] _ in
                 self?.requestData()
             })
@@ -53,12 +55,14 @@ final class MovieDetailViewModel: ObservableObject {
         
         isLoadingSubject
             .compactMap { $0 }
+            .removeDuplicates { $0.0 == $1.0 && $0.1 == $1.1 }
             .map { $0 || $1 }
             .assign(to: \.isLoading, on: self)
             .store(in: &cancellables)
         
         showsCommentPostingSubject
             .compactMap { $0 }
+            .removeDuplicates()
             .assign(to: \.showsCommentPostingView, on: self)
             .store(in: &cancellables)
         
@@ -77,7 +81,12 @@ final class MovieDetailViewModel: ObservableObject {
         
         movieSharedPublisher
             .map(\.imageURLString)
-            .flatMap(apiService.imageDataPublisher(fromURLString:))
+            .flatMap { imageURLString -> ImageDataPublisher in
+                guard let apiService = apiService else {
+                    return Empty().eraseToAnyPublisher()
+                }
+                return apiService.imageDataPublisher(fromURLString: imageURLString)
+            }
             .replaceError(with: Data())
             .compactMap { $0 }
             .assign(to: \.posterImageData, on: self)
@@ -163,7 +172,7 @@ final class MovieDetailViewModel: ObservableObject {
     // MARK: - Inputs
     
     func setPresented() {
-        isPresentedSubject.send(Void())
+        isPresentedSubject.send(true)
     }
     
     func setShowsCommentPosting() {
@@ -175,11 +184,18 @@ final class MovieDetailViewModel: ObservableObject {
         setLoading(true, to: .comments)
         
         movieErrors.removeAll()
-        
+
+        let apiService = DIContainer.shared.resolve(APIService.self)
         movieIDSubject
             .compactMap { $0 }
             .first()
-            .flatMap(apiService.movieDetailPublisher(withMovieID:))
+            .flatMap { movieID -> MovieDetailPublisher in
+                guard let apiService = apiService else {
+                    return Empty().eraseToAnyPublisher()
+                }
+                return apiService.movieDetailPublisher(withMovieID: movieID)
+                    .eraseToAnyPublisher()
+            }
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { [weak self] completion in
                 switch completion {
@@ -198,7 +214,13 @@ final class MovieDetailViewModel: ObservableObject {
         movieIDSubject
             .compactMap { $0 }
             .first()
-            .flatMap(apiService.commentsPublisher(withMovieID:))
+            .flatMap { movieID -> CommentsPublisher in
+                guard let apiService = apiService else {
+                    return Empty().eraseToAnyPublisher()
+                }
+                return apiService.commentsPublisher(withMovieID: movieID)
+                    .eraseToAnyPublisher()
+            }
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { [weak self] completion in
                 switch completion {

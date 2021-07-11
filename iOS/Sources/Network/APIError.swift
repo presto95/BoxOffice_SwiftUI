@@ -1,5 +1,5 @@
 //
-//  MovieAPIError.swift
+//  APIError.swift
 //  BoxOffice_SwiftUI
 //
 //  Created by Presto on 2021/06/21.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum MovieAPIError: Error {
+enum APIError: Error {
     case imageDataRequestFailed
     case moviesRequestFailed
     case movieDetailRequestFailed
@@ -16,7 +16,7 @@ enum MovieAPIError: Error {
     case commentPostingRequestFailed
 }
 
-extension MovieAPIError: LocalizedError {
+extension APIError: LocalizedError {
     var localizedDescription: String {
         switch self {
         case .imageDataRequestFailed:
