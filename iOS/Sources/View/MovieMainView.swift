@@ -48,7 +48,9 @@ struct MovieMainView: View {
         .actionSheet(isPresented: $viewModel.showsSortActionSheet) {
             sortActionSheet
         }
-        .onAppear(perform: viewModel.setPresented)
+        .onAppear {
+            viewModel.requestData()
+        }
     }
 }
 
@@ -56,24 +58,26 @@ struct MovieMainView: View {
 
 private extension MovieMainView {
     @ViewBuilder var movieListView: some View {
-        if viewModel.isLoading {
-            ProgressView()
-                .progressViewStyle(CircularProgressViewStyle())
-        } else if viewModel.movieErrors.isEmpty == false {
-            MovieRetryView(errors: viewModel.movieErrors, onRetry: viewModel.requestMovies)
-        } else {
+        if viewModel.movies.isEmpty == false {
             MovieListView(movies: $viewModel.movies, sortMethod: $viewModel.sortMethod)
+        } else if viewModel.movieErrors.isEmpty == false {
+            MovieRetryView(errors: viewModel.movieErrors, onRetry: {
+                viewModel.requestData()
+            })
+        } else {
+            CircularProgressView()
         }
     }
 
     @ViewBuilder var movieGridView: some View {
-        if viewModel.isLoading {
-            ProgressView()
-                .progressViewStyle(CircularProgressViewStyle())
-        } else if viewModel.movieErrors.isEmpty == false {
-            MovieRetryView(errors: viewModel.movieErrors, onRetry: viewModel.requestMovies)
-        } else {
+        if viewModel.movies.isEmpty == false {
             MovieGridView(movies: $viewModel.movies, sortMethod: $viewModel.sortMethod)
+        } else if viewModel.movieErrors.isEmpty == false {
+            MovieRetryView(errors: viewModel.movieErrors, onRetry: {
+                viewModel.requestData()
+            })
+        } else {
+            CircularProgressView()
         }
     }
 

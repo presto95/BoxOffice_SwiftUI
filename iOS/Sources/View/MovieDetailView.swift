@@ -16,30 +16,24 @@ struct MovieDetailView: View {
     }
     
     var body: some View {
-        content
-            .navigationTitle(viewModel.title)
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: viewModel.requestData) {
-                        Image(systemName: "arrow.triangle.2.circlepath")
+        NavigationView {
+            content
+                .navigationTitle(viewModel.title)
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button(action: viewModel.requestData) {
+                            Image(systemName: "arrow.triangle.2.circlepath")
+                        }
                     }
                 }
-            }
-            .onAppear {
-                viewModel.setPresented()
-            }
+        }
     }
 }
 
 private extension MovieDetailView {
     @ViewBuilder var content: some View {
-        if viewModel.isLoading {
-            ProgressView()
-                .progressViewStyle(CircularProgressViewStyle())
-        } else if viewModel.movieErrors.isEmpty == false {
-            MovieRetryView(errors: viewModel.movieErrors, onRetry: viewModel.requestData)
-        } else {
+        if viewModel.data != nil {
             ScrollView {
                 VStack(alignment: .leading) {
                     summarySection
@@ -60,6 +54,13 @@ private extension MovieDetailView {
                     ratingSection
                 }
             }
+        } else if viewModel.movieErrors.isEmpty == false {
+            MovieRetryView(errors: viewModel.movieErrors, onRetry: viewModel.requestData)
+        } else {
+            CircularProgressView()
+                .onAppear {
+                    viewModel.requestData()
+                }
         }
     }
 }
@@ -251,42 +252,48 @@ private extension MovieDetailView {
         }
         .padding()
         .sheet(isPresented: $viewModel.showsCommentPostingView) {
-            let viewModel = CommentPostingViewModel(movie: viewModel.movie)
+            if let movieDetail = viewModel.data?.movieDetail {
+                let viewModel = CommentPostingViewModel(movie: movieDetail)
 
-            CommentPostingView(viewModel: viewModel, isPresented: $viewModel.showsCommentPostingView)
-                .accentColor(.purple)
+                CommentPostingView(viewModel: viewModel, isPresented: $viewModel.showsCommentPostingView)
+                    .accentColor(.purple)
+            }
         }
     }
     
-    var ratingContentsSection: some View {
-        ForEach(viewModel.comments) { comment in
-            HStack(alignment: .top) {
-                Image(systemName: "person.circle")
-                    .resizable()
-                    .aspectRatio(1, contentMode: .fit)
-                    .frame(height: 50)
-                
-                VStack(alignment: .leading, spacing: 4) {
-                    VStack(alignment: .leading) {
-                        HStack {
-                            Text(comment.writer)
-                                .font(.subheadline)
-                                .fontWeight(.semibold)
-                            
-                            StarRatingBar(score: comment.rating, length: 15)
+    @ViewBuilder var ratingContentsSection: some View {
+        if let comments = viewModel.data?.comments {
+            ForEach(comments) { comment in
+                HStack(alignment: .top) {
+                    Image(systemName: "person.circle")
+                        .resizable()
+                        .aspectRatio(1, contentMode: .fit)
+                        .frame(height: 50)
+
+                    VStack(alignment: .leading, spacing: 4) {
+                        VStack(alignment: .leading) {
+                            HStack {
+                                Text(comment.writer)
+                                    .font(.subheadline)
+                                    .fontWeight(.semibold)
+
+                                StarRatingBar(score: comment.rating, length: 15)
+                            }
+
+                            Text(viewModel.commentDateString(timestamp: comment.timestamp))
+                                .font(.footnote)
+                                .foregroundColor(.secondary)
                         }
-                        
-                        Text(viewModel.commentDateString(timestamp: comment.timestamp))
+
+                        Text(comment.contents)
                             .font(.footnote)
-                            .foregroundColor(.secondary)
+                            .fontWeight(.medium)
                     }
-                    
-                    Text(comment.contents)
-                        .font(.footnote)
-                        .fontWeight(.medium)
                 }
+                .padding(.vertical, 8)
             }
-            .padding(.vertical, 8)
+        } else {
+            EmptyView()
         }
     }
 }

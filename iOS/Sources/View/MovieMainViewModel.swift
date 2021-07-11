@@ -14,35 +14,24 @@ final class MovieMainViewModel: ObservableObject {
     @Published var showsSortActionSheet: Bool = false
     @Published var sortMethod: SortMethod = .reservation
     @Published var movies: [MoviesResponseModel.Movie] = []
-    
-    @Published private(set) var isLoading: Bool = false
+
     @Published private(set) var movieErrors: [APIError] = []
     @Published private(set) var sortMethodDescription: String = ""
 
-    private let isPresentedSubject = CurrentValueSubject<Bool?, Never>(nil)
     private let showsSortActionSheetSubject = CurrentValueSubject<Bool?, Never>(nil)
     private let sortMethodSubject = CurrentValueSubject<SortMethod?, Never>(nil)
 
+    private var isLoading = false
     private var cancellables = Set<AnyCancellable>()
     
-    init() {        
-        isPresentedSubject
-            .compactMap { $0 }
-            .removeDuplicates()
-            .filter { $0 }
-            .map { _ in SortMethod.reservation }
-            .sink(receiveValue: { [weak self] sortMethod in
-                self?.sortMethodSubject.send(sortMethod)
-            })
-            .store(in: &cancellables)
-        
+    init() {
         sortMethodSubject
             .compactMap { $0 }
             .removeDuplicates()
             .sink(receiveValue: { [weak self] sortMethod in
                 self?.sortMethod = sortMethod
                 self?.sortMethodDescription = sortMethod.description
-                self?.requestMovies()
+                self?.requestData()
             })
             .store(in: &cancellables)
         
@@ -51,10 +40,6 @@ final class MovieMainViewModel: ObservableObject {
             .removeDuplicates()
             .assign(to: \.showsSortActionSheet, on: self)
             .store(in: &cancellables)
-    }
-
-    func setPresented() {
-        isPresentedSubject.send(true)
     }
     
     func setSortMethod(_ sortMethod: SortMethod) {
@@ -65,7 +50,7 @@ final class MovieMainViewModel: ObservableObject {
         showsSortActionSheetSubject.send(true)
     }
     
-    func requestMovies() {
+    func requestData() {
         movieErrors.removeAll()
         isLoading = true
 

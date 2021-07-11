@@ -34,6 +34,7 @@
 		191E1A1F2357725200D8963A /* Grade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191E1A1E2357725200D8963A /* Grade.swift */; };
 		192103C7269ABE650063AA78 /* DIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192103C6269ABE650063AA78 /* DIContainer.swift */; };
 		192103C9269AD0C00063AA78 /* MovieMainViewNavigationBarStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192103C8269AD0C00063AA78 /* MovieMainViewNavigationBarStyle.swift */; };
+		192103CD269AE9330063AA78 /* CircularProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192103CC269AE9330063AA78 /* CircularProgressView.swift */; };
 		19340CB42680B42700E88186 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19340CB32680B42700E88186 /* APIError.swift */; };
 		19340CB62680BC6E00E88186 /* BoxOfficeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19340CB52680BC6E00E88186 /* BoxOfficeApp.swift */; };
 		1984CB52235F59E800E4B20E /* MovieRetryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1984CB51235F59E800E4B20E /* MovieRetryView.swift */; };
@@ -125,6 +126,7 @@
 		191E1A1E2357725200D8963A /* Grade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grade.swift; sourceTree = "<group>"; };
 		192103C6269ABE650063AA78 /* DIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DIContainer.swift; sourceTree = "<group>"; };
 		192103C8269AD0C00063AA78 /* MovieMainViewNavigationBarStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieMainViewNavigationBarStyle.swift; sourceTree = "<group>"; };
+		192103CC269AE9330063AA78 /* CircularProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProgressView.swift; sourceTree = "<group>"; };
 		19340CB32680B42700E88186 /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
 		19340CB52680BC6E00E88186 /* BoxOfficeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeApp.swift; sourceTree = "<group>"; };
 		19340CE92680BE5E00E88186 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
@@ -340,6 +342,7 @@
 				1984CB53235F610900E4B20E /* MultipleSpacer.swift */,
 				19F9B93C24AA39D000CAAB28 /* PosterImage.swift */,
 				1916394F2358C68D002B9EC1 /* StarRatingBar.swift */,
+				192103CC269AE9330063AA78 /* CircularProgressView.swift */,
 			);
 			path = Parts;
 			sourceTree = "<group>";
@@ -520,6 +523,7 @@
 				19340CB42680B42700E88186 /* APIError.swift in Sources */,
 				1998CA9D24AB2679003D592A /* Text+.swift in Sources */,
 				19FABE432680CFD800810611 /* APIServiceProtocol.swift in Sources */,
+				192103CD269AE9330063AA78 /* CircularProgressView.swift in Sources */,
 				1916395223594BA3002B9EC1 /* DateFormatter+.swift in Sources */,
 				192103C9269AD0C00063AA78 /* MovieMainViewNavigationBarStyle.swift in Sources */,
 				19F9B93624A8FD0000CAAB28 /* MovieGridItemView.swift in Sources */,
